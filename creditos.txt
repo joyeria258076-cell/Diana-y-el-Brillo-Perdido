@@ -1,0 +1,25 @@
+CRÉDITOS DE RECURSOS
+====================
+
+Aquí se anota todo recurso que no sea propio: sprites, tiles, sonidos, música y fuentes.
+Regla: solo se usan recursos de licencia libre (CC0 o equivalente) y se registran en cuanto se descargan.
+
+Formato de cada entrada:
+
+  Recurso:   qué es y en qué carpeta quedó
+  Autor:     nombre del autor
+  Fuente:    enlace de donde se descargó
+  Licencia:  CC0 / CC-BY / etc.
+  Uso:       para qué se usa en el juego
+
+--------------------------------------------------------------------------------
+
+Recurso:   icon.svg (ícono del proyecto)
+Autor:     Godot Engine
+Fuente:    plantilla de proyecto nuevo de Godot 4.7.2
+Licencia:  CC-BY 4.0
+Uso:       ícono provisional; se reemplazará por el del juego
+
+--------------------------------------------------------------------------------
+
+(Agregar aquí los siguientes recursos conforme se descarguen.)
