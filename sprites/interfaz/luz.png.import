@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dnmju6rhbmijk"
-path="res://.godot/imported/diana.png-60fbf0f7c0d6442670934a1a32c5eab0.ctex"
+uid="uid://bwkvkmppod5xy"
+path="res://.godot/imported/luz.png-016de8ff65c58c939b717c10aadd05a5.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://sprites/diana.png"
-dest_files=["res://.godot/imported/diana.png-60fbf0f7c0d6442670934a1a32c5eab0.ctex"]
+source_file="res://sprites/interfaz/luz.png"
+dest_files=["res://.godot/imported/luz.png-016de8ff65c58c939b717c10aadd05a5.ctex"]
 
 [params]
 

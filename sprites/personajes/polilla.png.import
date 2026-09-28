@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b57p87jocossl"
-path="res://.godot/imported/destello.png-8cfdc99a3f2694f365c50ab4c7e32035.ctex"
+uid="uid://bvwtrhrsbb3w1"
+path="res://.godot/imported/polilla.png-e6f76c7ba09b4104fa785be5ec71702d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://sprites/destello.png"
-dest_files=["res://.godot/imported/destello.png-8cfdc99a3f2694f365c50ab4c7e32035.ctex"]
+source_file="res://sprites/personajes/polilla.png"
+dest_files=["res://.godot/imported/polilla.png-e6f76c7ba09b4104fa785be5ec71702d.ctex"]
 
 [params]
 

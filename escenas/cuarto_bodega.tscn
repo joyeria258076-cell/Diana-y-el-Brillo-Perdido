@@ -1,10 +1,9 @@
-[gd_scene load_steps=8 format=3]
+[gd_scene load_steps=7 format=3]
 
 [ext_resource type="Script" path="res://scripts/cuarto.gd" id="1_cuarto"]
 [ext_resource type="TileSet" path="res://escenas/tileset_bodega.tres" id="2_tileset"]
 [ext_resource type="PackedScene" path="res://escenas/jugador.tscn" id="3_jugador"]
 [ext_resource type="PackedScene" path="res://escenas/hud.tscn" id="4_hud"]
-[ext_resource type="Texture2D" path="res://sprites/escarabajo.png" id="5_escarabajo"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_horizontal"]
 size = Vector2(512, 16)
@@ -14,7 +13,6 @@ size = Vector2(16, 352)
 
 [node name="CuartoBodega" type="Node2D"]
 script = ExtResource("1_cuarto")
-sprite_enemigo = ExtResource("5_escarabajo")
 
 [node name="Oscuridad" type="CanvasModulate" parent="."]
 color = Color(0.32, 0.3, 0.36, 1)

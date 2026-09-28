@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://5awkw02slvup"
-path="res://.godot/imported/diana_caminar_3.png-e4d343dc793211c90f20dd42a64c6d5c.ctex"
+uid="uid://pir4qbystkcf"
+path="res://.godot/imported/tilemap_packed.png-47058227f22d6ae71d256d0111813b17.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://sprites/diana_caminar_3.png"
-dest_files=["res://.godot/imported/diana_caminar_3.png-e4d343dc793211c90f20dd42a64c6d5c.ctex"]
+source_file="res://sprites/escenarios/kenney_tiny_dungeon/tilemap_packed.png"
+dest_files=["res://.godot/imported/tilemap_packed.png-47058227f22d6ae71d256d0111813b17.ctex"]
 
 [params]
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b8w7pl8rtym8p"
-path="res://.godot/imported/corazon.png-226898595a9aa7f9d0b600821eb1aedc.ctex"
+uid="uid://cggagcs8t0g7l"
+path="res://.godot/imported/escarabajo_oxidado.png-c3c82ad3d97b5ffc00921c1828ac66c8.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://sprites/corazon.png"
-dest_files=["res://.godot/imported/corazon.png-226898595a9aa7f9d0b600821eb1aedc.ctex"]
+source_file="res://sprites/personajes/escarabajo_oxidado.png"
+dest_files=["res://.godot/imported/escarabajo_oxidado.png-c3c82ad3d97b5ffc00921c1828ac66c8.ctex"]
 
 [params]
 

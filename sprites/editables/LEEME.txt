@@ -1,0 +1,14 @@
+ARCHIVOS EDITABLES
+==================
+
+Aqui van los archivos fuente de Pixelorama (.pxo), que son los que conservan capas y cuadros
+de animacion. El juego NO los usa: Godot solo lee los .png.
+
+Como trabajar:
+
+1. Abre el .png que quieras cambiar (por ejemplo sprites/personajes/diana.png) en Pixelorama.
+2. Trabajalo con las capas que necesites.
+3. Guarda el proyecto aqui como .pxo   ->  Archivo > Guardar como...  (sprites/editables/diana.pxo)
+4. Exporta el resultado encima del .png ->  Archivo > Exportar...     (sprites/personajes/diana.png)
+
+Godot detecta el .png actualizado y lo cambia en el juego sin que tengas que hacer nada mas.

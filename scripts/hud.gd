@@ -14,6 +14,8 @@ const ANCHO_BARRA: float = 278.0
 
 ## Enciende o apaga corazones segun la vida que quede.
 func mostrar_vida(corazones_llenos: int) -> void:
+	if not is_node_ready():
+		return
 	for i in corazones.get_child_count():
 		var corazon: TextureRect = corazones.get_child(i)
 		corazon.modulate = Color.WHITE if i < corazones_llenos else Color(0.35, 0.33, 0.33)
@@ -21,10 +23,14 @@ func mostrar_vida(corazones_llenos: int) -> void:
 
 ## Ajusta el ancho de la barra de brillo, que es la "municion" de los objetos.
 func mostrar_brillo(actual: int) -> void:
+	if not is_node_ready():
+		return
 	var proporcion := clampf(float(actual) / BRILLO_MAXIMO, 0.0, 1.0)
 	barra_brillo.size.x = ANCHO_BARRA * proporcion
 	texto_brillo.text = "BRILLO  %d/%d" % [actual, BRILLO_MAXIMO]
 
 
 func mostrar_destellos(cantidad: int) -> void:
+	if not is_node_ready():
+		return
 	texto_destellos.text = "%03d" % cantidad

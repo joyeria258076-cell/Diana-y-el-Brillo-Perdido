@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dhmhbnvot7hhn"
-path="res://.godot/imported/escarabajo_limpio.png-0ae9ed90ab5d9bfc611d66f3e680d341.ctex"
+uid="uid://b8w7pl8rtym8p"
+path="res://.godot/imported/corazon.png-56975761c44396165745bdcb155ebea2.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://sprites/escarabajo_limpio.png"
-dest_files=["res://.godot/imported/escarabajo_limpio.png-0ae9ed90ab5d9bfc611d66f3e680d341.ctex"]
+source_file="res://sprites/interfaz/corazon.png"
+dest_files=["res://.godot/imported/corazon.png-56975761c44396165745bdcb155ebea2.ctex"]
 
 [params]
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://pir4qbystkcf"
-path="res://.godot/imported/tilemap_packed.png-6c7943bb16bd6b2fb49f7df1411125a3.ctex"
+uid="uid://cldtrun7kiqll"
+path="res://.godot/imported/lupa.png-6058671083cf998762839d5a5734e378.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://sprites/kenney_tiny_dungeon/tilemap_packed.png"
-dest_files=["res://.godot/imported/tilemap_packed.png-6c7943bb16bd6b2fb49f7df1411125a3.ctex"]
+source_file="res://sprites/interfaz/lupa.png"
+dest_files=["res://.godot/imported/lupa.png-6058671083cf998762839d5a5734e378.ctex"]
 
 [params]
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cggagcs8t0g7l"
-path="res://.godot/imported/escarabajo_oxidado.png-a6e3e29497083958e7a5fb83c36af4a2.ctex"
+uid="uid://b57p87jocossl"
+path="res://.godot/imported/destello.png-789de80f9624de2878b99f12cc0ce777.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://sprites/escarabajo_oxidado.png"
-dest_files=["res://.godot/imported/escarabajo_oxidado.png-a6e3e29497083958e7a5fb83c36af4a2.ctex"]
+source_file="res://sprites/interfaz/destello.png"
+dest_files=["res://.godot/imported/destello.png-789de80f9624de2878b99f12cc0ce777.ctex"]
 
 [params]
 

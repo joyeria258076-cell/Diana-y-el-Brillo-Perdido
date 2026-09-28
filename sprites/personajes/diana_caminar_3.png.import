@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cldtrun7kiqll"
-path="res://.godot/imported/lupa.png-6345a1e7275800960363f9d1816426c1.ctex"
+uid="uid://5awkw02slvup"
+path="res://.godot/imported/diana_caminar_3.png-918eaafa899f0b250aa160df9d83415a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://sprites/lupa.png"
-dest_files=["res://.godot/imported/lupa.png-6345a1e7275800960363f9d1816426c1.ctex"]
+source_file="res://sprites/personajes/diana_caminar_3.png"
+dest_files=["res://.godot/imported/diana_caminar_3.png-918eaafa899f0b250aa160df9d83415a.ctex"]
 
 [params]
 

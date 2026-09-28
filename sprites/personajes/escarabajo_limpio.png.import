@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cyb4lm4g2e2gw"
-path="res://.godot/imported/diana_idle.png-26f86b6f205095bf8a46810be1516bba.ctex"
+uid="uid://dhmhbnvot7hhn"
+path="res://.godot/imported/escarabajo_limpio.png-ebfd00a4270740ec63178e4e4cef6b27.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://sprites/diana_idle.png"
-dest_files=["res://.godot/imported/diana_idle.png-26f86b6f205095bf8a46810be1516bba.ctex"]
+source_file="res://sprites/personajes/escarabajo_limpio.png"
+dest_files=["res://.godot/imported/escarabajo_limpio.png-ebfd00a4270740ec63178e4e4cef6b27.ctex"]
 
 [params]
 

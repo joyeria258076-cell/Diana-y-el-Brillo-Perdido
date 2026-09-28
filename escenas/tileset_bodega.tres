@@ -1,6 +1,6 @@
 [gd_resource type="TileSet" load_steps=2 format=3]
 
-[ext_resource type="Texture2D" path="res://sprites/kenney_tiny_dungeon/tilemap_packed.png" id="1_atlas"]
+[ext_resource type="Texture2D" path="res://sprites/escenarios/kenney_tiny_dungeon/tilemap_packed.png" id="1_atlas"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_bodega"]
 texture = ExtResource("1_atlas")

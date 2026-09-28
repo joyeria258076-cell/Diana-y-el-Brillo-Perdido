@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dgwamd1jc43ia"
-path="res://.godot/imported/escarabajo.png-df4a40645e1a223bc6178699da586f07.ctex"
+uid="uid://dnmju6rhbmijk"
+path="res://.godot/imported/diana.png-1832a8032300265bacefaf63d249124c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://sprites/escarabajo.png"
-dest_files=["res://.godot/imported/escarabajo.png-df4a40645e1a223bc6178699da586f07.ctex"]
+source_file="res://sprites/personajes/diana.png"
+dest_files=["res://.godot/imported/diana.png-1832a8032300265bacefaf63d249124c.ctex"]
 
 [params]
 

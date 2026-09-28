@@ -1,10 +1,10 @@
 [gd_scene load_steps=4 format=3]
 
 [ext_resource type="Script" path="res://scripts/hud.gd" id="1_hud"]
-[ext_resource type="Texture2D" path="res://sprites/corazon.png" id="2_corazon"]
-[ext_resource type="Texture2D" path="res://sprites/destello.png" id="3_destello"]
+[ext_resource type="Texture2D" path="res://sprites/interfaz/corazon.png" id="2_corazon"]
+[ext_resource type="Texture2D" path="res://sprites/interfaz/destello.png" id="3_destello"]
 
-[node name="Hud" type="CanvasLayer"]
+[node name="Hud" type="CanvasLayer" groups=["hud"]]
 script = ExtResource("1_hud")
 
 [node name="Panel" type="Panel" parent="."]
@@ -85,6 +85,16 @@ anchor_right = 1.0
 offset_top = 18.0
 offset_bottom = 44.0
 text = "Nivel 1 - Bodega del Proveedor"
+horizontal_alignment = 1
+
+[node name="Aviso" type="Label" parent="."]
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -64.0
+offset_bottom = -30.0
+text = "Faltan 4 por pulir"
 horizontal_alignment = 1
 
 [node name="Pausa" type="Button" parent="."]

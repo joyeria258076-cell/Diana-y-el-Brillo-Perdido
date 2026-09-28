@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bvwtrhrsbb3w1"
-path="res://.godot/imported/polilla.png-f3ae29df54763c5bcb5d5b7291679a05.ctex"
+uid="uid://bmtecp2wjqd0e"
+path="res://.godot/imported/diana_caminar_2.png-8cfdd25584c7e7591f5794194051ed9e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://sprites/polilla.png"
-dest_files=["res://.godot/imported/polilla.png-f3ae29df54763c5bcb5d5b7291679a05.ctex"]
+source_file="res://sprites/personajes/diana_caminar_2.png"
+dest_files=["res://.godot/imported/diana_caminar_2.png-8cfdd25584c7e7591f5794194051ed9e.ctex"]
 
 [params]
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://yvpn1dyiyrup"
-path="res://.godot/imported/diana_caminar_1.png-835fbc457305443eaab8e9e20425890b.ctex"
+uid="uid://cyb4lm4g2e2gw"
+path="res://.godot/imported/diana_idle.png-c8a4ddd09817be2d0b7c18bc4072b9ad.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://sprites/diana_caminar_1.png"
-dest_files=["res://.godot/imported/diana_caminar_1.png-835fbc457305443eaab8e9e20425890b.ctex"]
+source_file="res://sprites/personajes/diana_idle.png"
+dest_files=["res://.godot/imported/diana_idle.png-c8a4ddd09817be2d0b7c18bc4072b9ad.ctex"]
 
 [params]
 
