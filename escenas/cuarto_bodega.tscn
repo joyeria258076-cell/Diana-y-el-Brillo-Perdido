@@ -1,0 +1,63 @@
+[gd_scene load_steps=6 format=3]
+
+[ext_resource type="PackedScene" path="res://escenas/jugador.tscn" id="1_jugador"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_horizontal"]
+size = Vector2(512, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vertical"]
+size = Vector2(16, 352)
+
+[node name="CuartoBodega" type="Node2D"]
+
+[node name="Piso" type="ColorRect" parent="."]
+offset_right = 480.0
+offset_bottom = 320.0
+color = Color(0.29, 0.278, 0.259, 1)
+
+[node name="Muros" type="StaticBody2D" parent="."]
+
+[node name="MuroArriba" type="CollisionShape2D" parent="Muros"]
+position = Vector2(240, -8)
+shape = SubResource("RectangleShape2D_horizontal")
+
+[node name="MuroAbajo" type="CollisionShape2D" parent="Muros"]
+position = Vector2(240, 328)
+shape = SubResource("RectangleShape2D_horizontal")
+
+[node name="MuroIzquierda" type="CollisionShape2D" parent="Muros"]
+position = Vector2(-8, 160)
+shape = SubResource("RectangleShape2D_vertical")
+
+[node name="MuroDerecha" type="CollisionShape2D" parent="Muros"]
+position = Vector2(488, 160)
+shape = SubResource("RectangleShape2D_vertical")
+
+[node name="MuroArribaVisual" type="ColorRect" parent="Muros"]
+offset_left = -16.0
+offset_top = -16.0
+offset_right = 496.0
+color = Color(0.18, 0.165, 0.157, 1)
+
+[node name="MuroAbajoVisual" type="ColorRect" parent="Muros"]
+offset_left = -16.0
+offset_top = 320.0
+offset_right = 496.0
+offset_bottom = 336.0
+color = Color(0.18, 0.165, 0.157, 1)
+
+[node name="MuroIzquierdaVisual" type="ColorRect" parent="Muros"]
+offset_left = -16.0
+offset_top = -16.0
+offset_bottom = 336.0
+color = Color(0.18, 0.165, 0.157, 1)
+
+[node name="MuroDerechaVisual" type="ColorRect" parent="Muros"]
+offset_left = 480.0
+offset_top = -16.0
+offset_right = 496.0
+offset_bottom = 336.0
+color = Color(0.18, 0.165, 0.157, 1)
+
+[node name="Jugador" parent="." instance=ExtResource("1_jugador")]
+position = Vector2(240, 180)
