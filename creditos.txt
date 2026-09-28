@@ -22,4 +22,14 @@ Uso:       ícono provisional; se reemplazará por el del juego
 
 --------------------------------------------------------------------------------
 
+Recurso:   Tiny Dungeon (132 tiles de 16x16) en sprites/kenney_tiny_dungeon/
+           De ahí se recortaron también: diana.png (tile 99), escarabajo.png (tile 122)
+           y polilla.png (tile 108)
+Autor:     Kenney (Kenney Vleugels)
+Fuente:    https://kenney.nl/assets/tiny-dungeon
+Licencia:  CC0 1.0 Universal (uso libre, sin atribución obligatoria)
+Uso:       piso, muros, cajas, barriles, cofres y sprites provisionales de personajes
+
+--------------------------------------------------------------------------------
+
 (Agregar aquí los siguientes recursos conforme se descarguen.)
