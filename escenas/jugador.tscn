@@ -1,20 +1,27 @@
-[gd_scene load_steps=4 format=3]
+[gd_scene load_steps=5 format=3]
 
 [ext_resource type="Script" path="res://scripts/jugador.gd" id="1_script"]
 [ext_resource type="Texture2D" path="res://sprites/diana.png" id="2_diana"]
+[ext_resource type="Texture2D" path="res://sprites/luz.png" id="3_luz"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cuerpo"]
-size = Vector2(14, 8)
+size = Vector2(12, 7)
 
 [node name="Jugador" type="CharacterBody2D"]
 script = ExtResource("1_script")
+
+[node name="Luz" type="PointLight2D" parent="."]
+color = Color(1, 0.94, 0.82, 1)
+energy = 0.9
+texture = ExtResource("3_luz")
+texture_scale = 0.75
 
 [node name="Sprite" type="Sprite2D" parent="."]
 texture = ExtResource("2_diana")
 
 [node name="Colision" type="CollisionShape2D" parent="."]
-position = Vector2(0, 7)
+position = Vector2(0, 5)
 shape = SubResource("RectangleShape2D_cuerpo")
 
 [node name="Camara" type="Camera2D" parent="."]
-zoom = Vector2(3, 3)
+zoom = Vector2(3.5, 3.5)
