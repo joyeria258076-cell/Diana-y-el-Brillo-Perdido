@@ -1,0 +1,43 @@
+FRAMES DE LOS PERSONAJES - Diana y el Brillo Perdido
+=====================================================
+
+Cada personaje tiene su propia carpeta y adentro sus cuadros numerados
+01, 02, 03... Todos son PNG de 32x32 con fondo transparente.
+
+Orden de los cuadros (es igual para todos):
+
+  01  reposo
+  02  reposo (respiracion, el cuerpo baja un pixel)
+  03  caminata - contacto
+  04  caminata - paso izquierdo
+  05  caminata - contacto
+  06  caminata - paso derecho
+
+Personajes
+----------
+  01_diana                Protagonista, lleva la lupa en la mano derecha.
+  02_don_aurelio          Proveedor honesto, sombrero y libreta.
+  03_dona_chela           Clienta de siempre, lleva una charola.
+  04_vendedor_de_humo     Enemigo, tonos grises de humo.
+  05_baron_oxido          Jefe final, ropa oxidada y casco de metal.
+  06_carbonel_duende      Duende travieso, gorro morado.
+  07_quilate_colibri      Acompanante. Aqui los cuadros mueven las alas.
+  08_escarabajo_de_oxido  Enemigo basico, las patas se alternan.
+  09_polilla              Enemigo volador, las alas se abren y cierran.
+
+Como abrirlos en LibreSprite
+----------------------------
+1. Archivo > Abrir.
+2. Entra a la carpeta del personaje y selecciona el cuadro 01.png.
+3. Marca la casilla "Open sequence" (abrir secuencia) cuando pregunte.
+   LibreSprite toma los demas cuadros solos porque estan numerados en orden.
+4. Ya dentro, con Frame > Play se ve la animacion. Si va muy rapido,
+   cambia la duracion de cada cuadro a 120 ms.
+5. Para guardar tu version editable: Archivo > Guardar como > .ase
+   Deja el .ase en sprites/editables y exporta los PNG de vuelta aqui,
+   respetando los mismos nombres para no romper el juego.
+
+Nota: estos cuadros son la base. La idea es retocarlos en LibreSprite
+(sombras, detalles de la ropa, colores) sin cambiar el tamano del lienzo
+ni la posicion de los pies, porque de ahi depende que el personaje no
+"flote" dentro del juego.
