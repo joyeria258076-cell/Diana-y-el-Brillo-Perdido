@@ -99,6 +99,68 @@ CRANEO = {
 }
 
 
+def sombra_suelta(fase=0):
+    """La sombra va en su PROPIO sprite, de 32x8, no pintada sobre el
+    personaje. Asi no le come pixeles al dibujo ni le tapa las botas, y en
+    el juego se coloca debajo con su propio nodo. Es como se hace siempre.
+
+    Cuando el personaje rebota al caminar, la sombra se encoge: eso es lo
+    que hace leer que despego del piso.
+    """
+    im = Image.new("RGBA", (W, 8), (0, 0, 0, 0))
+    px = im.load()
+    encogida = 1 if fase in (1, 3) else 0
+    anchos = (12 - encogida * 2, 18 - encogida * 3,
+              20 - encogida * 4, 14 - encogida * 3)
+    alfas = (60, 120, 145, 95)
+    for i, ancho in enumerate(anchos):
+        y = 1 + i
+        x = 16 - ancho // 2
+        for j in range(ancho):
+            px[x + j, y] = (14, 10, 20, alfas[i])
+    return im
+
+
+def con_sombra(personaje, fase):
+    """Junta personaje y sombra solo para las vistas previas. En el juego
+    van separados."""
+    im = Image.new("RGBA", (W, H + 6), (0, 0, 0, 0))
+    im.alpha_composite(sombra_suelta(fase), (0, H - 2))
+    im.alpha_composite(personaje, (0, 0))
+    return im
+
+
+def luz_de_contorno(im, contorno, color=(255, 246, 226), fuerza=0.26):
+    """Aclara el borde de arriba y de la izquierda de la silueta.
+
+    Es la luz del cuarto pegandole por ese lado. Nunca toca los pixeles del
+    contorno: si se aclara el borde negro, el personaje pierde el filo y se
+    confunde con el fondo (era justo lo que pasaba antes).
+    """
+    px = im.load()
+    original = im.copy().load()
+    for y in range(H):
+        for x in range(W):
+            actual = original[x, y]
+            if actual[3] < 255 or actual[:3] == contorno[:3]:
+                continue
+            # Tampoco se tocan los pixeles muy oscuros: son contorno o
+            # sombra profunda, y aclararlos borra el filo de la silueta.
+            if actual[0] + actual[1] + actual[2] < 190:
+                continue
+            vecino_arriba = original[x, y - 1] if y > 0 else (0, 0, 0, 0)
+            vecino_izq = original[x - 1, y] if x > 0 else (0, 0, 0, 0)
+            borde = (vecino_arriba[3] == 0 or vecino_izq[3] == 0
+                     or vecino_arriba[:3] == contorno[:3]
+                     or vecino_izq[:3] == contorno[:3])
+            if borde:
+                r, g, b, _ = actual
+                px[x, y] = (int(r + (color[0] - r) * fuerza),
+                            int(g + (color[1] - g) * fuerza),
+                            int(b + (color[2] - b) * fuerza), 255)
+    return im
+
+
 def cabeza(l):
     # --- Cara, con sus cuatro tonos.
     for y, (a, b) in CRANEO.items():
@@ -224,6 +286,7 @@ def cuadro(fase):
     l.im.alpha_composite(cuerpo.im, (0, 0),
                          (0, 1 if fase in (1, 3) else 0, W, H))
     contornear(l)
+    luz_de_contorno(l.im, NEGRO)
     return l.im
 
 
@@ -234,6 +297,12 @@ def main():
     for im in cuadros:
         colores |= {p for p in im.get_flattened_data() if p[3] > 0}
     print("colores usados:", len(colores), "(el limite era 24)")
+
+    # La sombra, en su propio archivo, para colocarla debajo en el juego.
+    sombras = Image.new("RGBA", (W * 4, 8), (0, 0, 0, 0))
+    for i in range(4):
+        sombras.paste(sombra_suelta(i), (i * W, 0))
+    sombras.save(os.path.join(SALIDA, "diana_det_sombra.png"))
 
     hoja = Image.new("RGBA", (W * 4, H), (0, 0, 0, 0))
     for i, im in enumerate(cuadros):
@@ -248,10 +317,12 @@ def main():
 
     # Lamina sobre fondo blanco plano, como pide la especificacion.
     zoom = 10
-    prev = Image.new("RGB", (W * 4 * zoom + 50, H * zoom + 20), (255, 255, 255))
+    prev = Image.new("RGB", (W * 4 * zoom + 50, (H + 6) * zoom + 20),
+                     (255, 255, 255))
     gif = []
     for i, im in enumerate(cuadros):
-        g = im.resize((W * zoom, H * zoom), Image.NEAREST)
+        conjunto = con_sombra(im, i)
+        g = conjunto.resize((W * zoom, conjunto.height * zoom), Image.NEAREST)
         prev.paste(g, (10 + i * (W * zoom + 10), 10), g)
         f = Image.new("RGB", g.size, (255, 255, 255))
         f.paste(g, (0, 0), g)

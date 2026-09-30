@@ -33,3 +33,28 @@ Uso:       piso, muros, cajas, barriles, cofres y sprites provisionales de perso
 --------------------------------------------------------------------------------
 
 (Agregar aquí los siguientes recursos conforme se descarguen.)
+
+--------------------------------------------------------------------
+DECISION DE LICENCIAS (30 sep 2026)
+--------------------------------------------------------------------
+El juego podria publicarse, asi que SOLO se usan recursos que permiten
+uso comercial. Packs descartados por este motivo:
+
+  - Modern Interiors (LimeZu), version gratuita: su licencia dice
+    "YOU CAN'T USE THE ASSET IN COMMERCIAL PROJECTS". Se probo para la
+    tienda y se quito.
+
+Packs aprobados, todos CC0 (uso libre, incluso comercial, sin pedir
+permiso ni dar credito, aunque se anota igual por transparencia):
+
+  - Ninja Adventure Asset Pack, de pixel-boy. CC0 1.0.
+    https://pixel-boy.itch.io/ninja-adventure-asset-pack
+  - Dungeon Crawl Stone Soup, tiles de 32x32. CC0 1.0.
+    https://opengameart.org/content/dungeon-crawl-32x32-tiles
+  - Kenney (Tiny Dungeon, Generic Items). CC0 1.0.
+    https://kenney.nl
+
+Personajes y escenarios de Diana y el Brillo Perdido: dibujados para
+este proyecto, pixel por pixel. Los guiones que los generan estan en
+herramientas_diana.py, herramientas_reparto.py y
+herramientas_escenarios.py.

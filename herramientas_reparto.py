@@ -71,6 +71,68 @@ def contornear(l):
                     break
 
 
+def sombra_suelta(fase=0):
+    """La sombra va en su PROPIO sprite, de 32x8, no pintada sobre el
+    personaje. Asi no le come pixeles al dibujo ni le tapa las botas, y en
+    el juego se coloca debajo con su propio nodo. Es como se hace siempre.
+
+    Cuando el personaje rebota al caminar, la sombra se encoge: eso es lo
+    que hace leer que despego del piso.
+    """
+    im = Image.new("RGBA", (W, 8), (0, 0, 0, 0))
+    px = im.load()
+    encogida = 1 if fase in (1, 3) else 0
+    anchos = (12 - encogida * 2, 18 - encogida * 3,
+              20 - encogida * 4, 14 - encogida * 3)
+    alfas = (60, 120, 145, 95)
+    for i, ancho in enumerate(anchos):
+        y = 1 + i
+        x = 16 - ancho // 2
+        for j in range(ancho):
+            px[x + j, y] = (14, 10, 20, alfas[i])
+    return im
+
+
+def con_sombra(personaje, fase):
+    """Junta personaje y sombra solo para las vistas previas. En el juego
+    van separados."""
+    im = Image.new("RGBA", (W, H + 6), (0, 0, 0, 0))
+    im.alpha_composite(sombra_suelta(fase), (0, H - 2))
+    im.alpha_composite(personaje, (0, 0))
+    return im
+
+
+def luz_de_contorno(im, contorno, color=(255, 246, 226), fuerza=0.26):
+    """Aclara el borde de arriba y de la izquierda de la silueta.
+
+    Es la luz del cuarto pegandole por ese lado. Nunca toca los pixeles del
+    contorno: si se aclara el borde negro, el personaje pierde el filo y se
+    confunde con el fondo (era justo lo que pasaba antes).
+    """
+    px = im.load()
+    original = im.copy().load()
+    for y in range(H):
+        for x in range(W):
+            actual = original[x, y]
+            if actual[3] < 255 or actual[:3] == contorno[:3]:
+                continue
+            # Tampoco se tocan los pixeles muy oscuros: son contorno o
+            # sombra profunda, y aclararlos borra el filo de la silueta.
+            if actual[0] + actual[1] + actual[2] < 190:
+                continue
+            vecino_arriba = original[x, y - 1] if y > 0 else (0, 0, 0, 0)
+            vecino_izq = original[x - 1, y] if x > 0 else (0, 0, 0, 0)
+            borde = (vecino_arriba[3] == 0 or vecino_izq[3] == 0
+                     or vecino_arriba[:3] == contorno[:3]
+                     or vecino_izq[:3] == contorno[:3])
+            if borde:
+                r, g, b, _ = actual
+                px[x, y] = (int(r + (color[0] - r) * fuerza),
+                            int(g + (color[1] - g) * fuerza),
+                            int(b + (color[2] - b) * fuerza), 255)
+    return im
+
+
 def rostro(l, ojos_y=9, boca=(170, 92, 100, 255), rubor=None):
     """Ojos grandes con brillo, boca y rubor. Los mismos que los de Diana."""
     for x in (12, 18):
@@ -180,6 +242,7 @@ class Humano:
         l.im.alpha_composite(cuerpo.im, (0, 0),
                              (0, 1 if fase in (1, 3) else 0, W, H))
         contornear(l)
+        luz_de_contorno(l.im, NEGRO)
         if self.despues:
             # Se dibuja despues del contorno para que no lleve borde negro:
             # el humo no tiene silueta definida.
@@ -523,6 +586,7 @@ def quilate(fase):
     l.r(20, y - 3, 7, 1, (64, 54, 50, 255))
     l.r(20, y - 2, 4, 1, (48, 40, 38, 255))
     contornear(l)
+    luz_de_contorno(l.im, NEGRO)
     return l.im
 
 
@@ -583,6 +647,7 @@ def carbonel(fase):
     l.p(13, y + 12, (228, 230, 234, 255))
 
     contornear(l)
+    luz_de_contorno(l.im, NEGRO)
     return l.im
 
 
@@ -631,6 +696,7 @@ def escarabajo(fase):
     l.r(10, y - 7, 2, 1, negro)
     l.r(20, y - 7, 2, 1, negro)
     contornear(l)
+    luz_de_contorno(l.im, NEGRO)
     return l.im
 
 
@@ -681,6 +747,7 @@ def polilla(fase):
     for x, yy in ((8, y + 7), (22, y + 6), (11, y + 9), (20, y + 9)):
         l.p(x, yy, (54, 50, 48, 255))
     contornear(l)
+    luz_de_contorno(l.im, NEGRO)
     return l.im
 
 
@@ -738,7 +805,7 @@ def main():
     fichas = reparto()
     zoom = 7
     lamina = Image.new("RGB", (len(fichas) * (W * zoom + 10) + 10,
-                               H * zoom + 20), (255, 255, 255))
+                               (H + 6) * zoom + 20), (255, 255, 255))
 
     for i, (nombre, dibujo) in enumerate(fichas):
         cuadros = [dibujo(f) for f in range(4)]
@@ -749,14 +816,20 @@ def main():
         for j, im in enumerate(cuadros):
             hoja.paste(im, (j * W, 0), im)
             im.save(os.path.join(carpeta, "%02d.png" % (j + 1)))
-            g = im.resize((W * 6, H * 6), Image.NEAREST)
+            conjunto = con_sombra(im, j)
+            g = conjunto.resize((W * 6, conjunto.height * 6), Image.NEAREST)
             f = Image.new("RGB", g.size, (255, 255, 255))
             f.paste(g, (0, 0), g)
             gif.append(f)
         hoja.save(os.path.join(SALIDA, "%s.png" % nombre))
+        sombras = Image.new("RGBA", (W * 4, 8), (0, 0, 0, 0))
+        for k in range(4):
+            sombras.paste(sombra_suelta(k), (k * W, 0))
+        sombras.save(os.path.join(SALIDA, "%s_sombra.png" % nombre))
         gif[0].save(os.path.join(SALIDA, "%s.gif" % nombre), save_all=True,
                     append_images=gif[1:], duration=160, loop=0)
-        g = cuadros[0].resize((W * zoom, H * zoom), Image.NEAREST)
+        conjunto = con_sombra(cuadros[0], 0)
+        g = conjunto.resize((W * zoom, conjunto.height * zoom), Image.NEAREST)
         lamina.paste(g, (10 + i * (W * zoom + 10), 10), g)
 
     lamina.save(os.path.join(SALIDA, "00_reparto.png"))
