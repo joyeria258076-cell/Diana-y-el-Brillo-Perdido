@@ -1,26 +1,33 @@
 # -*- coding: utf-8 -*-
 """Los escenarios de Diana y el Brillo Perdido.
 
-Cada escenario sale de su ficha en el libreto. Se entrega en dos piezas:
+Tiles de 32x32, la misma medida que los personajes. Eso es lo que hace que
+Diana ocupe justo un cuadro de piso, como en los juegos de esta clase; con
+tiles de 16 el personaje medía dos cuadros y el cuarto se veía chico a su
+lado.
 
-  - Un atlas de tiles de 16x16, que es la medida que declara la propuesta.
-    Los primeros ocho son siempre los mismos: pisos y muros. Los demas son
-    los objetos propios del lugar.
-  - Una vista previa de un cuarto ya armado con esos tiles, para ver como
-    se siente el escenario antes de construirlo en Godot.
+Cada escenario sale de su ficha en el libreto y se entrega en dos piezas:
+
+  - Un atlas de tiles de 32x32. Los primeros cuatro son siempre los mismos:
+    piso, dos variantes de piso y muro. Los demas son los objetos del lugar.
+  - Un cuarto de muestra ya armado, con Diana adentro para ver la escala.
 
 Escenarios, en orden de juego:
-  0. Joyeria Diana Laura  - la tienda: tutorial, guardado y epilogo.
-  1. Bodega del Proveedor - estantes, tarimas, basculas y cadenas.
-  2. Mina de Cuarzo       - galerias, vetas de cuarzo, rieles y vagonetas.
-  3. Taller de Imitaciones- bandas, prensas, engranes y chimeneas.
+  0. Joyeria Diana Laura   - la tienda: tutorial, guardado y epilogo.
+  1. Bodega del Proveedor  - estantes, tarimas, basculas y cadenas.
+  2. Mina de Cuarzo        - galerias, vetas, rieles y vagonetas.
+  3. Taller de Imitaciones - bandas, prensas, engranes y chimeneas.
 """
 import os
 from PIL import Image
 
-T = 16                      # lado del tile
-COLS = 8                    # tiles por fila en el atlas
+T = 32
+COLS = 5
 SALIDA = os.path.join(os.path.dirname(os.path.abspath(__file__)), "escenarios")
+
+RUTA_DIANA = ("C:/Users/uriel/Documents/Empresa UTHH/"
+              "Mes 2 - Proyecto Joyeria Diana Laura/Diana-y-el-Brillo-Perdido/"
+              "sprites/personajes/diseno/00_diana_frames/01.png")
 
 
 class Tile:
@@ -37,9 +44,9 @@ class Tile:
     def p(self, x, y, c):
         self.r(x, y, 1, 1, c)
 
-    def ruido(self, color, puntos):
-        """Salpica pixeles sueltos: es lo que evita que un piso plano se
-        vea como una sabana de color."""
+    def salpicar(self, color, puntos):
+        """Pixeles sueltos para que una superficie plana no se vea como
+        una sabana de color."""
         for x, y in puntos:
             self.p(x, y, color)
 
@@ -51,351 +58,438 @@ def tonos(base):
     return esc(0.6), esc(0.8), (base[0], base[1], base[2], 255), esc(1.2)
 
 
+def muro(color_frente, color_tapa, detalle=None):
+    """Muro con dos caras: la tapa de arriba, que es la que se ve desde la
+    camara, y el frente, que es el que da al cuarto. Sin esa division los
+    muros se ven como paredes planas."""
+    pro, som, base, luz = tonos(color_frente)
+    tpro, tsom, tapa, tluz = tonos(color_tapa)
+    t = Tile(base)
+    t.r(0, 0, T, 12, tapa)
+    t.r(0, 0, T, 2, tluz)
+    t.r(0, 10, T, 2, tpro)
+    t.r(0, 12, T, 2, luz)
+    t.r(0, T - 3, T, 3, pro)
+    # Juntas de los bloques, alternadas como en un muro de verdad.
+    t.r(0, 20, T, 1, som)
+    t.r(15, 12, 1, 8, som)
+    t.r(7, 21, 1, 11, som)
+    t.r(23, 21, 1, 11, som)
+    if detalle:
+        detalle(t, (pro, som, base, luz))
+    return t
+
+
 # ---------------------------------------------------------------- la tienda
 
 def tienda():
-    """Local pequeno con vitrinas, espejos, mostrador de madera y el
-    aparador hacia la calle."""
-    pro, som, base, luz = tonos((214, 206, 196))     # loseta clara
-    mpro, msom, mad, mluz = tonos((150, 104, 66))    # madera del mostrador
-    vidrio = (196, 224, 236, 255)
-    oro = (226, 172, 56, 255)
+    pro, som, base, luz = tonos((216, 208, 198))      # loseta clara
+    mpro, msom, mad, mluz = tonos((152, 106, 68))     # madera
+    vidrio = (198, 226, 238, 255)
+    vidrio_luz = (242, 252, 254, 255)
+    oro = (228, 176, 60, 255)
+    oro_luz = (252, 226, 140, 255)
     tiles = []
 
-    piso = Tile(base)                                 # 0 loseta
-    piso.r(0, 0, T, 1, luz)
-    piso.r(0, T - 1, T, 1, som)
-    piso.r(7, 0, 1, T, som)
-    piso.r(0, 7, T, 1, som)
+    piso = Tile(base)                                  # 0 loseta
+    for x in (0, 16):
+        piso.r(x, 0, 16, 1, luz)
+        piso.r(x, 15, 16, 1, som)
+    for y in (0, 16):
+        piso.r(0, y, 1, 16, luz)
+        piso.r(15, y, 1, 16, som)
+    piso.r(16, 0, 1, T, luz)
+    piso.r(0, 16, T, 1, luz)
+    piso.r(31, 0, 1, T, som)
+    piso.r(0, 31, T, 1, som)
     tiles.append(piso)
 
-    piso2 = Tile(base)                                # 1 loseta con dibujo
+    piso2 = Tile(base)                                 # 1 loseta con rombo
     piso2.r(0, 0, T, 1, luz)
-    piso2.r(0, 7, T, 1, som)
-    piso2.r(7, 0, 1, T, som)
-    piso2.r(10, 10, 4, 4, luz)
+    piso2.r(0, 0, 1, T, luz)
+    piso2.r(0, 31, T, 1, som)
+    for i in range(8):
+        piso2.r(16 - i, 8 + i, 1 + i * 2, 1, som)
+    for i in range(8):
+        piso2.r(9 + i, 16 + i, 15 - i * 2, 1, som)
     tiles.append(piso2)
 
-    alfombra = Tile((146, 78, 96, 255))               # 2 tapete de entrada
-    alfombra.r(0, 0, T, 1, (178, 104, 120, 255))
-    alfombra.r(2, 2, 12, 12, (166, 92, 110, 255))
-    tiles.append(alfombra)
+    tapete = Tile((150, 82, 100, 255))                 # 2 tapete de entrada
+    tapete.r(0, 0, T, 2, (184, 110, 128, 255))
+    tapete.r(0, 30, T, 2, (118, 60, 78, 255))
+    tapete.r(3, 3, 26, 26, (170, 96, 114, 255))
+    tapete.r(6, 6, 20, 20, (150, 82, 100, 255))
+    for x in range(2, 30, 4):
+        tapete.p(x, 1, (206, 140, 154, 255))
+    tiles.append(tapete)
 
-    pared = Tile((186, 176, 168, 255))                # 3 pared
-    pared.r(0, 0, T, 2, (206, 198, 190, 255))
-    pared.r(0, T - 2, T, 2, (150, 142, 136, 255))
-    tiles.append(pared)
+    def moldura(t, c):
+        pro2, som2, base2, luz2 = c
+        t.r(0, 14, T, 2, mad)
+        t.r(0, 14, T, 1, mluz)
+    tiles.append(muro((196, 186, 176), (172, 162, 152), moldura))   # 3 muro
 
-    zocalo = Tile((186, 176, 168, 255))               # 4 pared con zocalo
-    zocalo.r(0, 10, T, 6, mad)
-    zocalo.r(0, 10, T, 1, mluz)
-    zocalo.r(0, 15, T, 1, mpro)
-    tiles.append(zocalo)
-
-    mostrador = Tile((0, 0, 0, 0))                    # 5 mostrador de madera
-    mostrador.r(0, 2, T, 12, mad)
-    mostrador.r(0, 2, T, 2, mluz)
-    mostrador.r(0, 12, T, 2, mpro)
-    mostrador.r(0, 6, T, 1, msom)
+    mostrador = Tile((0, 0, 0, 0))                     # 4 mostrador
+    mostrador.r(0, 4, T, 24, mad)
+    mostrador.r(0, 4, T, 3, mluz)
+    mostrador.r(0, 24, T, 4, mpro)
+    mostrador.r(0, 12, T, 2, msom)
+    for x in range(2, 30, 8):                          # vetas de la madera
+        mostrador.r(x, 8, 5, 1, msom)
+        mostrador.r(x + 2, 18, 5, 1, msom)
+    mostrador.r(0, 27, T, 1, (86, 58, 36, 255))
     tiles.append(mostrador)
 
-    vitrina = Tile((0, 0, 0, 0))                      # 6 vitrina con joyas
-    vitrina.r(0, 0, T, 14, mad)
-    vitrina.r(1, 1, 14, 9, vidrio)
-    vitrina.r(1, 1, 14, 1, (240, 250, 252, 255))
-    vitrina.r(3, 6, 3, 2, oro)
-    vitrina.r(9, 5, 2, 3, (226, 236, 244, 255))
-    vitrina.r(0, 12, T, 2, mpro)
+    vitrina = Tile((0, 0, 0, 0))                       # 5 vitrina con joyas
+    vitrina.r(0, 0, T, 28, mad)
+    vitrina.r(2, 2, 28, 20, vidrio)
+    vitrina.r(2, 2, 28, 3, vidrio_luz)
+    vitrina.r(2, 2, 3, 20, vidrio_luz)
+    vitrina.r(6, 10, 7, 4, oro)                        # un anillo
+    vitrina.r(6, 10, 3, 2, oro_luz)
+    vitrina.r(18, 8, 4, 8, (230, 240, 248, 255))       # un collar
+    vitrina.r(19, 16, 2, 2, (146, 210, 236, 255))
+    vitrina.r(24, 12, 4, 4, oro)
+    vitrina.r(0, 22, T, 6, mpro)
+    vitrina.r(0, 26, T, 2, (86, 58, 36, 255))
     tiles.append(vitrina)
 
-    espejo = Tile((0, 0, 0, 0))                       # 7 espejo de pared
-    espejo.r(2, 0, 12, 14, oro)
-    espejo.r(3, 1, 10, 12, (176, 206, 220, 255))
-    espejo.r(4, 2, 3, 8, (222, 238, 246, 255))
+    espejo = Tile((0, 0, 0, 0))                        # 6 espejo de pared
+    espejo.r(4, 0, 24, 28, oro)
+    espejo.r(4, 0, 24, 2, oro_luz)
+    espejo.r(6, 2, 20, 24, (176, 206, 222, 255))
+    espejo.r(8, 4, 6, 16, (226, 240, 248, 255))
+    espejo.r(16, 10, 4, 10, (208, 228, 238, 255))
+    espejo.r(4, 26, 24, 2, (168, 122, 34, 255))
     tiles.append(espejo)
 
-    aparador = Tile((0, 0, 0, 0))                     # 8 aparador a la calle
-    aparador.r(0, 0, T, 16, (108, 140, 158, 255))
-    aparador.r(0, 0, T, 2, oro)
-    aparador.r(2, 3, 5, 10, (150, 184, 200, 255))
-    aparador.r(2, 3, 2, 4, (208, 232, 240, 255))
+    aparador = Tile((0, 0, 0, 0))                      # 7 aparador a la calle
+    aparador.r(0, 0, T, T, (112, 146, 166, 255))
+    aparador.r(0, 0, T, 4, oro)
+    aparador.r(0, 2, T, 2, (168, 122, 34, 255))
+    for x in (4, 18):
+        aparador.r(x, 8, 10, 20, (156, 190, 208, 255))
+        aparador.r(x, 8, 4, 8, (216, 238, 246, 255))
+    aparador.r(15, 6, 2, 26, (168, 122, 34, 255))
     tiles.append(aparador)
 
-    planta = Tile((0, 0, 0, 0))                       # 9 maceta
-    planta.r(5, 10, 6, 5, (152, 96, 68, 255))
-    planta.r(5, 10, 6, 1, (186, 126, 92, 255))
-    planta.r(4, 4, 8, 6, (82, 140, 84, 255))
-    planta.r(5, 3, 6, 3, (104, 166, 100, 255))
-    planta.r(6, 3, 3, 2, (134, 190, 120, 255))
+    planta = Tile((0, 0, 0, 0))                        # 8 maceta
+    planta.r(9, 20, 14, 11, (156, 98, 70, 255))
+    planta.r(9, 20, 14, 2, (192, 130, 96, 255))
+    planta.r(9, 28, 14, 3, (118, 70, 48, 255))
+    planta.r(7, 8, 18, 13, (78, 136, 82, 255))
+    planta.r(9, 5, 14, 5, (102, 164, 98, 255))
+    planta.r(11, 4, 8, 3, (136, 192, 122, 255))
+    planta.r(12, 12, 6, 4, (60, 110, 66, 255))
     tiles.append(planta)
 
-    return "tienda", tiles, base
+    return "tienda", tiles
 
 
 # ------------------------------------------------------------- la bodega
 
 def bodega():
-    """Almacen: pasillos entre estantes altos, cajas apiladas, tarimas,
-    basculas y cadenas colgando del techo."""
-    pro, som, base, luz = tonos((132, 116, 96))       # concreto
-    cpro, csom, carton, cluz = tonos((176, 128, 78))  # cajas
-    mpro, msom, mad, mluz = tonos((138, 98, 60))      # tarimas
-    metal = (140, 140, 150, 255)
+    pro, som, base, luz = tonos((138, 122, 100))       # concreto
+    cpro, csom, carton, cluz = tonos((180, 132, 82))   # cajas
+    mpro, msom, mad, mluz = tonos((140, 100, 62))      # tarimas
+    metal = (146, 146, 156, 255)
+    metal_luz = (188, 188, 198, 255)
     tiles = []
 
     piso = Tile(base)                                  # 0 concreto
-    piso.r(0, 0, T, 1, som)
-    piso.ruido(som, [(3, 4), (11, 2), (6, 9), (13, 12), (2, 13)])
-    piso.ruido(luz, [(8, 5), (4, 11)])
+    piso.r(0, 0, T, 1, luz)
+    piso.salpicar(som, [(4, 7), (18, 3), (11, 19), (26, 12), (6, 25),
+                        (22, 27), (14, 9), (29, 20)])
+    piso.salpicar(luz, [(16, 6), (8, 22), (24, 4)])
     tiles.append(piso)
 
-    piso2 = Tile(base)                                 # 1 concreto con grieta
-    piso2.r(0, 0, T, 1, som)
-    for i in range(6):
-        piso2.p(3 + i, 6 + (i % 3), pro)
+    piso2 = Tile(base)                                 # 1 concreto agrietado
+    piso2.r(0, 0, T, 1, luz)
+    for i in range(14):
+        piso2.p(6 + i, 10 + (i % 4), pro)
+        piso2.p(6 + i, 11 + (i % 4), som)
+    piso2.salpicar(som, [(20, 22), (25, 26), (9, 27)])
     tiles.append(piso2)
 
     tarima = Tile(base)                                # 2 tarima de madera
-    for y in (2, 7, 12):
-        tarima.r(0, y, T, 3, mad)
-        tarima.r(0, y, T, 1, mluz)
-        tarima.r(0, y + 2, T, 1, mpro)
+    for y in (2, 12, 22):
+        tarima.r(0, y, T, 7, mad)
+        tarima.r(0, y, T, 2, mluz)
+        tarima.r(0, y + 5, T, 2, mpro)
+        for x in range(3, 30, 9):
+            tarima.r(x, y + 2, 6, 1, msom)
     tiles.append(tarima)
 
-    pared = Tile((104, 94, 82, 255))                   # 3 pared de bodega
-    pared.r(0, 0, T, 2, (126, 114, 100, 255))
-    pared.r(0, T - 2, T, 2, (80, 72, 64, 255))
-    pared.r(0, 7, T, 1, (88, 80, 70, 255))
-    tiles.append(pared)
+    def manchas(t, c):
+        pro2, som2, base2, luz2 = c
+        t.r(4, 18, 7, 5, som2)
+        t.r(20, 24, 6, 4, som2)
+    tiles.append(muro((112, 100, 86), (94, 84, 72), manchas))       # 3 muro
 
     estante = Tile((0, 0, 0, 0))                       # 4 estante alto
-    estante.r(0, 0, T, 16, mad)
-    estante.r(0, 0, T, 1, mluz)
-    for y in (4, 9, 14):
-        estante.r(0, y, T, 2, mpro)
-    estante.r(2, 1, 5, 3, carton)
-    estante.r(9, 6, 5, 3, carton)
-    estante.r(3, 11, 6, 3, csom)
+    estante.r(0, 0, T, T, mad)
+    estante.r(0, 0, T, 2, mluz)
+    estante.r(0, 0, 2, T, mluz)
+    for y in (9, 20, 30):
+        estante.r(0, y, T, 3, mpro)
+        estante.r(0, y, T, 1, msom)
+    estante.r(3, 2, 10, 7, carton)
+    estante.r(3, 2, 10, 2, cluz)
+    estante.r(15, 3, 8, 6, csom)
+    estante.r(5, 13, 9, 7, carton)
+    estante.r(5, 13, 9, 2, cluz)
+    estante.r(18, 14, 10, 6, cpro)
+    estante.r(4, 24, 12, 6, csom)
+    estante.r(20, 25, 8, 5, carton)
     tiles.append(estante)
 
     caja = Tile((0, 0, 0, 0))                          # 5 caja de carton
-    caja.r(1, 3, 14, 12, carton)
-    caja.r(1, 3, 14, 2, cluz)
-    caja.r(1, 13, 14, 2, cpro)
-    caja.r(7, 3, 2, 12, csom)
-    caja.r(1, 8, 14, 1, csom)
+    caja.r(2, 6, 28, 24, carton)
+    caja.r(2, 6, 28, 4, cluz)
+    caja.r(2, 26, 28, 4, cpro)
+    caja.r(15, 6, 3, 24, csom)                         # cinta de union
+    caja.r(2, 16, 28, 2, csom)
+    caja.r(6, 20, 8, 4, cpro)                          # etiqueta
+    caja.r(6, 20, 8, 1, (236, 226, 206, 255))
     tiles.append(caja)
 
     bascula = Tile((0, 0, 0, 0))                       # 6 bascula
-    bascula.r(2, 8, 12, 6, metal)
-    bascula.r(2, 8, 12, 1, (176, 176, 186, 255))
-    bascula.r(2, 13, 12, 1, (96, 96, 106, 255))
-    bascula.r(5, 3, 6, 5, (176, 176, 186, 255))
-    bascula.r(6, 4, 4, 3, (236, 240, 244, 255))
-    bascula.p(8, 5, (200, 60, 60, 255))
+    bascula.r(3, 18, 26, 12, metal)
+    bascula.r(3, 18, 26, 2, metal_luz)
+    bascula.r(3, 27, 26, 3, (98, 98, 108, 255))
+    bascula.r(10, 6, 12, 12, metal)
+    bascula.r(11, 7, 10, 9, (238, 242, 246, 255))
+    bascula.r(15, 9, 2, 5, (200, 60, 60, 255))         # aguja
+    bascula.r(13, 14, 6, 1, (140, 140, 150, 255))
     tiles.append(bascula)
 
     cadena = Tile((0, 0, 0, 0))                        # 7 cadena del techo
-    for y in range(0, 14, 3):
-        cadena.r(7, y, 2, 2, metal)
-        cadena.p(7, y + 1, (96, 96, 106, 255))
-    cadena.r(5, 13, 6, 3, (120, 120, 130, 255))        # gancho
+    for y in range(0, 24, 5):
+        cadena.r(14, y, 5, 4, metal)
+        cadena.r(15, y + 1, 3, 2, (96, 96, 106, 255))
+        cadena.r(14, y, 5, 1, metal_luz)
+    cadena.r(10, 23, 13, 4, (126, 126, 136, 255))      # gancho
+    cadena.r(10, 23, 13, 1, metal_luz)
+    cadena.r(14, 27, 5, 5, (110, 110, 120, 255))
     tiles.append(cadena)
 
     tina = Tile((0, 0, 0, 0))                          # 8 tina ultrasonica
-    tina.r(0, 4, T, 11, metal)
-    tina.r(0, 4, T, 2, (180, 180, 190, 255))
-    tina.r(2, 6, 12, 6, (108, 186, 206, 255))
-    tina.r(2, 6, 12, 1, (170, 226, 240, 255))
-    tina.ruido((222, 244, 250, 255), [(4, 8), (7, 9), (10, 7), (12, 10)])
-    tina.r(0, 13, T, 2, (96, 96, 106, 255))
+    tina.r(0, 6, T, 24, metal)
+    tina.r(0, 6, T, 3, metal_luz)
+    tina.r(3, 11, 26, 14, (104, 184, 206, 255))
+    tina.r(3, 11, 26, 2, (172, 228, 242, 255))
+    tina.salpicar((236, 250, 252, 255),
+                  [(7, 16), (12, 19), (18, 14), (23, 21), (9, 22), (25, 15)])
+    tina.r(0, 26, T, 4, (92, 92, 102, 255))
     tiles.append(tina)
 
-    niebla = Tile((0, 0, 0, 0))                        # 9 niebla del villano
-    for x, y, w in ((1, 6, 6), (8, 4, 6), (4, 10, 8), (10, 11, 5)):
-        niebla.r(x, y, w, 3, (176, 176, 186, 255))
-        niebla.r(x, y, w - 1, 1, (206, 206, 214, 255))
-    tiles.append(niebla)
-
-    return "bodega", tiles, base
+    return "bodega", tiles
 
 
 # --------------------------------------------------------------- la mina
 
 def mina():
-    """Mina abandonada: galerias, vetas de cuarzo que alumbran, vagonetas
-    sobre rieles, estalactitas y el rio subterraneo."""
-    pro, som, base, luz = tonos((84, 76, 88))          # roca
-    cuarzo = (150, 224, 236, 255)
-    cuarzo_luz = (216, 246, 250, 255)
-    madera = (118, 84, 54, 255)
-    metal = (128, 128, 138, 255)
+    pro, som, base, luz = tonos((88, 80, 92))          # roca
+    cuarzo = (152, 226, 238, 255)
+    cuarzo_luz = (222, 248, 252, 255)
+    madera = (122, 88, 56, 255)
+    madera_luz = (158, 118, 78, 255)
+    metal = (132, 132, 142, 255)
     tiles = []
 
     piso = Tile(base)                                  # 0 roca
-    piso.ruido(som, [(2, 3), (9, 5), (5, 11), (13, 8), (7, 14)])
-    piso.ruido(luz, [(11, 2), (3, 8)])
+    piso.salpicar(som, [(5, 6), (17, 10), (9, 21), (26, 16), (13, 27),
+                        (21, 4), (29, 25), (3, 14)])
+    piso.salpicar(luz, [(20, 8), (7, 18), (25, 29)])
     tiles.append(piso)
 
     piso2 = Tile(base)                                 # 1 roca con gravilla
-    piso2.ruido(pro, [(4, 4), (10, 6), (6, 12), (12, 11), (2, 9)])
-    piso2.r(6, 6, 3, 2, som)
+    for x, y in ((7, 8), (19, 12), (11, 24), (24, 20), (15, 5), (5, 27)):
+        piso2.r(x, y, 3, 2, pro)
+        piso2.p(x, y, som)
+    piso2.salpicar(som, [(13, 16), (27, 9), (9, 13)])
     tiles.append(piso2)
 
     veta = Tile(base)                                  # 2 veta de cuarzo
-    for i in range(5):
-        veta.r(3 + i * 2, 4 + (i % 3) * 2, 3, 2, cuarzo)
-        veta.p(3 + i * 2, 4 + (i % 3) * 2, cuarzo_luz)
+    for i, (x, y) in enumerate(((4, 8), (10, 14), (16, 9), (21, 18),
+                                (26, 12), (13, 24), (7, 22))):
+        veta.r(x, y, 5, 4, cuarzo)
+        veta.r(x, y, 3, 2, cuarzo_luz)
+        veta.r(x + 1, y + 3, 3, 1, (96, 172, 190, 255))
     tiles.append(veta)
 
-    pared = Tile((58, 52, 66, 255))                    # 3 pared de mina
-    pared.r(0, 0, T, 2, (76, 68, 84, 255))
-    pared.r(0, T - 2, T, 2, (42, 38, 50, 255))
-    pared.ruido((48, 44, 56, 255), [(3, 5), (10, 8), (6, 11)])
-    tiles.append(pared)
+    def vetita(t, c):
+        t.r(6, 18, 5, 3, cuarzo)
+        t.r(6, 18, 3, 2, cuarzo_luz)
+        t.r(22, 25, 4, 3, cuarzo)
+    tiles.append(muro((66, 60, 76), (50, 46, 60), vetita))          # 3 muro
 
-    viga = Tile((0, 0, 0, 0))                          # 4 viga de madera
-    viga.r(0, 0, T, 4, madera)
-    viga.r(0, 0, T, 1, (152, 112, 74, 255))
-    viga.r(1, 4, 3, 12, madera)
-    viga.r(12, 4, 3, 12, madera)
-    viga.r(1, 4, 1, 12, (152, 112, 74, 255))
+    viga = Tile((0, 0, 0, 0))                          # 4 viga de sosten
+    viga.r(0, 0, T, 8, madera)
+    viga.r(0, 0, T, 2, madera_luz)
+    viga.r(0, 6, T, 2, (86, 60, 38, 255))
+    viga.r(2, 8, 6, 24, madera)
+    viga.r(24, 8, 6, 24, madera)
+    viga.r(2, 8, 2, 24, madera_luz)
+    viga.r(24, 8, 2, 24, madera_luz)
+    for y in range(12, 30, 6):
+        viga.r(2, y, 6, 1, (86, 60, 38, 255))
+        viga.r(24, y, 6, 1, (86, 60, 38, 255))
     tiles.append(viga)
 
     riel = Tile(base)                                  # 5 rieles
-    riel.r(0, 5, T, 2, metal)
-    riel.r(0, 10, T, 2, metal)
-    riel.r(0, 5, T, 1, (168, 168, 178, 255))
-    riel.r(0, 10, T, 1, (168, 168, 178, 255))
-    for x in (2, 8, 14):
-        riel.r(x, 4, 2, 9, madera)
+    for x in range(2, 30, 10):
+        riel.r(x, 6, 7, 20, madera)
+        riel.r(x, 6, 7, 2, madera_luz)
+    riel.r(0, 9, T, 4, metal)
+    riel.r(0, 22, T, 4, metal)
+    riel.r(0, 9, T, 1, (180, 180, 190, 255))
+    riel.r(0, 22, T, 1, (180, 180, 190, 255))
+    riel.r(0, 12, T, 1, (84, 84, 94, 255))
+    riel.r(0, 25, T, 1, (84, 84, 94, 255))
     tiles.append(riel)
 
     vagoneta = Tile((0, 0, 0, 0))                      # 6 vagoneta
-    vagoneta.r(1, 3, 14, 9, metal)
-    vagoneta.r(1, 3, 14, 2, (168, 168, 178, 255))
-    vagoneta.r(1, 10, 14, 2, (88, 88, 98, 255))
-    vagoneta.r(3, 5, 10, 4, (64, 60, 70, 255))
-    vagoneta.r(2, 12, 4, 3, (72, 72, 82, 255))
-    vagoneta.r(10, 12, 4, 3, (72, 72, 82, 255))
+    vagoneta.r(2, 6, 28, 18, metal)
+    vagoneta.r(2, 6, 28, 3, (180, 180, 190, 255))
+    vagoneta.r(2, 20, 28, 4, (92, 92, 102, 255))
+    vagoneta.r(5, 9, 22, 9, (58, 54, 64, 255))
+    vagoneta.r(7, 11, 8, 5, (110, 92, 70, 255))        # mineral adentro
+    vagoneta.r(17, 12, 7, 4, (128, 108, 82, 255))
+    for x in (4, 22):                                  # ruedas
+        vagoneta.r(x, 24, 7, 7, (74, 74, 84, 255))
+        vagoneta.r(x + 2, 26, 3, 3, (48, 48, 58, 255))
     tiles.append(vagoneta)
 
     estalactita = Tile((0, 0, 0, 0))                   # 7 estalactitas
-    for x, largo in ((2, 9), (7, 13), (12, 7)):
+    for x, largo in ((4, 18), (14, 26), (24, 14)):
         for i in range(largo):
-            ancho = max(1, 3 - i // 4)
+            ancho = max(1, 6 - i // 4)
             estalactita.r(x, i, ancho, 1, base)
             estalactita.p(x, i, luz)
+            if i > largo - 4:
+                estalactita.p(x, i, som)
     tiles.append(estalactita)
 
     agua = Tile((0, 0, 0, 0))                          # 8 rio subterraneo
-    agua.r(0, 0, T, T, (52, 96, 128, 255))
-    agua.r(0, 0, T, 2, (72, 126, 162, 255))
-    agua.ruido((126, 186, 214, 255),
-               [(3, 4), (4, 4), (9, 7), (10, 7), (6, 11), (12, 13)])
+    agua.r(0, 0, T, T, (48, 92, 126, 255))
+    agua.r(0, 0, T, 3, (70, 126, 164, 255))
+    for x, y, w in ((4, 8, 9), (18, 14, 8), (9, 22, 11), (22, 26, 7)):
+        agua.r(x, y, w, 2, (120, 182, 212, 255))
+        agua.r(x + 1, y + 1, w - 2, 1, (166, 214, 236, 255))
     tiles.append(agua)
 
-    oscuro = Tile((0, 0, 0, 0))                        # 9 zona sin luz
-    oscuro.r(0, 0, T, T, (18, 16, 26, 255))
-    tiles.append(oscuro)
-
-    return "mina", tiles, base
+    return "mina", tiles
 
 
 # -------------------------------------------------------------- el taller
 
 def taller():
-    """Taller de imitaciones: bandas transportadoras, prensas, moldes,
-    engranes y chimeneas. Todo en verdes y cobrizos por el oxido."""
-    pro, som, base, luz = tonos((92, 96, 92))          # piso metalico
-    cobre = (168, 108, 62, 255)
-    cobre_luz = (206, 146, 92, 255)
-    cobre_som = (112, 68, 38, 255)
-    verde = (96, 128, 104, 255)
-    laton = (216, 178, 88, 255)
-    metal = (124, 124, 134, 255)
+    pro, som, base, luz = tonos((96, 100, 96))         # placa metalica
+    cobre = (172, 112, 64, 255)
+    cobre_luz = (212, 152, 96, 255)
+    cobre_som = (114, 70, 38, 255)
+    verde = (98, 132, 106, 255)
+    laton = (220, 182, 92, 255)
+    laton_luz = (248, 222, 148, 255)
+    metal = (128, 128, 138, 255)
     tiles = []
 
-    piso = Tile(base)                                  # 0 placa metalica
-    piso.r(0, 0, T, 1, luz)
-    piso.r(0, T - 1, T, 1, pro)
-    piso.r(0, 0, 1, T, luz)
-    for x, y in ((3, 3), (12, 3), (3, 12), (12, 12)):
-        piso.r(x, y, 2, 2, som)                        # remaches
+    piso = Tile(base)                                  # 0 placa remachada
+    piso.r(0, 0, T, 2, luz)
+    piso.r(0, 0, 2, T, luz)
+    piso.r(0, T - 2, T, 2, pro)
+    piso.r(T - 2, 0, 2, T, pro)
+    for x, y in ((5, 5), (25, 5), (5, 25), (25, 25)):
+        piso.r(x, y, 3, 3, som)
+        piso.p(x, y, luz)
     tiles.append(piso)
 
     piso2 = Tile(base)                                 # 1 placa oxidada
-    piso2.r(0, 0, T, 1, luz)
-    piso2.r(4, 5, 5, 4, verde)
-    piso2.r(10, 10, 4, 3, cobre_som)
+    piso2.r(0, 0, T, 2, luz)
+    piso2.r(0, 0, 2, T, luz)
+    piso2.r(8, 10, 11, 8, verde)
+    piso2.r(8, 10, 5, 3, (124, 158, 130, 255))
+    piso2.r(20, 20, 8, 6, cobre_som)
+    piso2.salpicar(verde, [(6, 24), (26, 8), (14, 26)])
     tiles.append(piso2)
 
-    rejilla = Tile((72, 76, 74, 255))                  # 2 pasarela de rejilla
-    for x in range(0, T, 4):
-        rejilla.r(x, 0, 2, T, (104, 108, 104, 255))
-    for y in range(0, T, 4):
-        rejilla.r(0, y, T, 2, (92, 96, 94, 255))
+    rejilla = Tile((78, 82, 80, 255))                  # 2 pasarela de rejilla
+    for x in range(0, T, 8):
+        rejilla.r(x, 0, 4, T, (110, 114, 110, 255))
+        rejilla.r(x, 0, 1, T, (134, 138, 134, 255))
+    for y in range(0, T, 8):
+        rejilla.r(0, y, T, 4, (98, 102, 100, 255))
+        rejilla.r(0, y, T, 1, (126, 130, 126, 255))
     tiles.append(rejilla)
 
-    pared = Tile((74, 80, 76, 255))                    # 3 pared del taller
-    pared.r(0, 0, T, 2, (94, 100, 96, 255))
-    pared.r(0, T - 2, T, 2, (56, 62, 58, 255))
-    pared.r(2, 5, 5, 4, verde)
-    tiles.append(pared)
+    def oxido(t, c):
+        t.r(5, 16, 9, 6, verde)
+        t.r(22, 24, 7, 5, verde)
+        t.r(5, 16, 4, 2, (124, 158, 130, 255))
+    tiles.append(muro((82, 88, 84), (66, 72, 68), oxido))           # 3 muro
 
-    banda = Tile((0, 0, 0, 0))                         # 4 banda transportadora
-    banda.r(0, 3, T, 10, (58, 54, 58, 255))
-    banda.r(0, 3, T, 2, (84, 80, 84, 255))
-    banda.r(0, 11, T, 2, (40, 38, 42, 255))
-    for x in range(1, T, 4):
-        banda.r(x, 5, 2, 6, (74, 70, 74, 255))
-    banda.r(5, 6, 4, 3, laton)                         # pieza de laton
-    banda.r(5, 6, 4, 1, (244, 216, 140, 255))
+    banda = Tile((0, 0, 0, 0))                         # 4 banda con piezas
+    banda.r(0, 6, T, 22, (60, 56, 60, 255))
+    banda.r(0, 6, T, 3, (88, 84, 88, 255))
+    banda.r(0, 24, T, 4, (42, 40, 44, 255))
+    for x in range(2, 32, 6):
+        banda.r(x, 10, 3, 14, (78, 74, 78, 255))
+    banda.r(8, 13, 9, 8, laton)                        # pieza de laton
+    banda.r(8, 13, 9, 2, laton_luz)
+    banda.r(8, 19, 9, 2, (150, 122, 58, 255))
+    banda.r(22, 15, 6, 6, laton)
+    banda.r(22, 15, 6, 2, laton_luz)
     tiles.append(banda)
 
     engrane = Tile((0, 0, 0, 0))                       # 5 engrane
-    engrane.r(3, 3, 10, 10, cobre)
-    engrane.r(4, 4, 8, 8, cobre_luz)
-    engrane.r(6, 6, 4, 4, cobre_som)
-    for x, y in ((7, 0), (7, 13), (0, 7), (13, 7)):
-        engrane.r(x, y, 2, 3 if x == 7 else 3, cobre)
-    for x, y in ((1, 1), (12, 1), (1, 12), (12, 12)):
-        engrane.r(x, y, 3, 3, cobre_som)
+    engrane.r(6, 6, 20, 20, cobre)
+    engrane.r(8, 8, 16, 16, cobre_luz)
+    engrane.r(12, 12, 8, 8, cobre_som)
+    engrane.r(14, 14, 4, 4, (68, 60, 56, 255))
+    for x, y, w, h in ((13, 0, 6, 8), (13, 24, 6, 8),
+                       (0, 13, 8, 6), (24, 13, 8, 6)):
+        engrane.r(x, y, w, h, cobre)
+        engrane.r(x, y, w if h > w else 2, 2 if h > w else h, cobre_luz)
+    for x, y in ((3, 3), (25, 3), (3, 25), (25, 25)):
+        engrane.r(x, y, 5, 5, cobre_som)
     tiles.append(engrane)
 
     prensa = Tile((0, 0, 0, 0))                        # 6 prensa de moldes
-    prensa.r(0, 0, T, 6, metal)
-    prensa.r(0, 0, T, 2, (162, 162, 172, 255))
-    prensa.r(2, 6, 12, 3, (88, 88, 98, 255))
-    prensa.r(6, 9, 4, 5, (64, 64, 74, 255))
-    prensa.r(3, 13, 10, 3, cobre_som)
+    prensa.r(0, 0, T, 12, metal)
+    prensa.r(0, 0, T, 3, (170, 170, 180, 255))
+    prensa.r(0, 9, T, 3, (88, 88, 98, 255))
+    prensa.r(5, 12, 8, 8, (96, 96, 106, 255))
+    prensa.r(19, 12, 8, 8, (96, 96, 106, 255))
+    prensa.r(8, 20, 16, 8, (64, 64, 74, 255))
+    prensa.r(8, 20, 16, 2, (110, 110, 120, 255))
+    prensa.r(4, 28, 24, 4, cobre_som)
     tiles.append(prensa)
 
     chimenea = Tile((0, 0, 0, 0))                      # 7 chimenea
-    chimenea.r(3, 4, 10, 12, cobre)
-    chimenea.r(3, 4, 10, 2, cobre_luz)
-    chimenea.r(3, 9, 10, 2, cobre_som)
-    chimenea.r(4, 0, 8, 4, (146, 146, 156, 255))
-    chimenea.r(5, 0, 6, 2, (186, 186, 196, 255))
+    chimenea.r(6, 8, 20, 24, cobre)
+    chimenea.r(6, 8, 20, 3, cobre_luz)
+    chimenea.r(6, 18, 20, 4, cobre_som)
+    chimenea.r(6, 28, 20, 4, cobre_som)
+    chimenea.r(8, 0, 16, 8, (152, 152, 162, 255))
+    chimenea.r(10, 0, 12, 3, (196, 196, 206, 255))
+    chimenea.r(8, 6, 16, 2, (104, 104, 114, 255))
+    for x in (9, 21):
+        chimenea.r(x, 12, 3, 3, verde)
     tiles.append(chimenea)
 
     molde = Tile((0, 0, 0, 0))                         # 8 mesa de moldes
-    molde.r(0, 4, T, 10, (86, 78, 70, 255))
-    molde.r(0, 4, T, 2, (112, 102, 92, 255))
-    molde.r(2, 7, 4, 4, laton)
-    molde.r(9, 7, 4, 4, (156, 132, 68, 255))
-    molde.r(0, 12, T, 2, (62, 56, 50, 255))
+    molde.r(0, 8, T, 20, (90, 82, 72, 255))
+    molde.r(0, 8, T, 3, (118, 108, 96, 255))
+    molde.r(0, 24, T, 4, (64, 58, 52, 255))
+    molde.r(4, 13, 9, 9, laton)
+    molde.r(4, 13, 9, 2, laton_luz)
+    molde.r(18, 13, 9, 9, (160, 134, 70, 255))
+    molde.r(18, 13, 9, 2, (196, 168, 96, 255))
+    molde.r(6, 15, 5, 5, (150, 120, 56, 255))
     tiles.append(molde)
 
-    chatarra = Tile((0, 0, 0, 0))                      # 9 chatarra
-    chatarra.r(1, 9, 7, 5, cobre_som)
-    chatarra.r(8, 7, 6, 7, verde)
-    chatarra.r(4, 6, 5, 4, metal)
-    chatarra.r(4, 6, 5, 1, (166, 166, 176, 255))
-    chatarra.r(2, 13, 12, 2, (66, 62, 58, 255))
-    tiles.append(chatarra)
-
-    return "taller", tiles, base
+    return "taller", tiles
 
 
 # ------------------------------------------------------- armado y salida
@@ -408,69 +502,59 @@ def atlas(tiles):
     return im
 
 
-# Plano de cada cuarto de muestra. Cada caracter es un tile:
-#   #  pared      .  piso        ,  piso variante
-#   Un digito es el indice de ese tile dentro del atlas del escenario.
-# Los objetos van pegados a los muros y agrupados, como en un lugar real,
-# en vez de salpicados al azar.
+# Planos de los cuartos. Cada caracter es un tile:
+#   #  muro    .  piso    ,  piso variante    digito = ese tile del atlas
+# Son mas anchos que altos porque la pantalla del juego es apaisada.
 PLANOS = {
-    # La tienda: vitrinas al fondo, mostrador al centro, aparador a la calle.
     "tienda": [
-        "###############",
-        "#66666...66666#",
-        "#.............#",
-        "#7...........7#",
-        "#.....,,,.....#",
-        "#..555...555..#",
-        "#9....,,,....9#",
-        "#....22222....#",
-        "#####8888######",
+        "#####################",
+        "#5555555...5555555..#",
+        "#...................#",
+        "#6.................6#",
+        "#.......,,,,,.......#",
+        "#...4444.....4444...#",
+        "#8......,,,,,......8#",
+        "#.......22222.......#",
+        "#########7777########",
     ],
-    # La bodega: pasillos entre estantes altos, tarimas y la tina al fondo.
     "bodega": [
-        "###############",
-        "#4444...4444..#",
-        "#.............#",
-        "#...5.....5...#",
-        "#..222...222..#",
-        "#.7.........7.#",
-        "#.....5.......#",
-        "#6..........88#",
-        "###############",
+        "#####################",
+        "#44444....44444.....#",
+        "#...................#",
+        "#..5....7....5....7.#",
+        "#..222222...222222..#",
+        "#...................#",
+        "#.....5.......5.....#",
+        "#6................88#",
+        "#####################",
     ],
-    # La mina: rieles cruzando, vetas que alumbran y el rio al fondo.
     "mina": [
-        "###############",
-        "#77.........77#",
-        "#....2...2....#",
-        "#4...........4#",
-        "#5555555555555#",
-        "#....6........#",
-        "#2..........99#",
-        "#8888.....2...#",
-        "###############",
+        "#####################",
+        "#777...........777..#",
+        "#.....2.....2.......#",
+        "#4.................4#",
+        "#5555555555555555555#",
+        "#.....6........,....#",
+        "#..2...............2#",
+        "#88888.......2......#",
+        "#####################",
     ],
-    # El taller: la banda cruzando, engranes en la pared y las prensas.
     "taller": [
-        "###############",
-        "#5..7777777..5#",
-        "#.............#",
-        "#..44444444...#",
-        "#.............#",
-        "#2222.....2222#",
-        "#8..........8.#",
-        "#9...66666...9#",
-        "###############",
+        "#####################",
+        "#5...77777777....5..#",
+        "#...................#",
+        "#..44444444444......#",
+        "#...................#",
+        "#2222.......2222....#",
+        "#8...............8..#",
+        "#....6666666........#",
+        "#####################",
     ],
 }
 
-RUTA_DIANA = ("C:/Users/uriel/Documents/Empresa UTHH/"
-              "Mes 2 - Proyecto Joyeria Diana Laura/Diana-y-el-Brillo-Perdido/"
-              "sprites/personajes/diseno/00_diana_frames/01.png")
-
 
 def cuarto(nombre, tiles):
-    """Arma el cuarto de muestra y le pone a Diana encima, para la escala."""
+    """Arma el cuarto de muestra y pone a Diana adentro, para la escala."""
     plano = PLANOS[nombre]
     an, al = len(plano[0]), len(plano)
     im = Image.new("RGBA", (an * T, al * T), (0, 0, 0, 0))
@@ -483,56 +567,44 @@ def cuarto(nombre, tiles):
             elif letra == ".":
                 t = tiles[0]
             else:
-                # Debajo de cada objeto va el piso, para que no quede hueco.
                 im.paste(tiles[0].im, (x * T, y * T))
                 t = tiles[int(letra)]
             im.paste(t.im, (x * T, y * T), t.im)
 
-    # Diana al centro: sin una figura conocida no se aprecia el tamano.
     if os.path.exists(RUTA_DIANA):
         d = Image.open(RUTA_DIANA).convert("RGBA")
-        im.paste(d, (im.width // 2 - 16, im.height // 2 - 8), d)
+        im.paste(d, (im.width // 2 - 16, im.height // 2 - 16), d)
     return im
-
-
-TITULOS = {
-    "tienda": "Joyeria Diana Laura",
-    "bodega": "Bodega del Proveedor",
-    "mina": "Mina de Cuarzo",
-    "taller": "Taller de Imitaciones",
-}
 
 
 def main():
     os.makedirs(SALIDA, exist_ok=True)
     previas = []
     for hacer in (tienda, bodega, mina, taller):
-        nombre, tiles, _ = hacer()
+        nombre, tiles = hacer()
         atlas(tiles).save(os.path.join(SALIDA, "tileset_%s.png" % nombre))
 
         vista = cuarto(nombre, tiles)
-        zoom = 3
+        zoom = 2
         g = vista.resize((vista.width * zoom, vista.height * zoom),
                          Image.NEAREST)
-        fondo = Image.new("RGB", (g.width + 20, g.height + 20), (24, 22, 28))
+        fondo = Image.new("RGB", (g.width + 20, g.height + 20), (22, 20, 26))
         fondo.paste(g, (10, 10), g)
         fondo.save(os.path.join(SALIDA, "cuarto_%s.png" % nombre))
-        previas.append((nombre, fondo))
+        previas.append(fondo)
 
-        # El atlas ampliado, para revisarlo tile por tile.
         a = atlas(tiles)
-        z = 8
+        z = 5
         ga = a.resize((a.width * z, a.height * z), Image.NEAREST)
         fa = Image.new("RGB", (ga.width + 20, ga.height + 20), (240, 240, 244))
         fa.paste(ga, (10, 10), ga)
         fa.save(os.path.join(SALIDA, "tileset_%s_grande.png" % nombre))
 
-    # Lamina con los cuatro cuartos, uno debajo de otro.
-    ancho = max(f.width for _, f in previas)
-    alto = sum(f.height for _, f in previas) + 10 * (len(previas) + 1)
-    lam = Image.new("RGB", (ancho, alto), (24, 22, 28))
+    ancho = max(f.width for f in previas)
+    alto = sum(f.height for f in previas) + 10 * (len(previas) + 1)
+    lam = Image.new("RGB", (ancho, alto), (22, 20, 26))
     y = 10
-    for _, f in previas:
+    for f in previas:
         lam.paste(f, (0, y))
         y += f.height + 10
     lam.save(os.path.join(SALIDA, "00_escenarios.png"))
