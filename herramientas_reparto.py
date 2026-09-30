@@ -90,7 +90,7 @@ class Humano:
 
     def __init__(self, pelo, ropa, bajo, piel=PIEL, alto=0, ancho=0,
                  encima=None, debajo=None, sombrero=None, bigote=False,
-                 rubor=None, cara=True):
+                 rubor=None, cara=True, despues=None):
         self.pelo = tonos(pelo)
         self.ropa = tonos(ropa)
         self.bajo = tonos(bajo)
@@ -103,6 +103,7 @@ class Humano:
         self.bigote = bigote
         self.rubor = rubor
         self.cara = cara
+        self.despues = despues
 
     def cabeza(self, l):
         pro, som, base, luz = self.pelo
@@ -179,6 +180,10 @@ class Humano:
         l.im.alpha_composite(cuerpo.im, (0, 0),
                              (0, 1 if fase in (1, 3) else 0, W, H))
         contornear(l)
+        if self.despues:
+            # Se dibuja despues del contorno para que no lleve borde negro:
+            # el humo no tiene silueta definida.
+            self.despues(l, self, fase)
         return l.im
 
 
@@ -249,20 +254,30 @@ def libreta(l, p):
 
 
 def capucha(l, p):
-    """Vendedor de Humo: capucha larga que le tapa la cara. Solo se le
-    ven los ojos brillando dentro de la sombra."""
-    pro, som, base, luz = tonos((126, 126, 136))
+    """Vendedor de Humo: capucha de tela con la cara en sombra.
+
+    La tela lleva pliegues y el borde cae en picos: sin eso, a 32 pixeles
+    una capucha lisa se lee como casco de metal.
+    """
+    pro, som, base, luz = tonos((132, 128, 142))
     d = p.alto
     for y, (a, b) in CRANEO.items():
-        if y <= 14:
+        if y <= 13:
             l.r(a - 1, y + d, b - a + 3, 1, base)
-    l.r(9, 1 + d, 8, 3, luz)
-    l.r(19, 4 + d, 7, 10, som)
-    l.r(10, 8 + d, 12, 6, (42, 42, 50, 255))
+    l.r(9, 1 + d, 7, 3, luz)                   # luz de arriba
+    l.r(20, 3 + d, 6, 10, som)                 # lado en sombra
+    l.r(12, 2 + d, 1, 5, som)                  # pliegues de la tela
+    l.r(17, 3 + d, 1, 4, som)
+    l.r(9, 5 + d, 1, 6, luz)
+
+    l.r(10, 8 + d, 12, 6, (44, 42, 52, 255))   # la cara, en sombra
     for x in (13, 17):
         l.r(x, 10 + d, 2, 2, (250, 232, 140, 255))
-    l.r(6, 14 + d, 20, 2, som)
-    l.r(7, 16 + d, 18, 1, pro)
+
+    # Borde de la capucha: cae parejo sobre los hombros, con su sombra.
+    l.r(6, 13 + d, 20, 2, base)
+    l.r(5, 15 + d, 22, 1, som)
+    l.r(6, 16 + d, 20, 1, pro)
 
 
 def anillo_alborada(l, p):
@@ -274,11 +289,22 @@ def anillo_alborada(l, p):
     l.p(5, 21 + d, BLANCO)
 
 
-def humo_pies(l, p):
-    """Vendedor de Humo: nubes de humo alrededor de los pies."""
-    d = p.alto
-    for x, y, w in ((3, 26, 7), (22, 27, 7), (9, 29, 14)):
-        l.r(x, y + d, w, 2, (178, 178, 188, 255))
+def humo_pies(l, p, fase=0):
+    """Vendedor de Humo: jirones de humo a los costados de los pies.
+
+    Van sueltos y a los lados, nunca formando una franja continua debajo:
+    una franja recta se lee como plataforma. Ademas se pintan despues del
+    contorno, porque el humo no tiene borde.
+    """
+    claro = (214, 214, 222, 255)
+    medio = (176, 176, 188, 255)
+    sube = 1 if fase in (1, 3) else 0
+    jirones = ((3, 26, 3), (26, 25, 2), (5, 29, 2), (24, 28, 3))
+    for x, y, w in jirones:
+        l.r(x, y - sube, w, 2, medio)
+        l.r(x, y - sube, w - 1, 1, claro)
+    l.p(8, 27 - sube, medio)
+    l.p(22, 26 - sube, medio)
 
 
 def copa_abollada(l, p):
@@ -422,10 +448,6 @@ def carbonel(fase):
     l.r(12, t + 5 - izq, 3, 3, (86, 62, 46, 255))
     l.r(17, t + 5 - der, 3, 3, (86, 62, 46, 255))
 
-    l.r(2, t + 3 + balanceo, 5, 6, (110, 104, 96, 255))
-    l.r(3, t + 4 + balanceo, 3, 3, (60, 58, 54, 255))
-    l.r(2, t + 8 + balanceo, 5, 1, (78, 74, 68, 255))
-    l.r(4, t + 1 + balanceo, 1, 2, (110, 104, 96, 255))
     contornear(l)
     return l.im
 
@@ -522,17 +544,17 @@ def baron_completo(l, p):
 def reparto():
     aurelio = Humano(pelo=(228, 224, 222), ropa=(232, 220, 196),
                      bajo=(96, 92, 110), ancho=-1,
-                     sombrero=sombrero_palma, bigote=True, encima=maletin)
+                     sombrero=sombrero_palma, bigote=True)
     chela = Humano(pelo=(214, 210, 208), ropa=(178, 152, 190),
                    bajo=(108, 82, 66), alto=2, cara=False,
-                   sombrero=lentes_grandes, encima=chela_completo)
+                   sombrero=lentes_grandes, encima=rebozo_rosa)
     humo = Humano(pelo=(70, 70, 80), ropa=(112, 112, 122),
                   bajo=(72, 70, 80), piel=(206, 188, 180), cara=False,
-                  sombrero=capucha, debajo=humo_pies, encima=anillo_alborada)
+                  sombrero=capucha, despues=humo_pies)
     baron = Humano(pelo=(96, 88, 78), ropa=(150, 106, 62),
                    bajo=(84, 92, 84), alto=-1, ancho=-2,
                    sombrero=copa_abollada, bigote=True,
-                   debajo=baston_niebla, encima=baron_completo)
+                   encima=baron_completo)
 
     return [
         ("01_quilate_colibri", quilate),
