@@ -13,8 +13,12 @@ const DESTELLO := preload("res://escenas/destello.tscn")
 var _oxido: int = 0
 var _limpio: bool = false
 
-@onready var sprite: Sprite2D = $Sprite
-@onready var textura_limpia: Texture2D = preload("res://sprites/personajes/escarabajo_limpio.png")
+@onready var sprite: AnimatedSprite2D = $Sprite
+@onready var sombra: Sprite2D = $Sombra
+
+## La hoja del escarabajo ya pulido: el mismo dibujo con la paleta cambiada
+## a plata. Los cuadros se arman en codigo para no duplicar la escena.
+const HOJA_LIMPIA := preload("res://sprites/personajes/escarabajo_limpio_caminar.png")
 
 
 func _ready() -> void:
@@ -55,11 +59,26 @@ func _parpadear() -> void:
 	animacion.tween_property(sprite, "modulate", Color.WHITE, 0.12)
 
 
+## Cambia los cuadros por los de la hoja ya pulida, recortandola en cuatro.
+func _ponerse_limpio() -> void:
+	var cuadros := SpriteFrames.new()
+	cuadros.add_animation(&"limpio")
+	cuadros.set_animation_loop(&"limpio", true)
+	cuadros.set_animation_speed(&"limpio", 6.0)
+	for i in 4:
+		var recorte := AtlasTexture.new()
+		recorte.atlas = HOJA_LIMPIA
+		recorte.region = Rect2(i * 32, 0, 32, 32)
+		cuadros.add_frame(&"limpio", recorte)
+	sprite.sprite_frames = cuadros
+	sprite.play(&"limpio")
+
+
 ## Recupera su forma original, suelta un destello y se retira.
 func _quedar_limpio() -> void:
 	_limpio = true
 	velocity = Vector2.ZERO
-	sprite.texture = textura_limpia
+	_ponerse_limpio()
 	set_collision_layer_value(2, false)
 
 	var destello := DESTELLO.instantiate()
@@ -72,5 +91,6 @@ func _quedar_limpio() -> void:
 	salida.set_parallel(true)
 	salida.tween_property(self, "position", position + Vector2(0, -14), 0.8)
 	salida.tween_property(sprite, "modulate:a", 0.0, 0.8)
+	salida.tween_property(sombra, "modulate:a", 0.0, 0.5)
 	await salida.finished
 	queue_free()

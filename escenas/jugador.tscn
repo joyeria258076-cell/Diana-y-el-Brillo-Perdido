@@ -1,11 +1,60 @@
-[gd_scene load_steps=5 format=3]
+[gd_scene load_steps=11 format=3]
 
 [ext_resource type="Script" path="res://scripts/jugador.gd" id="1_script"]
-[ext_resource type="Texture2D" path="res://sprites/personajes/diana.png" id="2_diana"]
-[ext_resource type="Texture2D" path="res://sprites/interfaz/luz.png" id="3_luz"]
+[ext_resource type="Texture2D" path="res://sprites/personajes/diana_caminar.png" id="2_diana"]
+[ext_resource type="Texture2D" path="res://sprites/personajes/sombra.png" id="3_sombra"]
+[ext_resource type="Texture2D" path="res://sprites/interfaz/luz.png" id="4_luz"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d0"]
+atlas = ExtResource("2_diana")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d1"]
+atlas = ExtResource("2_diana")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d2"]
+atlas = ExtResource("2_diana")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d3"]
+atlas = ExtResource("2_diana")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_diana"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d3")
+}],
+"loop": true,
+"name": &"caminar",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d0")
+}],
+"loop": true,
+"name": &"quieta",
+"speed": 1.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sombra"]
+atlas = ExtResource("3_sombra")
+region = Rect2(0, 0, 32, 8)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cuerpo"]
-size = Vector2(12, 7)
+size = Vector2(14, 8)
 
 [node name="Jugador" type="CharacterBody2D"]
 script = ExtResource("1_script")
@@ -13,15 +62,20 @@ script = ExtResource("1_script")
 [node name="Luz" type="PointLight2D" parent="."]
 color = Color(1, 0.94, 0.82, 1)
 energy = 0.9
-texture = ExtResource("3_luz")
-texture_scale = 0.75
+texture = ExtResource("4_luz")
+texture_scale = 1.4
 
-[node name="Sprite" type="Sprite2D" parent="."]
-texture = ExtResource("2_diana")
+[node name="Sombra" type="Sprite2D" parent="."]
+position = Vector2(0, 14)
+texture = SubResource("AtlasTexture_sombra")
+
+[node name="Sprite" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_diana")
+animation = &"quieta"
 
 [node name="Colision" type="CollisionShape2D" parent="."]
-position = Vector2(0, 5)
+position = Vector2(0, 10)
 shape = SubResource("RectangleShape2D_cuerpo")
 
 [node name="Camara" type="Camera2D" parent="."]
-zoom = Vector2(3.5, 3.5)
+zoom = Vector2(2.4, 2.4)

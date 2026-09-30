@@ -1,19 +1,66 @@
-[gd_scene load_steps=4 format=3]
+[gd_scene load_steps=10 format=3]
 
 [ext_resource type="Script" path="res://scripts/escarabajo.gd" id="1_escarabajo"]
-[ext_resource type="Texture2D" path="res://sprites/personajes/escarabajo.png" id="2_sprite"]
+[ext_resource type="Texture2D" path="res://sprites/personajes/escarabajo_caminar.png" id="2_sprite"]
+[ext_resource type="Texture2D" path="res://sprites/personajes/sombra.png" id="3_sombra"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e0"]
+atlas = ExtResource("2_sprite")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e1"]
+atlas = ExtResource("2_sprite")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e2"]
+atlas = ExtResource("2_sprite")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e3"]
+atlas = ExtResource("2_sprite")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_escarabajo"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e3")
+}],
+"loop": true,
+"name": &"caminar",
+"speed": 6.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sombra_e"]
+atlas = ExtResource("3_sombra")
+region = Rect2(0, 0, 32, 8)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_escarabajo"]
-size = Vector2(12, 9)
+size = Vector2(18, 12)
 
 [node name="Escarabajo" type="CharacterBody2D"]
 collision_layer = 2
 collision_mask = 1
 script = ExtResource("1_escarabajo")
 
-[node name="Sprite" type="Sprite2D" parent="."]
-texture = ExtResource("2_sprite")
+[node name="Sombra" type="Sprite2D" parent="."]
+position = Vector2(0, 13)
+texture = SubResource("AtlasTexture_sombra_e")
+
+[node name="Sprite" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_escarabajo")
+animation = &"caminar"
+autoplay = "caminar"
 
 [node name="Colision" type="CollisionShape2D" parent="."]
-position = Vector2(0, 3)
+position = Vector2(0, 4)
 shape = SubResource("RectangleShape2D_escarabajo")

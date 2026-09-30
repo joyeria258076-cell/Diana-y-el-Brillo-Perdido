@@ -18,10 +18,8 @@ var destellos: int = 0
 
 var _brillo: float = 0.0
 var _espera: float = 0.0
-var _paso: float = 0.0
 
-@onready var sprite: Sprite2D = $Sprite
-@onready var _altura_original: float = sprite.position.y
+@onready var sprite: AnimatedSprite2D = $Sprite
 
 
 func _ready() -> void:
@@ -36,7 +34,7 @@ func _physics_process(delta: float) -> void:
 	velocity = direccion * velocidad
 	move_and_slide()
 
-	_animar_caminata(direccion, delta)
+	_animar_caminata(direccion)
 	_voltear_segun_apuntado()
 	_recargar_brillo(delta)
 
@@ -63,17 +61,13 @@ func _quiere_disparar() -> bool:
 	return Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT) or Input.is_key_pressed(KEY_J)
 
 
-## Como el personaje tiene un solo cuadro, la caminata se simula con un rebote
-## y una ligera compresion. Asi se nota que camina sin dibujar mas cuadros.
-func _animar_caminata(direccion: Vector2, delta: float) -> void:
-	if direccion == Vector2.ZERO:
-		_paso = 0.0
-		sprite.position.y = _altura_original
-		sprite.scale = Vector2.ONE
-		return
-	_paso += delta * 11.0
-	sprite.position.y = _altura_original - absf(sin(_paso)) * 1.6
-	sprite.scale = Vector2(1.0 + sin(_paso) * 0.04, 1.0 - sin(_paso) * 0.04)
+## La caminata ya viene dibujada en los cuatro cuadros del sprite, con su
+## rebote incluido. Aqui solo se elige que animacion toca.
+func _animar_caminata(direccion: Vector2) -> void:
+	var quieta := direccion == Vector2.ZERO
+	var toca := &"quieta" if quieta else &"caminar"
+	if sprite.animation != toca:
+		sprite.play(toca)
 
 
 ## El personaje se dibuja en una sola vista de frente y solo se voltea en espejo
