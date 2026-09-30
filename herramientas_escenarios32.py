@@ -14,7 +14,7 @@ y coberturas: un cuarto vacio no se juega.
 """
 import os
 import random
-from PIL import Image
+from PIL import Image, ImageEnhance, ImageFilter
 
 T = 32
 BASE = ("C:/Users/uriel/Downloads/Material videojuego/"
@@ -81,6 +81,8 @@ COLLAR = pieza("item/amulet/cameo_orange.png")
 ORO = pieza("item/gold/gold_pile_10.png") or pieza("item/gold/gold_pile.png")
 REJA = pieza("dungeon/bars_red_1.png")
 FUENTE = pieza("dungeon/blue_fountain.png")
+
+CACHE = {}
 
 PLANOS = {
     # La joyeria: vitrinas al fondo, piezas en exhibicion y la puerta.
@@ -175,8 +177,14 @@ def cuarto(nombre, semilla=20221056):
     an, al = len(plano[0]), len(plano)
     im = Image.new("RGBA", (an * T, al * T), (18, 16, 24, 255))
 
-    pisos = PISOS[nombre] or PISOS["bodega"]
-    muros = MUROS[nombre] or MUROS["bodega"]
+    # Los tiles se aplanan una sola vez por escenario y se guardan, para no
+    # repetir el trabajo en cada cuadro del cuarto.
+    if nombre not in CACHE:
+        # Los muros van con menos colores todavia que el piso: son lo que
+        # mas superficie ocupa y lo que mas se nota si queda ruidoso.
+        CACHE[nombre] = (aplanados(PISOS[nombre] or PISOS["bodega"], 8),
+                         aplanados(MUROS[nombre] or MUROS["bodega"], 5))
+    pisos, muros = CACHE[nombre]
 
     for y in range(al):
         for x in range(an):
@@ -185,12 +193,82 @@ def cuarto(nombre, semilla=20221056):
             else:
                 im.paste(rnd.choice(pisos), (x * T, y * T))
 
+    # Los objetos van en su propia capa: el aplanado es solo para el piso y
+    # los muros. Si se aplanan tambien los objetos, las joyas pierden el
+    # dorado, que es justo lo que hay que ver.
+    capa = Image.new("RGBA", im.size, (0, 0, 0, 0))
     for y, fila in enumerate(plano):
         for x, letra in enumerate(fila):
             p = PIEZAS.get(letra)
             if p is not None:
-                im.alpha_composite(p, (x * T, y * T))
-    return im
+                capa.alpha_composite(p, (x * T, y * T))
+    return im, capa
+
+
+def paleta_comun(tiles, colores):
+    """Saca una paleta unica a partir de todos los tiles del escenario.
+
+    Si se aplana cada tile con su propia paleta, cada cuadro del piso queda
+    con tonos distintos y el cuarto se ve manchado. Con una paleta comun
+    todos comparten los mismos colores y se ve como un solo material.
+    """
+    montaje = Image.new("RGB", (T * len(tiles), T), (0, 0, 0))
+    for i, t in enumerate(tiles):
+        montaje.paste(t.convert("RGB"), (i * T, 0))
+    montaje = montaje.filter(ImageFilter.ModeFilter(3))
+    return montaje.quantize(colors=colores, method=Image.MEDIANCUT,
+                            dither=Image.NONE)
+
+
+def aplanar_tile(t, pal, saturacion=1.2):
+    """Convierte un tile realista en pixel art plano.
+
+    Se hace tile por tile y no sobre el cuarto entero: con el cuarto armado
+    el filtro se corre de un cuadro al vecino y ensucia los bordes.
+
+      1. Filtro de moda: cada pixel toma el color que mas se repite a su
+         alrededor. Borra el ruido y deja manchas parejas.
+      2. Reduccion a la paleta comun: aparecen zonas de color plano en vez
+         de degradados.
+      3. Un poco mas de saturacion, para que no quede apagado.
+    """
+    rgb = t.convert("RGB").filter(ImageFilter.ModeFilter(3))
+    rgb = ImageEnhance.Color(rgb).enhance(saturacion)
+    q = rgb.quantize(palette=pal, dither=Image.NONE).convert("RGBA")
+    q.putalpha(t.getchannel("A"))
+    return q
+
+
+def aplanados(tiles, colores=10):
+    if not tiles:
+        return tiles
+    pal = paleta_comun(tiles, colores)
+    return [aplanar_tile(t, pal) for t in tiles]
+
+
+def aplanar(im, colores=14, saturacion=1.3, brillo=1.1):
+    """Convierte los tiles realistas en pixel art plano.
+
+    Los tiles de Dungeon Crawl estan pintados con mucha textura y cientos de
+    tonos; al lado de los personajes, que son planos y caricaturescos, se
+    ven de otro juego. Aqui se hacen tres cosas:
+
+      1. Filtro de moda: cada pixel toma el color que mas se repite a su
+         alrededor. Eso borra el ruido y deja manchas parejas, que es como
+         se pinta el pixel art a mano.
+      2. Reduccion de paleta: de cientos de tonos a 18. Asi aparecen zonas
+         de color plano en vez de degradados.
+      3. Un poco mas de saturacion y brillo, para que no se vea apagado.
+    """
+    rgb = im.convert("RGB")
+    rgb = rgb.filter(ImageFilter.ModeFilter(5))
+    rgb = ImageEnhance.Color(rgb).enhance(saturacion)
+    rgb = ImageEnhance.Brightness(rgb).enhance(brillo)
+    rgb = rgb.quantize(colors=colores, method=Image.MEDIANCUT,
+                       dither=Image.NONE).convert("RGB")
+    plano = rgb.convert("RGBA")
+    plano.putalpha(im.getchannel("A"))
+    return plano
 
 
 def poblar(im, nombre):
@@ -239,7 +317,8 @@ def main():
     os.makedirs(SALIDA, exist_ok=True)
     previas = []
     for nombre in ("joyeria", "bodega", "mina", "taller"):
-        im = cuarto(nombre)
+        im, objetos = cuarto(nombre)
+        im.alpha_composite(objetos)
         im = poblar(im, nombre)
         fuerza, focos = LUZ[nombre]
         im = penumbra(im, focos, fuerza)
