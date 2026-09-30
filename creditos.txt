@@ -81,3 +81,28 @@ el resto del juego.
 
 Los personajes siguen siendo dibujo propio: herramientas_diana16.py y
 herramientas_reparto16.py los generan pixel por pixel.
+
+--------------------------------------------------------------------
+VUELTA A 32x32 (30 sep 2026)
+--------------------------------------------------------------------
+Se probo bajar todo a 16x16 y no convencio: los personajes perdian los
+brazos y el detalle que si tenian a 32. La salida fue la contraria:
+mantener los personajes de 32x32 y armar los escenarios tambien a 32.
+
+Dungeon Crawl Stone Soup cumple las dos condiciones: sus tiles son de
+32x32 y es CC0, asi que el juego se puede publicar. Trae 457 pisos y
+368 muros, mas piezas sueltas de joyeria (anillos, collares, montones
+de oro) y un tile de tienda de joyeria.
+
+  - Dungeon Crawl Stone Soup. CC0 1.0.
+    https://opengameart.org/content/dungeon-crawl-32x32-tiles
+
+Escenarios y que se uso en cada uno:
+  Joyeria - piso de marmol blanco, muro de ladrillo, vitrinas con
+            anillos y collares, cofre y puerta.
+  Bodega  - piso de piedra cafe, muro oscuro, cajas grandes apiladas.
+  Mina    - piso de cristal, muro de roca cobalto, rocas y fuentes.
+  Taller  - piso volcanico, muro de piedra oscura, rejas y cajas.
+
+Quedan como material descartado las versiones de 16x16 en
+sprites/personajes/diseno16 y sprites/escenarios/diseno16.
