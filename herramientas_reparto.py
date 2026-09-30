@@ -189,6 +189,38 @@ class Humano:
 
 # ------------------------------------------------- accesorios por ficha
 
+def cara_mayor(l, p):
+    """Rasgos de persona mayor: cejas pobladas, arrugas y mejillas hundidas.
+    Sin esto, un abuelo y un joven se ven iguales a 32 pixeles."""
+    d = p.alto
+    pro, som, base, luz = p.pelo
+    l.r(11, 8 + d, 4, 1, luz)                  # cejas
+    l.r(18, 8 + d, 4, 1, luz)
+    l.r(10, 13 + d, 2, 1, PIEL_PRO)            # arrugas de los pomulos
+    l.r(20, 13 + d, 2, 1, PIEL_PRO)
+    l.r(12, 7 + d, 3, 1, PIEL_SOM)             # linea de la frente
+    l.r(18, 7 + d, 3, 1, PIEL_SOM)
+
+
+def camisa_arremangada(l, p):
+    """Don Aurelio: camisa de manga larga arremangada hasta el codo, con
+    cuello, botones y el cinturon."""
+    pro, som, base, luz = p.ropa
+    d = p.alto
+    l.r(14, 16 + d, 1, 6, som)                 # botonadura
+    for y in (18, 20, 22):
+        l.p(14, y + d, ORO_PRO)
+    l.r(12, 16 + d, 2, 2, luz)                 # cuello
+    l.r(16, 16 + d, 2, 2, som)
+    l.r(9, 21 + d, 14, 2, (108, 78, 54, 255))  # cinturon
+    l.r(14, 21 + d, 3, 2, ORO_PRO)             # hebilla
+    l.r(10, 19 + d, 1, 3, som)                 # pliegues
+    l.r(20, 18 + d, 1, 4, som)
+    for x in (6, 23):                          # dobleces de las mangas
+        l.r(x, 19 + d, 3, 1, luz)
+        l.r(x, 20 + d, 3, 1, som)
+
+
 def sombrero_palma(l, p):
     """Don Aurelio: sombrero de palma de ala ancha."""
     paja_pro, paja_som, paja, paja_luz = tonos((206, 176, 112))
@@ -199,7 +231,13 @@ def sombrero_palma(l, p):
     l.r(9, 0 + d, 14, 1, paja_som)
     l.r(9, 1 + d, 7, 2, paja_luz)
     l.r(8, 4 + d, 16, 1, paja_pro)
-    l.r(8, 3 + d, 16, 1, (118, 86, 58, 255))
+    l.r(8, 3 + d, 16, 1, (118, 86, 58, 255))   # cinta
+    # Trenzado de la palma: rayitas alternadas en la copa y el ala.
+    for x in range(9, 23, 3):
+        l.p(x, 2 + d, paja_pro)
+        l.p(x + 1, 5 + d, paja_pro)
+    for x in range(4, 28, 3):
+        l.p(x, 6 + d, paja_pro)
 
 
 def maletin(l, p):
@@ -229,6 +267,33 @@ def lentes_grandes(l, p):
     l.r(15, 14 + d, 2, 1, (170, 92, 100, 255))
     l.r(8, 12 + d, 2, 2, (232, 156, 152, 255))
     l.r(23, 12 + d, 2, 2, (232, 156, 152, 255))
+    l.r(10, 15 + d, 3, 1, PIEL_PRO)              # arrugas
+    l.r(19, 15 + d, 3, 1, PIEL_PRO)
+    l.r(13, 7 + d, 3, 1, PIEL_SOM)
+
+
+def blusa_bordada(l, p):
+    """Dona Chela: blusa con flores bordadas, como las de la region."""
+    pro, som, base, luz = p.ropa
+    d = p.alto
+    for x, y, c in ((11, 19, (226, 112, 128, 255)),
+                    (15, 21, (240, 196, 92, 255)),
+                    (19, 19, (140, 186, 150, 255))):
+        l.r(x, y + d, 3, 3, c)
+        l.p(x + 1, y + 1 + d, (250, 244, 232, 255))
+        l.p(x + 1, y + d, c)
+    l.r(10, 22 + d, 12, 1, som)
+
+
+def trenza(l, p):
+    """Dona Chela: el cabello canoso recogido en trenza, cayendo de un lado."""
+    pro, som, base, luz = p.pelo
+    d = p.alto
+    for i, y in enumerate(range(13, 25, 3)):
+        x = 24 if i % 2 == 0 else 25
+        l.r(x, y + d, 3, 3, base if i % 2 == 0 else som)
+        l.p(x, y + d, luz)
+    l.r(25, 25 + d, 2, 1, (216, 132, 150, 255))   # liston
 
 
 def rebozo_rosa(l, p):
@@ -239,8 +304,13 @@ def rebozo_rosa(l, p):
     l.r(7, 19 + d, 3, 6, som)
     l.r(22, 19 + d, 3, 6, pro)
     l.r(8, 16 + d, 6, 1, luz)
-    for x in range(8, 24, 3):
+    # Franjas tejidas del rebozo y los flecos de la orilla.
+    for y in (17, 19):
+        for x in range(8, 24, 2):
+            l.p(x, y + d, luz)
+    for x in range(8, 24, 2):
         l.p(x, 20 + d, pro)
+        l.p(x, 21 + d, som)
 
 
 def libreta(l, p):
@@ -278,6 +348,32 @@ def capucha(l, p):
     l.r(6, 13 + d, 20, 2, base)
     l.r(5, 15 + d, 22, 1, som)
     l.r(6, 16 + d, 20, 1, pro)
+    # Pliegues de la tela que cuelga, y el cordon del cuello.
+    for x in (8, 12, 19, 23):
+        l.r(x, 14 + d, 1, 2, som)
+    l.r(11, 16 + d, 10, 1, (98, 94, 108, 255))
+    l.p(15, 17 + d, (172, 168, 182, 255))
+
+
+def tunica(l, p):
+    """Vendedor de Humo: tunica larga con pliegues y los bordes deshilachados.
+    La tela cae hasta los pies, por eso casi no se le ven las piernas."""
+    pro, som, base, luz = p.ropa
+    d = p.alto
+    # La tunica se dibuja fila por fila: angosta en los hombros y mas
+    # ancha abajo. Un rectangulo se lee como monolito, no como tela.
+    silueta = ((10, 21), (9, 22), (9, 22), (8, 23), (8, 23), (7, 24),
+               (7, 24), (6, 25), (6, 25), (5, 26), (5, 26))
+    for i, (a, b) in enumerate(silueta):
+        y = 17 + d + i
+        l.r(a, y, b - a + 1, 1, base)
+        l.r(a, y, 2, 1, luz)
+        l.r(b - 1, y, 2, 1, pro)
+    for x in (12, 16, 20):                      # pliegues verticales
+        l.r(x, 19 + d, 1, 8, som)
+    # Orilla deshilachada, en picos desiguales.
+    for i, x in enumerate(range(5, 27, 3)):
+        l.r(x, 28 + d, 2, 1 + (i % 2), pro)
 
 
 def anillo_alborada(l, p):
@@ -356,8 +452,19 @@ def abrigo_cobre(l, p):
     l.r(20, 17 + d, 3, 11, pro)
     l.r(12, 16 + d, 3, 6, som)
     l.r(17, 16 + d, 3, 6, pro)
-    for x, y in ((10, 22), (19, 20), (14, 26), (20, 24)):
-        l.r(x, y + d, 2, 2, verde)
+    # Chaleco y corbatin: es un villano elegante, no un vagabundo.
+    l.r(13, 16 + d, 6, 8, (74, 66, 58, 255))
+    l.r(13, 16 + d, 6, 1, (98, 88, 76, 255))
+    l.r(15, 16 + d, 2, 2, (146, 44, 56, 255))      # corbatin
+    l.p(15, 17 + d, (190, 72, 84, 255))
+    for y in (19, 21, 23):                          # botones dorados
+        l.p(16, y + d, (226, 172, 56, 255))
+    # Faldones del abrigo, abiertos abajo.
+    l.r(9, 26 + d, 4, 3, pro)
+    l.r(19, 26 + d, 4, 3, pro)
+    for x, y in ((10, 22), (19, 20), (14, 27), (21, 24), (11, 19)):
+        l.r(x, y + d, 2, 2, verde)                  # manchas de oxido
+        l.p(x, y + d, (132, 162, 130, 255))
 
 
 # ------------------------------------------------------------ no humanos
@@ -388,11 +495,21 @@ def quilate(fase):
                                 (13, 18), (14, 17))):
         l.r(a, y + i, b - a + 1, 1, base)
     l.r(13, y + 1, 2, 3, luz)
-    l.r(14, y + 2, 4, 3, rubi)
+    l.r(14, y + 2, 4, 3, rubi)                 # pecho rubi
     l.r(14, y + 4, 4, 1, rubi_som)
     l.p(14, y + 2, rubi_luz)
-    l.r(14, y + 6, 3, 3, som)
-    l.r(15, y + 9, 2, 2, pro)
+    l.p(17, y + 3, rubi_pro)
+    # Plumas del lomo: rayitas alternadas, no un bloque liso.
+    for i, yy in enumerate((y + 1, y + 3, y + 5)):
+        l.p(12 + (i % 2), yy, som)
+        l.p(18 - (i % 2), yy, pro)
+    # Cola en forma de gema facetada, que es como la describe la ficha.
+    l.r(14, y + 6, 4, 2, som)
+    l.r(13, y + 8, 6, 2, base)
+    l.r(14, y + 10, 4, 2, som)
+    l.r(15, y + 12, 2, 1, pro)
+    l.p(14, y + 8, luz)
+    l.p(17, y + 9, pro)
 
     l.r(12, y - 6, 8, 6, base)
     l.r(13, y - 7, 6, 1, base)
@@ -400,6 +517,9 @@ def quilate(fase):
     l.r(18, y - 5, 2, 4, som)
     l.r(14, y - 4, 3, 3, OJO)
     l.p(14, y - 4, BLANCO)
+    l.p(16, y - 2, BLANCO)                     # segundo brillo del ojo
+    l.r(12, y - 2, 2, 1, som)                  # mejilla
+    l.p(13, y - 6, luz)
     l.r(20, y - 3, 7, 1, (64, 54, 50, 255))
     l.r(20, y - 2, 4, 1, (48, 40, 38, 255))
     contornear(l)
@@ -435,18 +555,32 @@ def carbonel(fase):
         l.r(x, y + 2, 2, 2, BLANCO)
         l.p(x + 1, y + 4, (250, 236, 170, 255))
     l.r(14, y + 7, 4, 1, pro)
+    l.r(9, y + 2, 2, 2, PIEL_PRO)              # cejas pobladas
+    l.r(21, y + 2, 2, 2, PIEL_PRO)
 
     t = y + 9
     l.r(11, t, 10, 5, tela)
     l.r(11, t + 3, 10, 2, tsom)
     l.r(12, t + 1, 2, 2, tluz)
-    l.r(17, t + 1, 2, 2, tpro)
+    l.r(17, t + 1, 2, 2, tpro)                 # remiendo
+    for x in (17, 19):                          # puntadas del remiendo
+        l.p(x, t, (206, 206, 186, 255))
+        l.p(x, t + 3, (206, 206, 186, 255))
+    l.r(11, t + 3, 10, 1, (86, 70, 54, 255))   # cinturon
+    l.r(15, t + 3, 2, 1, (198, 170, 90, 255))  # hebilla
     balanceo = (0, -1, 0, 1)[fase]
     l.r(8, t + 1 + balanceo, 3, 3, base)
     l.r(21, t + 1 - balanceo, 3, 3, som)
     izq, der = ((0, 0), (1, 0), (0, 0), (0, 1))[fase]
     l.r(12, t + 5 - izq, 3, 3, (86, 62, 46, 255))
     l.r(17, t + 5 - der, 3, 3, (86, 62, 46, 255))
+
+    # Barba larga, encima del cuerpo: es lo que le da edad al duende.
+    l.r(11, y + 8, 10, 3, (198, 200, 206, 255))
+    l.r(12, y + 11, 8, 2, (168, 170, 178, 255))
+    l.r(14, y + 13, 4, 2, (198, 200, 206, 255))
+    l.r(12, y + 8, 4, 1, (228, 230, 234, 255))
+    l.p(13, y + 12, (228, 230, 234, 255))
 
     contornear(l)
     return l.im
@@ -479,9 +613,19 @@ def escarabajo(fase):
     for x, yy in ((11, y + 3), (19, y + 5), (13, y + 7), (20, y + 2)):
         l.r(x, yy, 2, 2, verde)
 
+    # Linea de union de los elitros y su brillo.
+    l.r(10, y + 1, 2, 1, luz)
+    l.r(20, y + 3, 2, 1, luz)
+    l.r(14, y + 1, 1, 9, pro)
+    l.r(17, y + 1, 1, 9, pro)
+
     l.r(12, y - 3, 8, 4, negro)
     l.r(13, y - 2, 2, 2, (250, 140, 90, 255))
     l.r(17, y - 2, 2, 2, (250, 140, 90, 255))
+    l.p(13, y - 2, (255, 210, 160, 255))
+    l.p(17, y - 2, (255, 210, 160, 255))
+    l.r(13, y + 1, 2, 1, pro)                  # mandibulas
+    l.r(17, y + 1, 2, 1, pro)
     l.r(11, y - 6, 1, 3, negro)
     l.r(20, y - 6, 1, 3, negro)
     l.r(10, y - 7, 2, 1, negro)
@@ -506,12 +650,25 @@ def polilla(fase):
         l.r(13 - largo, yy, largo, 1, color)
         l.r(19, yy, largo, 1, color)
     if abierta:
-        l.r(7, y - 2, 2, 2, pro)
-        l.r(23, y - 2, 2, 2, pro)
+        # Ojos falsos de las alas y el patron de manchas: es lo que hace
+        # que se lea como polilla y no como un pajaro gris.
+        for lado, cx in ((-1, 7), (1, 23)):
+            l.r(cx, y - 3, 3, 3, pro)
+            l.r(cx + 1, y - 2, 1, 1, (232, 228, 220, 255))
+            l.r(cx - lado, y + 1, 2, 1, som)
+        for x in (5, 10, 22, 27):
+            l.p(x, y - 4, som)
+            l.p(x, y + 2, som)
+    else:
+        l.r(9, y - 2, 2, 2, pro)
+        l.r(21, y - 2, 2, 2, pro)
 
     l.r(13, y - 6, 6, 14, cuerpo)
     l.r(13, y + 5, 6, 3, (64, 60, 56, 255))
     l.r(14, y - 5, 2, 5, (132, 126, 120, 255))
+    # Pelusa del torax: pixeles sueltos saliendo del contorno.
+    for x, yy in ((12, y - 5), (19, y - 4), (12, y - 3), (19, y - 6)):
+        l.p(x, yy, (146, 140, 132, 255))
     for yy in (y - 1, y + 2, y + 5):
         l.r(13, yy, 6, 1, (72, 68, 64, 255))
     l.r(14, y - 5, 2, 2, (250, 140, 90, 255))
@@ -529,10 +686,17 @@ def polilla(fase):
 
 # ------------------------------------------------------------- el reparto
 
+def aurelio_completo(l, p):
+    """Camisa y cinturon primero, las arrugas van con la cara."""
+    camisa_arremangada(l, p)
+
+
 def chela_completo(l, p):
-    """El rebozo va encima de la blusa, y la libreta encima de todo."""
+    """Primero el bordado de la blusa, luego el rebozo encima y al final
+    la trenza, que cae sobre los dos."""
+    blusa_bordada(l, p)
     rebozo_rosa(l, p)
-    libreta(l, p)
+    trenza(l, p)
 
 
 def baron_completo(l, p):
@@ -544,13 +708,14 @@ def baron_completo(l, p):
 def reparto():
     aurelio = Humano(pelo=(228, 224, 222), ropa=(232, 220, 196),
                      bajo=(96, 92, 110), ancho=-1,
-                     sombrero=sombrero_palma, bigote=True)
+                     sombrero=sombrero_palma, bigote=True,
+                     encima=camisa_arremangada)
     chela = Humano(pelo=(214, 210, 208), ropa=(178, 152, 190),
                    bajo=(108, 82, 66), alto=2, cara=False,
-                   sombrero=lentes_grandes, encima=rebozo_rosa)
+                   sombrero=lentes_grandes, encima=chela_completo)
     humo = Humano(pelo=(70, 70, 80), ropa=(112, 112, 122),
                   bajo=(72, 70, 80), piel=(206, 188, 180), cara=False,
-                  sombrero=capucha, despues=humo_pies)
+                  sombrero=capucha, encima=tunica, despues=humo_pies)
     baron = Humano(pelo=(96, 88, 78), ropa=(150, 106, 62),
                    bajo=(84, 92, 84), alto=-1, ancho=-2,
                    sombrero=copa_abollada, bigote=True,
