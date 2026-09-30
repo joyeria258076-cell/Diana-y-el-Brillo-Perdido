@@ -58,3 +58,26 @@ Personajes y escenarios de Diana y el Brillo Perdido: dibujados para
 este proyecto, pixel por pixel. Los guiones que los generan estan en
 herramientas_diana.py, herramientas_reparto.py y
 herramientas_escenarios.py.
+
+--------------------------------------------------------------------
+PASO A 16x16 (30 sep 2026)
+--------------------------------------------------------------------
+Se bajo toda la densidad de pixel: personajes de 16x28 y tiles de 16x16.
+El motivo: los personajes de 32x32 tenian pixel fino y los tilesets pixel
+gordo, y al juntarlos el personaje se veia de otra resolucion, pegado
+encima del cuarto en vez de dentro.
+
+Material usado en los escenarios, todo CC0:
+  - DungeonTileset II (0x72): pisos, muros altos de 16x32, cajas,
+    columnas, agujeros, cofres, escaleras y puertas.
+    https://0x72.itch.io/dungeontileset-ii
+  - Roguelike Indoors (Kenney): muebles de la joyeria y aparatos que
+    hacen de maquinaria en el taller.
+    https://kenney.nl/assets/roguelike-indoors
+
+Descartado: 16x16 Industrial Tileset (0x72). Es CC0 y sirve, pero su
+paleta es de ciencia ficcion (azul oscuro y rosa neon) y desentonaba con
+el resto del juego.
+
+Los personajes siguen siendo dibujo propio: herramientas_diana16.py y
+herramientas_reparto16.py los generan pixel por pixel.
