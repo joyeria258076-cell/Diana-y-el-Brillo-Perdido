@@ -1,81 +1,59 @@
-[gd_scene load_steps=11 format=3]
+[gd_scene load_steps=7 format=3]
 
 [ext_resource type="Script" path="res://scripts/jugador.gd" id="1_script"]
-[ext_resource type="Texture2D" path="res://sprites/personajes/diana_caminar.png" id="2_diana"]
-[ext_resource type="Texture2D" path="res://sprites/personajes/sombra.png" id="3_sombra"]
-[ext_resource type="Texture2D" path="res://sprites/interfaz/luz.png" id="4_luz"]
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_d0"]
-atlas = ExtResource("2_diana")
-region = Rect2(0, 0, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_d1"]
-atlas = ExtResource("2_diana")
-region = Rect2(32, 0, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_d2"]
-atlas = ExtResource("2_diana")
-region = Rect2(64, 0, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_d3"]
-atlas = ExtResource("2_diana")
-region = Rect2(96, 0, 32, 32)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_diana"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_d0")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_d1")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_d2")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_d3")
-}],
-"loop": true,
-"name": &"caminar",
-"speed": 8.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_d0")
-}],
-"loop": true,
-"name": &"quieta",
-"speed": 1.0
-}]
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_sombra"]
-atlas = ExtResource("3_sombra")
-region = Rect2(0, 0, 32, 8)
+[ext_resource type="Texture2D" path="res://sprites/personajes/diana.png" id="2_diana"]
+[ext_resource type="Texture2D" path="res://sprites/interfaz/luz.png" id="3_luz"]
+[ext_resource type="Texture2D" path="res://sprites/interfaz/lupa.png" id="4_lupa"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cuerpo"]
-size = Vector2(14, 8)
+size = Vector2(26, 18)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_charla"]
+radius = 70.0
 
 [node name="Jugador" type="CharacterBody2D"]
+collision_layer = 1
+collision_mask = 0
 script = ExtResource("1_script")
 
 [node name="Luz" type="PointLight2D" parent="."]
-color = Color(1, 0.94, 0.82, 1)
-energy = 0.9
-texture = ExtResource("4_luz")
-texture_scale = 1.4
+position = Vector2(0, -16)
+color = Color(1, 0.95, 0.84, 1)
+energy = 0.75
+texture = ExtResource("3_luz")
+texture_scale = 2.6
 
 [node name="Sombra" type="Sprite2D" parent="."]
-position = Vector2(0, 14)
-texture = SubResource("AtlasTexture_sombra")
+position = Vector2(0, 46)
+scale = Vector2(0.95, 0.4)
+self_modulate = Color(0, 0, 0, 0.42)
+texture = ExtResource("3_luz")
 
-[node name="Sprite" type="AnimatedSprite2D" parent="."]
-sprite_frames = SubResource("SpriteFrames_diana")
-animation = &"quieta"
+[node name="Sprite" type="Sprite2D" parent="."]
+texture = ExtResource("2_diana")
+offset = Vector2(0, -52)
+
+[node name="Lupa" type="Node2D" parent="."]
+position = Vector2(0, -24)
+z_index = 2
+
+[node name="Mango" type="Sprite2D" parent="Lupa"]
+position = Vector2(22, 0)
+scale = Vector2(0.9, 0.9)
+texture = ExtResource("4_lupa")
 
 [node name="Colision" type="CollisionShape2D" parent="."]
-position = Vector2(0, 10)
+position = Vector2(0, 36)
 shape = SubResource("RectangleShape2D_cuerpo")
 
+[node name="Charla" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 0
+
+[node name="FormaCharla" type="CollisionShape2D" parent="Charla"]
+shape = SubResource("CircleShape2D_charla")
+
 [node name="Camara" type="Camera2D" parent="."]
-zoom = Vector2(2.4, 2.4)
+zoom = Vector2(1.6, 1.6)
+position_smoothing_enabled = true
+position_smoothing_speed = 7.0

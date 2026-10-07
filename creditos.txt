@@ -106,3 +106,19 @@ Escenarios y que se uso en cada uno:
 
 Quedan como material descartado las versiones de 16x16 en
 sprites/personajes/diseno16 y sprites/escenarios/diseno16.
+
+--------------------------------------------------------------------
+ARTE FINAL DEL JUEGO (7 oct 2026)
+--------------------------------------------------------------------
+Los personajes y los nueve cuartos que usa el juego son imagenes
+generadas con Gemini a partir de las fichas del libreto, aportadas por
+los autores del proyecto. Se procesaron para el juego con los guiones
+herramientas_preparar_arte.py (quitar el fondo y recortar) y
+herramientas_escalar_arte.py (dejarlos al tamano de juego).
+
+Esto hay que declararlo en el documento de la materia: el diseno y las
+fichas son propios, pero el trazo final es asistido por IA.
+
+Quedaron fuera los tilesets que se habian usado antes (Dungeon Crawl,
+Kenney, DungeonTileset II): el juego ya no los carga. Sus licencias CC0
+se dejan anotadas arriba por si se retoman.
