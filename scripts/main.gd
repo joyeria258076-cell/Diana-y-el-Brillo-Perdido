@@ -1241,9 +1241,9 @@ func _poner_pared() -> void:
 	var usados: Array = []
 	var nombres: Array = PARED_COLGADAS + PARED_PISO
 	if nivel == 2:
-		nombres = ["grieta", "gema", "cadenas", "runas", "huesos"]   # mina: nada de cuadros ni vitrinas
+		nombres = ["gema", "cadenas", "runas", "huesos"]   # mina: nada de cuadros ni vitrinas
 	elif nivel == 3:
-		nombres = ["grieta", "cadenas", "barrotes", "repisa", "hueco_tablas"]   # taller
+		nombres = ["cadenas", "barrotes", "repisa", "hueco_tablas"]   # taller (sin grieta: se veía pegada)
 	nombres.shuffle()
 	var cuantas := randi_range(2, 3)
 	var intentos := 0
