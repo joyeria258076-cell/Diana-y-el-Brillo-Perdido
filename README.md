@@ -36,6 +36,7 @@ Cada nivel tiene nueve cuartos, sus propios enemigos y cinco gemas ocultas. Hay 
 | Shift / clic derecho | impulso (esquivar) |
 | Q | cambiar de objeto |
 | F | recoger, abrir |
+| E | Destello de joyera (gasta el brillo y daña a los enemigos cercanos) |
 | Esc / P | pausa |
 | F11 | pantalla completa |
 | M | silenciar |

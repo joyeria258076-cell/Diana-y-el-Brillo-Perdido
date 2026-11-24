@@ -31,6 +31,10 @@ var armas: Array = []  # empieza sin objeto: lo escoge en el mostrador del inici
 var actual := 0
 var mano: Node2D
 var _q := false
+var _e := false
+var destello_cd := 0.0             # recarga del Destello de joyera (tecla E)
+const RECARGA_DESTELLO := 10.0
+const RADIO_DESTELLO := 200.0
 var _f := false
 var vel := Vector2.ZERO
 var impulso_t := 0.0       # tiempo que le queda al impulso
@@ -396,6 +400,11 @@ func _physics_process(delta: float) -> void:
 		Juego.sonido("mover", false)
 		main.cambio_t = 1.2
 	_q = q
+	destello_cd = maxf(destello_cd - delta, 0.0)
+	var tecla_e := Input.is_physical_key_pressed(KEY_E)
+	if tecla_e and not _e:
+		destello_joyera()
+	_e = tecla_e
 	var f := Input.is_physical_key_pressed(KEY_F)
 	if f and not _f:
 		_usar_cercano()
@@ -1242,3 +1251,112 @@ class Particulas extends Node2D:
 				continue
 			_tex("chispa", int(tt2 / 0.35 * 10.0), ti.p)
 
+
+# ---------- Destello de joyera (tecla E) ----------
+# Gasta todo el brillo y suelta una explosión de luz alrededor de Diana: pule a todos los
+# enemigos cercanos (más daño cuanto más brillo tenía), los empuja y rompe los muebles.
+func destello_joyera() -> void:
+	if destello_cd > 0.0:
+		main.mensaje("El Destello de joyera se recarga en %d s." % ceili(destello_cd), 1.2)
+		return
+	if energia < 40.0:
+		main.sin_brillo_t = 0.6
+		main.mensaje("Necesitas al menos 40 de brillo para el Destello de joyera.", 1.5)
+		return
+	var gastado := energia
+	if not main.PRUEBAS:
+		energia = 0.0
+	sin_usar = 0.0
+	destello_cd = RECARGA_DESTELLO
+	var dano := 4 + int(gastado / 20.0)   # con la barra llena: 9
+	var centro := position + Vector2(0, -18)
+	_accion("energia")
+	Juego.sonido("oleada", false, -2.0)
+	Juego.sonido("disparo_destello", false, 2.0)
+	# 1) Carga: la luz se junta en Diana (anillo que se cierra y chispas que llegan).
+	var carga := _Carga.new()
+	carga.position = centro
+	carga.z_index = 30
+	main.mundo.add_child(carga)
+	main.pausa_impacto(0.05)
+	await get_tree().create_timer(0.22).timeout
+	if not is_instance_valid(main) or main.fin:
+		return
+	# 2) Estallido: destello, doble onda, rayos, flash de pantalla y temblor.
+	Fx.destello_joyera(main, centro)
+	var rayos := _Rayos.new()
+	rayos.position = centro
+	rayos.z_index = 29
+	main.mundo.add_child(rayos)
+	_flash_pantalla()
+	main.sacudir(9.0)
+	main.pausa_impacto(0.09)
+	Juego.sonido("victoria", false, -10.0)
+	for e in main.enemigos():
+		var d: Vector2 = e.position - position
+		if d.length() < RADIO_DESTELLO + e.radio:
+			e.danar(dano, d.normalized(), true)
+			Fx.chispas(main.mundo, e.position + Vector2(0, -e.alto * 0.5), Color(1.0, 0.6, 0.85), 10)
+	for r in main.rompibles():
+		if r.position.distance_to(position) < RADIO_DESTELLO * 0.8:
+			r.golpear()
+	# 3) Eco: una segunda onda más suave un instante después.
+	await get_tree().create_timer(0.16).timeout
+	if is_instance_valid(main) and not main.fin:
+		Fx.estallido(main.mundo, centro, Color(1.0, 0.85, 0.5, 0.7))
+		Fx.chispas(main.mundo, centro, Color(1.0, 0.9, 0.6), 18)
+
+# Pantalla que se pone blanca-rosa un instante.
+func _flash_pantalla() -> void:
+	var capa := CanvasLayer.new()
+	capa.layer = 5
+	var rect := ColorRect.new()
+	rect.set_anchors_preset(Control.PRESET_FULL_RECT)
+	rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	rect.color = Color(1.0, 0.85, 0.92, 0.55)
+	capa.add_child(rect)
+	main.add_child(capa)
+	var tw := rect.create_tween()
+	tw.tween_property(rect, "color:a", 0.0, 0.35).set_ease(Tween.EASE_OUT)
+	tw.tween_callback(capa.queue_free)
+
+# Carga: un anillo rosa que se cierra sobre Diana con chispas que llegan desde afuera.
+class _Carga extends Node2D:
+	var t := 0.0
+	const DURA := 0.24
+	func _process(delta: float) -> void:
+		t += delta
+		if t > DURA:
+			queue_free()
+		queue_redraw()
+	func _draw() -> void:
+		var k := t / DURA
+		var r := lerpf(120.0, 8.0, k * k)
+		draw_set_transform(Vector2.ZERO, 0, Vector2(1, 0.62))
+		draw_arc(Vector2.ZERO, r, 0, TAU, 40, Color(1.0, 0.55, 0.8, 0.4 + 0.6 * k), 3.0)
+		draw_arc(Vector2.ZERO, r * 0.7, 0, TAU, 32, Color(1, 1, 1, 0.3 + 0.5 * k), 1.5)
+		draw_set_transform(Vector2.ZERO)
+		for i in 10:
+			var a := TAU * i / 10.0 + t * 6.0
+			var p := Vector2.RIGHT.rotated(a) * r * 1.1
+			Ui.estrella(self, p, 1.5 + 1.5 * k, Color(1.0, 0.85, 0.95, k))
+		draw_circle(Vector2.ZERO, 6.0 + 10.0 * k, Color(1, 1, 1, 0.5 * k))
+
+# Rayos de luz que salen girando del centro y se desvanecen.
+class _Rayos extends Node2D:
+	var t := 0.0
+	const DURA := 0.5
+	func _process(delta: float) -> void:
+		t += delta
+		if t > DURA:
+			queue_free()
+		queue_redraw()
+	func _draw() -> void:
+		var k := t / DURA
+		var largo := lerpf(40.0, 230.0, 1.0 - pow(1.0 - k, 3.0))
+		for i in 12:
+			var a := TAU * i / 12.0 + k * 0.6
+			var v := Vector2.RIGHT.rotated(a)
+			var ancho := (6.0 if i % 2 == 0 else 3.0) * (1.0 - k)
+			var col := Color(1.0, 0.9, 0.6, 0.8 * (1.0 - k)) if i % 2 == 0 else Color(1.0, 0.6, 0.85, 0.7 * (1.0 - k))
+			draw_line(Vector2(v.x, v.y * 0.62) * 14.0, Vector2(v.x, v.y * 0.62) * largo, col, ancho)

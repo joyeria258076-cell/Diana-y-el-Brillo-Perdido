@@ -174,6 +174,7 @@ func _draw() -> void:
 	_minimapa(Vector2(790, 70))
 	_armas(p)
 	_esquive(p)
+	_boton_destello(p)
 	_cambio(p)
 	# Tinte dorado al limpiar un cuarto.
 	if main.tinte_t > 0.0:
@@ -460,3 +461,26 @@ func _vecino_visitado(id: String) -> bool:
 		if main.visitados.has(main.GRAFO[id][dir]):
 			return true
 	return false
+
+
+# Botón del Destello de joyera (E): gema rosa que late cuando está lista; mientras recarga
+# se ve apagada con un arco que se llena. Si no alcanza el brillo, la gema queda gris.
+func _boton_destello(p) -> void:
+	var c := Vector2(684, 500)
+	var t := Time.get_ticks_msec() / 1000.0
+	var listo: bool = p.destello_cd <= 0.0
+	var alcanza: bool = p.energia >= 40.0
+	draw_circle(c, 20.0, Color(0.1, 0.04, 0.1, 0.9))
+	draw_arc(c, 20.0, 0, TAU, 32, Color(0.85, 0.6, 0.5), 2.0)
+	var col := Color(1.0, 0.5, 0.78) if listo and alcanza else Color(0.45, 0.4, 0.48)
+	var late := 1.0 + (0.12 * sin(t * 5.0) if listo and alcanza else 0.0)
+	var g := PackedVector2Array([c + Vector2(0, -11) * late, c + Vector2(10, -2) * late, c + Vector2(0, 11) * late, c + Vector2(-10, -2) * late])
+	draw_colored_polygon(g, col)
+	draw_colored_polygon(PackedVector2Array([c + Vector2(0, -11) * late, c + Vector2(10, -2) * late, c + Vector2(0, -2)]), Color(1, 1, 1, 0.35))
+	if listo and alcanza:
+		draw_arc(c, 23.0, 0, TAU, 32, Color(1.0, 0.6, 0.85, 0.35 + 0.3 * sin(t * 4.0)), 2.0)
+		Ui.estrella(self, c + Vector2(13, -13), 1.5 + 0.5 * sin(t * 6.0), Color(1, 0.95, 0.85))
+	elif not listo:
+		draw_arc(c, 23.0, -PI / 2, -PI / 2 + TAU * (1.0 - p.destello_cd / p.RECARGA_DESTELLO), 32, Color(1.0, 0.55, 0.8), 3.0)
+	draw_string_outline(fuente, c + Vector2(-4, 28), "E", HORIZONTAL_ALIGNMENT_LEFT, -1, 11, 4, Color.BLACK)
+	draw_string(fuente, c + Vector2(-4, 28), "E", HORIZONTAL_ALIGNMENT_LEFT, -1, 11)

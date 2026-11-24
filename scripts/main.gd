@@ -241,6 +241,8 @@ Gracias por jugar.", Ui.CHAMPAN, [["Menú principal", Juego.ir_al_menu]], [1, 2,
 			player.actual = 0
 		if args.has("--correr_disparar"):   # prueba: camina disparando, suelta todo y registra la animación
 			await _prueba_correr()
+		if args.has("--destello"):   # prueba: Destello de joyera justo antes de la foto
+			get_tree().create_timer(2.15).timeout.connect(func(): player.energia = 100.0; player.destello_joyera())
 		for prueba in ["--tomar", "--curar", "--herir", "--energia"]:   # prueba: anima a Diana justo antes de la foto
 			if args.has(prueba):
 				get_tree().create_timer(2.15).timeout.connect(_prueba_diana.bind(prueba))
