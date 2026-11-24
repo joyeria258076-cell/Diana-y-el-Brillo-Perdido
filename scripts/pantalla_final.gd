@@ -105,7 +105,7 @@ class Joyas extends Control:
 class Creditos extends Control:
 	var y := 560.0
 	const LINEAS := [["Diana y el Brillo Perdido", 22], ["", 10], ["Desarrollo y arte", 14], ["Hernández Bautista Marcos Uriel", 16],
-		["Hernández Martínez Diana Laura", 16], ["", 10], ["Optativa 1: Creación de Videojuegos", 14], ["MTI. Juvencio Mendoza Castelán", 16],
+		["", 10], ["Optativa 1: Creación de Videojuegos", 14], ["MTI. Juvencio Mendoza Castelán", 16],
 		["", 10], ["Universidad Tecnológica de la Huasteca Hidalguense", 13], ["Joyería Diana Laura", 14], ["", 10], ["Gracias por jugar", 20]]
 	func _ready() -> void:
 		set_anchors_preset(Control.PRESET_FULL_RECT)

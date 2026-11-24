@@ -307,7 +307,6 @@ func _creditos() -> void:
 	for linea in [
 		["Desarrollo y arte", ORO_ROSA, 15],
 		["Hernández Bautista Marcos Uriel", CHAMPAN, 17],
-		["Hernández Martínez Diana Laura", CHAMPAN, 17],
 		["", null, 4],
 		["Optativa 1: Creación de Videojuegos", ORO_ROSA, 15],
 		["MTI. Juvencio Mendoza Castelán", CHAMPAN, 17],

@@ -872,7 +872,7 @@ func _poner_rompibles() -> void:
 			continue
 		var r = preload("res://scripts/rompible.gd").new()
 		r.main = self
-		r.tipo = ["jarron", "jarron", "barril"].pick_random()
+		r.tipo = (["jarron", "jarron", "barril"] if nivel == 1 else ["caja", "caja", "barril"]).pick_random()   # en la mina y el taller no hay jarrones
 		r.position = p
 		mundo.add_child(r)
 		puestos += 1
@@ -974,6 +974,8 @@ func _poner_decoracion() -> void:
 	for d in decoracion:
 		d.queue_free()
 	decoracion.clear()
+	if nivel == 2:
+		return   # el piso nuevo de la mina ya trae piedras, grava y vetas
 	var lista: Array = JSON.parse_string(FileAccess.get_file_as_string("res://assets/objetos/piso_detalles.json"))
 	var zona := interior()
 	# Mina y taller: sus propios detalles (musgo y charcos / aceite, pintura y tuercas).
