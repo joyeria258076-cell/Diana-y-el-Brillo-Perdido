@@ -302,6 +302,7 @@ func cargar_cuarto(id: String, entrada: String) -> void:
 	for p in puertas:
 		p.queue_free()
 	puertas.clear()
+	puertas_candado.clear()
 	camara.limit_left = 0
 	camara.limit_top = 0
 	camara.limit_right = int(room.size[0])
@@ -403,7 +404,43 @@ func _candado(dir: String) -> String:
 
 # Aviso cuando Diana se acerca a una salida con candado (una vez cada pocos segundos).
 var _aviso_t := 0.0
+var puertas_candado := {}   # dir -> puerta cerrada mientras falta algo
+func _puertas_con_candado() -> void:
+	if cambiando or room.is_empty():
+		return
+	var r: Array = room.rect
+	for d in GRAFO[room_id]:
+		if not room.exits.has(d):
+			continue
+		var con := _candado(d) != ""
+		if con and not puertas_candado.has(d):
+			var c: float = room.exits[d]
+			var s := Anim.sprite({"abrir": ["door", 12, false]}, "abrir")
+			s.offset = Vector2.ZERO
+			s.stop()
+			s.frame = 0   # cerrada
+			match d:
+				"arriba": s.position = Vector2(c, r[1] + T * 2.2)
+				"abajo": s.position = Vector2(c, r[3] - T * 0.4)
+				"izquierda":
+					s.position = Vector2(r[0] + T * 0.4, c)
+					s.rotation = -PI / 2
+				"derecha":
+					s.position = Vector2(r[2] - T * 0.4, c)
+					s.rotation = PI / 2
+			add_child(s)
+			puertas.append(s)
+			puertas_candado[d] = s
+		elif not con and puertas_candado.has(d):
+			var s: AnimatedSprite2D = puertas_candado[d]
+			puertas_candado.erase(d)
+			if is_instance_valid(s):
+				Juego.sonido("puerta_abrir", false)
+				s.play("abrir")
+				s.animation_finished.connect(func(): s.visible = false)
+
 func _avisar_candado(delta: float) -> void:
+	_puertas_con_candado()
 	_aviso_t -= delta
 	if cerrado or cambiando or player == null or _aviso_t > 0.0:
 		return
@@ -1413,6 +1450,8 @@ func _abrir_puertas() -> void:
 	cerrado = false
 	Juego.sonido("puerta_abrir", false)
 	for s in puertas:
+		if s in puertas_candado.values():
+			continue   # la del jefe sigue cerrada hasta limpiar todos los cuartos
 		s.play("abrir")
 		s.animation_finished.connect(func(): s.visible = false)
 
