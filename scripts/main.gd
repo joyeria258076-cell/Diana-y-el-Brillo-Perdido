@@ -1912,7 +1912,8 @@ const NIVEL_DATOS := {
 func _configurar_nivel() -> void:
 	nivel = Juego.nivel_actual + 1
 	var a := OS.get_cmdline_user_args().find("--nivel")   # prueba: godot -- --nivel 2 ...
-	if a >= 0 and OS.get_cmdline_user_args().size() > a + 1:
+	if a >= 0 and OS.get_cmdline_user_args().size() > a + 1 and not Juego.has_meta("nivel_arg_usado"):
+		Juego.set_meta("nivel_arg_usado", true)   # solo al arrancar: Continuar sí pasa al siguiente nivel
 		nivel = int(OS.get_cmdline_user_args()[a + 1])
 		Juego.nivel_actual = nivel - 1
 	match nivel:

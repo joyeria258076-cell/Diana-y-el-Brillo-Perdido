@@ -16,8 +16,17 @@ var pisable := false  # se dibuja en el piso y se camina encima (vías del tren,
 var img := ""        # objeto de los niveles 2 y 3 (assets/objetos/deco/...)
 var esc := 0.5
 
+# Objetos de los niveles 2 y 3 que se rompen (assets/objetos/deco/rompe/rompe.json).
+static var ROMPE := {}
+func _rompe() -> Dictionary:
+	if ROMPE.is_empty() and FileAccess.file_exists("res://assets/objetos/deco/rompe/rompe.json"):
+		ROMPE = JSON.parse_string(FileAccess.get_file_as_string("res://assets/objetos/deco/rompe/rompe.json"))
+	return ROMPE.get(img.get_file().get_basename(), {})
+
 func _ready() -> void:
 	vida = VIDA.get(tipo, 0)
+	if tipo == "deco" and not _rompe().is_empty():
+		vida = 1 if "inicio_4" in img or "inicio_5" in img else 3   # faroles: un golpe
 	if tipo == "tina":
 		_piscina()
 		return
@@ -95,6 +104,9 @@ func golpear(n := 1) -> void:
 		romper()
 
 func romper() -> void:
+	if tipo == "deco" and not roto and not _rompe().is_empty():
+		_romper_deco()
+		return
 	if roto or not VIDA.has(tipo):
 		return
 	roto = true
@@ -138,3 +150,37 @@ func _draw() -> void:
 		return
 	draw_set_transform(Vector2(0, 0), 0, Vector2(1, 0.35))
 	draw_circle(Vector2.ZERO, w * 0.48, Color(0, 0, 0, 0.3))
+
+
+# Se rompe con su tira de Gemini: deja de estorbar, suelta astillas y polvo,
+# y los restos se quedan en el piso.
+func _romper_deco() -> void:
+	roto = true
+	for c in celdas:
+		main.bloques_dyn.erase(c)
+	celdas.clear()
+	var d: Dictionary = _rompe()
+	var tex: Texture2D = load("res://assets/objetos/deco/rompe/%s.png" % d.get("tira", img.get_file().get_basename()))
+	var alto_orig: float = sprite.texture.get_height() * esc
+	var b0: Array = d.b0
+	var k: float = alto_orig / maxf(1.0, float(b0[3]) - float(b0[1]))
+	sprite.texture = tex
+	sprite.hframes = int(d.n)
+	sprite.frame = 0
+	sprite.scale = Vector2(k, k)
+	sprite.offset = Vector2(float(d.w) / 2.0 - (float(b0[0]) + float(b0[2])) / 2.0, float(d.h) / 2.0 - float(b0[3]))
+	var c := Color(0.55, 0.4, 0.28)
+	Fx.polvo(main.mundo, position + Vector2(0, -2))
+	Fx.chispas(main.mundo, position + Vector2(0, -h * 0.5), c, 12)
+	Fx.chispas(main.mundo, position + Vector2(0, -h * 0.5), _color(), 6)
+	main.sacudir(2.5)
+	Juego.sonido("golpe", true, -2.0)
+	Juego.sonido("pulir", true, -8.0)
+	var tw := create_tween()
+	for i in range(1, int(d.n)):
+		tw.tween_callback(func(): sprite.frame = i).set_delay(0.07)
+	tw.tween_callback(func():
+		z_index = -1   # los restos quedan en el piso
+		Fx.polvo(main.mundo, position + Vector2(0, -2)))
+	if randf() < 0.35:
+		main.soltar("destello", position + Vector2(0, 12))
