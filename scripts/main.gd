@@ -222,8 +222,24 @@ func _ready() -> void:
 			camara.reset_smoothing()
 		if args.has("--fin"):   # prueba: pantalla final o de victoria
 			if args.has("--n2"):
-				_pantalla("¡Recuperaste el Collar Luna de Plata!", "Destellos: 12
-Gemas ocultas: 3 / 5", Ui.DORADO, [["Continuar", func(): pass]], [2])
+				_pantalla("¡Recuperaste el Anillo Alborada!", "Nueva habilidad: Impulso de luz
+(el esquive dura más y atraviesa la niebla)
+
+Destellos: 266
+Gemas ocultas: 1 / 5
+Enemigos pulidos: 135
+Tiempo: 6:54", Ui.DORADO,
+					[["Continuar", func(): Juego.siguiente_nivel()], ["Menú principal", Juego.ir_al_menu]], [1])
+				if args.has("--continuar"):   # prueba: presiona Enter y revisa que cargue el nivel 2
+					await get_tree().create_timer(2.0, true, false, true).timeout
+					get_viewport().get_texture().get_image().save_png("user://captura_fin.png")
+					var foco := get_viewport().gui_get_focus_owner()
+					print("FOCO ", foco, " ", foco.text if foco is Button else "")
+					foco.pressed.emit()
+					await get_tree().create_timer(5.0, true, false, true).timeout
+					print("NIVEL TRAS CONTINUAR ", Juego.nivel_actual + 1, " escena ", get_tree().current_scene.name)
+					get_tree().quit()
+					return
 			else:
 				_pantalla("Fin", "Diana recuperó las tres joyas y el brillo de la tienda.
 

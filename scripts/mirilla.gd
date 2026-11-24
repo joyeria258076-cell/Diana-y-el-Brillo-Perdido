@@ -19,6 +19,9 @@ var particulas: Array = []   # [pos, vel, vida, vida_max, color, tam]
 static func nombre(i: int) -> String:
 	return "Estilo %d" % (i + 1)
 
+func _ready() -> void:
+	process_mode = Node.PROCESS_MODE_ALWAYS   # en pausa se oculta y vuelve la flecha del mouse
+
 func _process(delta: float) -> void:
 	t += delta
 	var pausa := get_tree().paused

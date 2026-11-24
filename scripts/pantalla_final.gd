@@ -16,6 +16,7 @@ func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	Juego.ocupado = true
 	get_tree().paused = true
+	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE   # la flecha del mouse para elegir
 	raiz = Control.new()
 	raiz.set_anchors_preset(Control.PRESET_FULL_RECT)
 	add_child(raiz)
@@ -34,25 +35,25 @@ func _ready() -> void:
 	else:
 		raiz.add_child(Ui.velo(0.7))
 	var p := Ui.panel()
-	p.custom_minimum_size = Vector2(460, 0)
+	p.custom_minimum_size = Vector2(560, 0)
 	p.position = Vector2(60 if fondo_fin else 250, 90 if not joyas.is_empty() else 140)
 	raiz.add_child(p)
 	var caja := VBoxContainer.new()
-	caja.add_theme_constant_override("separation", 16)
+	caja.add_theme_constant_override("separation", 8)
 	p.add_child(caja)
 	if not joyas.is_empty():
 		var vj := Joyas.new()
 		vj.cuales = joyas
-		vj.custom_minimum_size = Vector2(0, 84)
+		vj.custom_minimum_size = Vector2(0, 70)
 		caja.add_child(vj)
-	var t := Ui.texto(titulo, 28, color_titulo)
+	var t := Ui.texto(titulo, 24, color_titulo)
 	t.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	t.autowrap_mode = TextServer.AUTOWRAP_WORD
+	t.custom_minimum_size = Vector2(520, 0)
 	caja.add_child(t)
 	if detalle != "":
-		var d := Ui.texto(detalle, 17, Ui.CREMA)
+		var d := Ui.texto(detalle.replace("\n\n", "\n"), 14, Ui.CREMA)
 		d.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		d.autowrap_mode = TextServer.AUTOWRAP_WORD
 		caja.add_child(d)
 	var botones := []
 	for par in opciones:
@@ -63,6 +64,11 @@ func _ready() -> void:
 		botones.append(b)
 	Ui.enlazar(botones)
 	botones[0].grab_focus()
+	# Siempre dentro de la pantalla: se centra cuando ya tiene su tamaño final.
+	await get_tree().process_frame
+	p.reset_size()
+	var x := 60.0 if fondo_fin else (960.0 - p.size.x) / 2.0
+	p.position = Vector2(x, maxf(10.0, (540.0 - p.size.y) / 2.0)).round()
 	raiz.modulate.a = 0.0
 	create_tween().tween_property(raiz, "modulate:a", 1.0, 0.35)
 
