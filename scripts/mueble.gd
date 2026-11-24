@@ -12,6 +12,7 @@ var sprite: Sprite2D
 var w := 40.0
 var h := 40.0
 var celdas: Array = []
+var pisable := false  # se dibuja en el piso y se camina encima (vías del tren, manchas)
 var img := ""        # objeto de los niveles 2 y 3 (assets/objetos/deco/...)
 var esc := 0.5
 
@@ -28,6 +29,10 @@ func _ready() -> void:
 	add_child(sprite)
 	w = sprite.texture.get_width() * esc
 	h = sprite.texture.get_height() * esc
+	if pisable:
+		z_index = -4
+		roto = true   # no bloquea ni recibe disparos
+		return
 	# Huella en el piso: la parte de abajo del mueble (vista 3/4).
 	var pie := h * 0.45
 	for cx in range(int((position.x - w * 0.42) / 16.0), int((position.x + w * 0.42) / 16.0) + 1):

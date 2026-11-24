@@ -1944,6 +1944,8 @@ func _configurar_nivel() -> void:
 # Objetos del cuarto (assets/objetos/deco/deco.json): sólidos, contra las orillas,
 # el centro libre para pelear y nunca tapando las salidas.
 static var _deco := {}
+# Objetos planos del piso que se pisan sin chocar: las vías del tren y el charco de la caverna.
+const PISABLES := ["n2_pelea1_0", "n2_pelea1_1", "n2_jefe_6"]
 func _poner_objetos_nivel(id: String) -> void:
 	if _deco.is_empty():
 		_deco = JSON.parse_string(FileAccess.get_file_as_string("res://assets/objetos/deco/deco.json"))
@@ -1992,6 +1994,7 @@ func _poner_objetos_nivel(id: String) -> void:
 			m.tipo = "deco"
 			m.img = "res://assets/objetos/deco/%s.png" % o.img
 			m.esc = esc
+			m.pisable = o.img in PISABLES
 			m.position = p
 			mundo.add_child(m)
 			puestos.append(huella)
