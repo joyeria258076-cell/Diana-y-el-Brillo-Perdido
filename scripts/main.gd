@@ -404,6 +404,20 @@ func _candado(dir: String) -> String:
 
 # Aviso cuando Diana se acerca a una salida con candado (una vez cada pocos segundos).
 var _aviso_t := 0.0
+# La puerta cerrada es sólida: sus celdas se bloquean (nadie se para encima ni pasa debajo).
+func _solida(s: AnimatedSprite2D, si: bool) -> void:
+	var tex: Texture2D = s.sprite_frames.get_frame_texture(s.animation, 0)
+	var tam: Vector2 = tex.get_size() * s.scale.abs()
+	if absf(s.rotation) > 0.1:
+		tam = Vector2(tam.y, tam.x)
+	var r := Rect2(s.position - tam / 2.0, tam)
+	for cx in range(int(floor(r.position.x / 16.0)), int(ceil(r.end.x / 16.0))):
+		for cy in range(int(floor(r.position.y / 16.0)), int(ceil(r.end.y / 16.0))):
+			if si:
+				bloques_dyn[Vector2i(cx, cy)] = true
+			else:
+				bloques_dyn.erase(Vector2i(cx, cy))
+
 var puertas_candado := {}   # dir -> puerta cerrada mientras falta algo
 func _puertas_con_candado() -> void:
 	if cambiando or room.is_empty():
@@ -431,10 +445,12 @@ func _puertas_con_candado() -> void:
 			add_child(s)
 			puertas.append(s)
 			puertas_candado[d] = s
+			_solida(s, true)
 		elif not con and puertas_candado.has(d):
 			var s: AnimatedSprite2D = puertas_candado[d]
 			puertas_candado.erase(d)
 			if is_instance_valid(s):
+				_solida(s, false)
 				Juego.sonido("puerta_abrir", false)
 				s.play("abrir")
 				s.animation_finished.connect(func(): s.visible = false)
@@ -1445,6 +1461,7 @@ func _cerrar_puertas() -> void:
 				s.rotation = PI / 2
 		add_child(s)
 		puertas.append(s)
+		_solida(s, true)
 
 func _abrir_puertas() -> void:
 	cerrado = false
@@ -1452,8 +1469,12 @@ func _abrir_puertas() -> void:
 	for s in puertas:
 		if s in puertas_candado.values():
 			continue   # la del jefe sigue cerrada hasta limpiar todos los cuartos
+		_solida(s, false)
 		s.play("abrir")
 		s.animation_finished.connect(func(): s.visible = false)
+	for s in puertas_candado.values():
+		if is_instance_valid(s):
+			_solida(s, true)   # la puerta de pelea compartía celdas con la del candado
 
 # ---------- HUD ----------
 
