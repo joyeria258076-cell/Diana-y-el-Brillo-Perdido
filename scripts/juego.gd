@@ -30,7 +30,7 @@ const DIFICULTADES := {
 		"ritmo": 1.0, "vida": 1.0, "cantidad": 1.0, "dano": 1, "invul": 1.0},
 	3: {"nombre": "Difícil", "texto": "Más enemigos, más rápidos y más resistentes. Cada golpe quita un corazón.",
 		"ritmo": 1.2, "vida": 1.35, "cantidad": 1.3, "dano": 2, "invul": 0.85},
-	4: {"nombre": "Demoníaco", "texto": "Hordas furiosas y casi sin respiro. Solo para expertas.",
+	4: {"nombre": "Demoníaco", "texto": "Hordas furiosas y casi sin respiro. Solo para expertos.",
 		"ritmo": 1.4, "vida": 1.75, "cantidad": 1.6, "dano": 2, "invul": 0.65},
 }
 var dificultad := 2
