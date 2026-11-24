@@ -382,7 +382,46 @@ func interior() -> Rect2:
 	return Rect2(Vector2(r[0] + T, r[1] + T * 3.55), Vector2(r[2] - r[0] - T * 2, r[3] - r[1] - T * 5.25))
 
 func _salida_abierta(dir: String) -> bool:
-	return not cerrado and GRAFO[room_id].has(dir) and room.exits.has(dir)
+	return not cerrado and GRAFO[room_id].has(dir) and room.exits.has(dir) and _candado(dir) == ""
+
+# Orden de los cuartos: sin objeto no se sale del primero, y al jefe solo se entra con
+# todos los cuartos de pelea limpios. Devuelve el aviso ("" si se puede pasar).
+func _candado(dir: String) -> String:
+	if not GRAFO[room_id].has(dir):
+		return ""
+	var destino: String = GRAFO[room_id][dir]
+	if room_id == "inicio" and player != null and player.armas.is_empty():
+		return "Primero escoge un objeto del mostrador (acércate y presiona F)."
+	if destino == "jefe":
+		var faltan := 0
+		for id in OLEADAS:
+			if id != "jefe" and not limpios.has(id):
+				faltan += 1
+		if faltan > 0:
+			return "La puerta del jefe no abre: faltan %d cuarto%s por limpiar." % [faltan, "" if faltan == 1 else "s"]
+	return ""
+
+# Aviso cuando Diana se acerca a una salida con candado (una vez cada pocos segundos).
+var _aviso_t := 0.0
+func _avisar_candado(delta: float) -> void:
+	_aviso_t -= delta
+	if cerrado or cambiando or player == null or _aviso_t > 0.0:
+		return
+	var r: Array = room.rect
+	var p: Vector2 = player.position
+	for d in GRAFO[room_id]:
+		if not room.exits.has(d):
+			continue
+		var aviso := _candado(d)
+		if aviso == "":
+			continue
+		var c: float = room.exits[d]
+		var puerta: Vector2 = {"arriba": Vector2(c, interior().position.y), "abajo": Vector2(c, interior().end.y),
+			"izquierda": Vector2(interior().position.x, c), "derecha": Vector2(interior().end.x, c)}[d]
+		if p.distance_to(puerta) < 70.0:
+			mensaje(aviso, 2.5)
+			_aviso_t = 3.0
+			return
 
 # Rectángulo del pasillo de una salida (por donde sí se puede pasar).
 func _canal(dir: String) -> Rect2:
@@ -534,6 +573,7 @@ func _process(delta: float) -> void:
 func _revisar_salidas() -> void:
 	if cambiando:
 		return
+	_avisar_candado(get_process_delta_time())
 	var r: Array = room.rect
 	var p: Vector2 = player.position
 	var dir := ""
@@ -545,7 +585,7 @@ func _revisar_salidas() -> void:
 		dir = "izquierda"
 	elif p.x > r[2] + T * 0.3:
 		dir = "derecha"
-	if dir != "" and GRAFO[room_id].has(dir):
+	if dir != "" and GRAFO[room_id].has(dir) and _candado(dir) == "":
 		_transicion(GRAFO[room_id][dir], OPUESTA[dir])
 
 # Cortinilla circular que se cierra sobre Diana y se vuelve a abrir en el cuarto nuevo.
@@ -1673,7 +1713,7 @@ class Flecha extends Node2D:
 		var mejor := INF
 		var r: Array = main.room.rect
 		for d in main.GRAFO[main.room_id]:
-			if not main.room.exits.has(d):
+			if not main.room.exits.has(d) or main._candado(d) != "":
 				continue
 			var c: float = main.room.exits[d]
 			var p: Vector2 = {"arriba": Vector2(c, r[1]), "abajo": Vector2(c, r[3]),
