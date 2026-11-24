@@ -759,6 +759,7 @@ func _aparecer(tipo: String, pos: Vector2, espera: float) -> void:
 	apareciendo += 1
 	var marca := preload("res://scripts/marca.gd").new()
 	marca.position = pos
+	marca.color = COLOR_PORTAL.get(nivel, Color(0.75, 0.45, 1.0))
 	mundo.add_child(marca)
 	await get_tree().create_timer(0.8 + espera).timeout
 	if not is_instance_valid(marca):
@@ -775,6 +776,8 @@ func _aparecer(tipo: String, pos: Vector2, espera: float) -> void:
 	mundo.add_child(e)
 	if e.has_meta("jefe"):
 		jefe = e
+	else:
+		_efecto_aparicion(e)
 	apareciendo -= 1
 
 # El jefe llama refuerzos al instante (sin marca previa).
@@ -785,8 +788,45 @@ func aparecer_ya(tipo: String, pos: Vector2):
 	e.objetivo = player
 	e.position = pos
 	mundo.add_child(e)
-	Fx.estallido(mundo, pos + Vector2(0, -10), Color(0.6, 0.6, 0.65))
+	_efecto_aparicion(e)
 	return e
+
+# Color del portal de aparición en cada nivel (bodega morado, mina rosa cuarzo, taller ámbar).
+const COLOR_PORTAL := {1: Color(0.75, 0.45, 1.0), 2: Color(1.0, 0.5, 0.8), 3: Color(1.0, 0.65, 0.3)}
+
+# El enemigo sale del portal: destello, columna de luz, chispas y entra creciendo desde transparente.
+func _efecto_aparicion(e) -> void:
+	var col: Color = COLOR_PORTAL.get(nivel, Color(0.75, 0.45, 1.0))
+	var pos: Vector2 = e.position
+	Fx.estallido(mundo, pos + Vector2(0, -12), col)
+	Fx.chispas(mundo, pos + Vector2(0, -16), col.lightened(0.3), 12)
+	var columna := Columna.new()
+	columna.position = pos
+	columna.color = col
+	columna.z_index = 20
+	mundo.add_child(columna)
+	var s: Node2D = e.get("sprite")
+	if s:
+		var esc := s.scale
+		s.modulate.a = 0.0
+		s.scale = esc * Vector2(0.4, 1.4)
+		var tw := s.create_tween().set_parallel(true)
+		tw.tween_property(s, "modulate:a", 1.0, 0.25)
+		tw.tween_property(s, "scale", esc, 0.3).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+
+class Columna extends Node2D:
+	var t := 0.0
+	var color := Color.WHITE
+	func _process(delta: float) -> void:
+		t += delta
+		if t > 0.4:
+			queue_free()
+		queue_redraw()
+	func _draw() -> void:
+		var k := t / 0.4
+		var ancho := 22.0 * (1.0 - k)
+		draw_rect(Rect2(-ancho / 2.0, -90.0, ancho, 90.0), Color(color, 0.45 * (1.0 - k)))
+		draw_rect(Rect2(-ancho / 5.0, -90.0, ancho / 2.5, 90.0), Color(1, 1, 1, 0.6 * (1.0 - k)))
 
 var _cuadro_romp := -1
 var _lista_romp: Array = []

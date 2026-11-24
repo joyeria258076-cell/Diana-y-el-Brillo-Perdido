@@ -658,6 +658,9 @@ func _physics_process(delta: float) -> void:
 	empuje = empuje.lerp(Vector2.ZERO, 1.0 - exp(-6.0 * delta))
 	var antes_v := position
 	position = main.mover(position, paso, 0.0 if TIPOS[tipo].get("vuela", false) else minf(radio * 0.6, 9.0))
+	if TIPOS[tipo].get("vuela", false):
+		# Los que vuelan se dibujan en alto: no se acercan tanto al muro de arriba para no taparlo ni a sus puertas.
+		position.y = maxf(position.y, main.interior().position.y + alto * 0.55)
 	if (tipo == "vagoneta" or tipo == "engrane") and estado == "embiste" and estado_t < 0.38 and (position.distance_to(antes_v) < 0.6 or hacia.length() < radio + 10.0):
 		if hacia.length() < radio + 14.0:
 			objetivo.herir(1, hacia)
