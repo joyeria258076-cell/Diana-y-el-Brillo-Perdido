@@ -222,6 +222,9 @@ func _ready() -> void:
 		get_tree().quit()
 		return
 	if args.size() >= 2 and args[0] == "--captura":
+		if args.has("--vacio"):   # prueba: el cuarto sin enemigos (para fotos del escenario)
+			for id in OLEADAS:
+				limpios[id] = true
 		cargar_cuarto(args[1], "abajo" if Anim.data.rooms[args[1]].exits.has("abajo") else "")
 		if args.has("--jugar"):   # prueba: abre el cuarto y deja jugar
 			return
@@ -1436,6 +1439,8 @@ func pausa_impacto(segundos: float) -> void:
 
 # Muestra un diálogo de assets/dialogos.json y espera a que termine.
 func dialogo(clave: String) -> void:
+	if OS.get_cmdline_user_args().has("--vacio"):
+		return   # fotos del escenario: sin diálogos
 	if nivel > 1:
 		clave = "%s_%d" % [clave, nivel]
 	var lineas: Array = preload("res://scripts/dialogo.gd").lineas_de(clave)
