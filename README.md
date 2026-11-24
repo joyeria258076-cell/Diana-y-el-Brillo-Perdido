@@ -8,21 +8,41 @@ Gestión de Ventas y Pedidos en Joyería Diana Laura*.
 
 ## De qué trata
 
-Diana, una joyera, se queda sin el aparador que iba a presentar en una exposición: el Barón Óxido cubrió la tienda
-con una niebla que deja opacas las joyas y se llevó las piezas. Para recuperarlas hay que recorrer los lugares por
-donde pasa la mercancía.
+Diana, una joyera, despierta con el aparador vacío: una niebla salió de la bodega de su proveedor, Don Aurelio,
+y se llevó las tres piezas que iban a presentarse en una exposición. Don Aurelio la guía por radio y le pide
+además recuperar las gemas que escondió en cada lugar.
 
 En lugar de armas, Diana usa lo que hay en su mostrador (la lupa de joyero, el espejo del aparador, el paño de pulir
-y algunas joyas del catálogo). Los enemigos no mueren: se **pulen**, o sea que pierden el óxido y recuperan su forma
-original.
+y algunas joyas del catálogo). Al inicio solo tiene la lupa; las demás aparecen en los cofres. Los enemigos no
+mueren: se **pulen**.
 
 ## Escenarios
 
-| Nivel | Escenario | Pieza |
-|---|---|---|
-| 1 | Bodega del Proveedor | Anillo Alborada |
-| 2 | Mina de Cuarzo | Collar Luna de Plata |
-| 3 | Taller de Imitaciones | Esclava del Sol |
+| Nivel | Escenario | Jefe | Pieza |
+|---|---|---|---|
+| 1 | Bodega del Proveedor | Vendedor de Humo | Anillo Alborada |
+| 2 | Mina de Cuarzo | Gólem de la Mina | Collar Luna de Plata |
+| 3 | Taller de Imitaciones | Guardia del Taller | Esclava del Sol |
+
+Cada nivel tiene nueve cuartos, sus propios enemigos y cinco gemas ocultas. Hay cuatro dificultades
+(Fácil, Intermedio, Difícil y Demoníaco).
+
+## Controles
+
+| Tecla | Acción |
+|---|---|
+| WASD / flechas | moverse |
+| Clic izquierdo / Espacio | usar el objeto |
+| Shift / clic derecho | impulso (esquivar) |
+| Q | cambiar de objeto |
+| F | recoger, abrir |
+| Esc / P | pausa |
+| F11 | pantalla completa |
+| M | silenciar |
+
+## Descargar
+
+El APK para Android está en la sección **Releases** del repositorio.
 
 ## Cómo abrirlo
 
@@ -32,10 +52,9 @@ original.
 ## Estructura
 
 ```
-escenas/    escenas de Godot (.tscn): cuartos, personajes, interfaz
-scripts/    código en GDScript
-sprites/    imágenes: personajes, enemigos, objetos y tiles
-sonidos/    efectos y música
+menu.tscn, main.tscn   escenas: menú principal y juego
+scripts/               código en GDScript
+assets/                personajes, enemigos, objetos, interfaz, música y sonidos
 ```
 
 ## Recursos de terceros

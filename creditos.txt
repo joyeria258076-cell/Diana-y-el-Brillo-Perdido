@@ -122,3 +122,18 @@ fichas son propios, pero el trazo final es asistido por IA.
 Quedaron fuera los tilesets que se habian usado antes (Dungeon Crawl,
 Kenney, DungeonTileset II): el juego ya no los carga. Sus licencias CC0
 se dejan anotadas arriba por si se retoman.
+
+--------------------------------------------------------------------
+VERSION FINAL (24 nov 2026)
+--------------------------------------------------------------------
+Musica de fondo (menu y los tres niveles): assets/musica/menu.mp3
+  "Musica GRATIS de Suspenso sin COPYRIGHT", pista descargada por los
+  autores como libre de derechos. Falta anotar aqui su autor y enlace
+  original antes de publicar el juego fuera de la materia.
+
+Efectos de sonido y jingles (assets/sonidos/*.wav, assets/musica/*.wav):
+  sintetizados para este proyecto con Python (numpy/scipy).
+
+Interfaz, ilustraciones de carga, retratos y objetos de los cuartos:
+  generados con Gemini a partir de indicaciones de los autores y
+  procesados para el juego (quitar fondo, recortar, escalar).

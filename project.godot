@@ -11,24 +11,29 @@ config_version=5
 [application]
 
 config/name="Diana y el Brillo Perdido"
-run/main_scene="res://escenas/mundo.tscn"
-config/features=PackedStringArray("4.7", "GL Compatibility")
-config/icon="res://icon.svg"
+run/main_scene="res://menu.tscn"
+config/icon="res://assets/ui/retrato_diana_0.png"
+config/features=PackedStringArray("4.7")
+
+[autoload]
+
+Juego="*res://scripts/juego.gd"
 
 [display]
 
-window/size/viewport_width=1280
-window/size/viewport_height=720
+window/size/viewport_width=960
+window/size/viewport_height=540
 window/stretch/mode="canvas_items"
-window/stretch/aspect="expand"
+window/stretch/scale_mode="integer"
+window/handheld/orientation=0
 
 [physics]
 
-3d/physics_engine="Jolt Physics"
+common/physics_interpolation=true
 
 [rendering]
 
 textures/canvas_textures/default_texture_filter=0
-rendering_device/driver.windows="d3d12"
-renderer/rendering_method="gl_compatibility"
-renderer/rendering_method.mobile="gl_compatibility"
+textures/vram_compression/import_etc2_astc=true
+environment/defaults/default_clear_color=Color(0, 0, 0, 1)
+2d/snap/snap_2d_transforms_to_pixel=true

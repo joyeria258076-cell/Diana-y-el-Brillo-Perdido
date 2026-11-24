@@ -1,0 +1,692 @@
+{
+ "2": {
+  "cofre": [
+   {
+    "img": "n2_cofre_0",
+    "w": 102,
+    "h": 102,
+    "piso": false
+   },
+   {
+    "img": "n2_cofre_1",
+    "w": 106,
+    "h": 117,
+    "piso": false
+   },
+   {
+    "img": "n2_cofre_2",
+    "w": 168,
+    "h": 135,
+    "piso": false
+   },
+   {
+    "img": "n2_cofre_3",
+    "w": 123,
+    "h": 117,
+    "piso": false
+   },
+   {
+    "img": "n2_cofre_4",
+    "w": 125,
+    "h": 92,
+    "piso": false
+   },
+   {
+    "img": "n2_cofre_5",
+    "w": 72,
+    "h": 96,
+    "piso": false
+   }
+  ],
+  "descanso": [
+   {
+    "img": "n2_descanso_0",
+    "w": 184,
+    "h": 129,
+    "piso": false
+   },
+   {
+    "img": "n2_descanso_1",
+    "w": 125,
+    "h": 96,
+    "piso": false
+   },
+   {
+    "img": "n2_descanso_2",
+    "w": 84,
+    "h": 125,
+    "piso": false
+   },
+   {
+    "img": "n2_descanso_3",
+    "w": 78,
+    "h": 92,
+    "piso": false
+   },
+   {
+    "img": "n2_descanso_4",
+    "w": 86,
+    "h": 96,
+    "piso": false
+   },
+   {
+    "img": "n2_descanso_5",
+    "w": 80,
+    "h": 92,
+    "piso": false
+   },
+   {
+    "img": "n2_descanso_6",
+    "w": 129,
+    "h": 92,
+    "piso": false
+   }
+  ],
+  "inicio": [
+   {
+    "img": "n2_inicio_0",
+    "w": 52,
+    "h": 213,
+    "piso": false
+   },
+   {
+    "img": "n2_inicio_1",
+    "w": 49,
+    "h": 213,
+    "piso": false
+   },
+   {
+    "img": "n2_inicio_2",
+    "w": 96,
+    "h": 192,
+    "piso": false
+   },
+   {
+    "img": "n2_inicio_3",
+    "w": 153,
+    "h": 114,
+    "piso": false
+   },
+   {
+    "img": "n2_inicio_4",
+    "w": 42,
+    "h": 84,
+    "piso": false
+   },
+   {
+    "img": "n2_inicio_5",
+    "w": 45,
+    "h": 84,
+    "piso": false
+   }
+  ],
+  "jefe": [
+   {
+    "img": "n2_jefe_0",
+    "w": 72,
+    "h": 129,
+    "piso": false
+   },
+   {
+    "img": "n2_jefe_1",
+    "w": 72,
+    "h": 129,
+    "piso": false
+   },
+   {
+    "img": "n2_jefe_2",
+    "w": 178,
+    "h": 112,
+    "piso": false
+   },
+   {
+    "img": "n2_jefe_3",
+    "w": 72,
+    "h": 111,
+    "piso": false
+   },
+   {
+    "img": "n2_jefe_4",
+    "w": 139,
+    "h": 98,
+    "piso": false
+   },
+   {
+    "img": "n2_jefe_5",
+    "w": 126,
+    "h": 92,
+    "piso": false
+   },
+   {
+    "img": "n2_jefe_6",
+    "w": 133,
+    "h": 98,
+    "piso": false
+   }
+  ],
+  "pelea1": [
+   {
+    "img": "n2_pelea1_0",
+    "w": 215,
+    "h": 63,
+    "piso": true
+   },
+   {
+    "img": "n2_pelea1_1",
+    "w": 188,
+    "h": 128,
+    "piso": false
+   },
+   {
+    "img": "n2_pelea1_2",
+    "w": 121,
+    "h": 135,
+    "piso": false
+   },
+   {
+    "img": "n2_pelea1_3",
+    "w": 113,
+    "h": 125,
+    "piso": false
+   },
+   {
+    "img": "n2_pelea1_4",
+    "w": 78,
+    "h": 62,
+    "piso": false
+   },
+   {
+    "img": "n2_pelea1_5",
+    "w": 69,
+    "h": 72,
+    "piso": false
+   },
+   {
+    "img": "n2_pelea1_6",
+    "w": 78,
+    "h": 55,
+    "piso": false
+   }
+  ],
+  "pelea2": [
+   {
+    "img": "n2_pelea2_0",
+    "w": 123,
+    "h": 145,
+    "piso": false
+   },
+   {
+    "img": "n2_pelea2_1",
+    "w": 88,
+    "h": 111,
+    "piso": false
+   },
+   {
+    "img": "n2_pelea2_2",
+    "w": 74,
+    "h": 88,
+    "piso": false
+   },
+   {
+    "img": "n2_pelea2_3",
+    "w": 64,
+    "h": 84,
+    "piso": false
+   },
+   {
+    "img": "n2_pelea2_4",
+    "w": 111,
+    "h": 114,
+    "piso": false
+   },
+   {
+    "img": "n2_pelea2_5",
+    "w": 79,
+    "h": 150,
+    "piso": false
+   },
+   {
+    "img": "n2_pelea2_6",
+    "w": 127,
+    "h": 104,
+    "piso": false
+   }
+  ],
+  "pelea3": [
+   {
+    "img": "n2_pelea3_0",
+    "w": 156,
+    "h": 121,
+    "piso": false
+   },
+   {
+    "img": "n2_pelea3_1",
+    "w": 66,
+    "h": 57,
+    "piso": false
+   },
+   {
+    "img": "n2_pelea3_2",
+    "w": 89,
+    "h": 62,
+    "piso": false
+   },
+   {
+    "img": "n2_pelea3_3",
+    "w": 75,
+    "h": 66,
+    "piso": false
+   },
+   {
+    "img": "n2_pelea3_4",
+    "w": 121,
+    "h": 82,
+    "piso": false
+   },
+   {
+    "img": "n2_pelea3_5",
+    "w": 196,
+    "h": 129,
+    "piso": false
+   },
+   {
+    "img": "n2_pelea3_6",
+    "w": 57,
+    "h": 49,
+    "piso": false
+   },
+   {
+    "img": "n2_pelea3_7",
+    "w": 27,
+    "h": 25,
+    "piso": false
+   },
+   {
+    "img": "n2_pelea3_8",
+    "w": 95,
+    "h": 107,
+    "piso": false
+   }
+  ],
+  "pelea4": [
+   {
+    "img": "n2_pelea4_0",
+    "w": 102,
+    "h": 102,
+    "piso": false
+   },
+   {
+    "img": "n2_pelea4_1",
+    "w": 108,
+    "h": 126,
+    "piso": false
+   },
+   {
+    "img": "n2_pelea4_2",
+    "w": 70,
+    "h": 100,
+    "piso": false
+   },
+   {
+    "img": "n2_pelea4_3",
+    "w": 70,
+    "h": 100,
+    "piso": false
+   },
+   {
+    "img": "n2_pelea4_4",
+    "w": 76,
+    "h": 108,
+    "piso": false
+   },
+   {
+    "img": "n2_pelea4_5",
+    "w": 92,
+    "h": 80,
+    "piso": false
+   },
+   {
+    "img": "n2_pelea4_6",
+    "w": 139,
+    "h": 127,
+    "piso": false
+   }
+  ]
+ },
+ "3": {
+  "cofre": [
+   {
+    "img": "n3_cofre_0",
+    "w": 111,
+    "h": 131,
+    "piso": false
+   },
+   {
+    "img": "n3_cofre_1",
+    "w": 164,
+    "h": 131,
+    "piso": false
+   },
+   {
+    "img": "n3_cofre_2",
+    "w": 76,
+    "h": 103,
+    "piso": false
+   },
+   {
+    "img": "n3_cofre_3",
+    "w": 166,
+    "h": 146,
+    "piso": false
+   },
+   {
+    "img": "n3_cofre_4",
+    "w": 78,
+    "h": 134,
+    "piso": false
+   },
+   {
+    "img": "n3_cofre_5",
+    "w": 74,
+    "h": 117,
+    "piso": false
+   },
+   {
+    "img": "n3_cofre_6",
+    "w": 58,
+    "h": 152,
+    "piso": false
+   }
+  ],
+  "descanso": [
+   {
+    "img": "n3_descanso_0",
+    "w": 216,
+    "h": 138,
+    "piso": false
+   },
+   {
+    "img": "n3_descanso_1",
+    "w": 98,
+    "h": 121,
+    "piso": false
+   },
+   {
+    "img": "n3_descanso_2",
+    "w": 98,
+    "h": 150,
+    "piso": false
+   },
+   {
+    "img": "n3_descanso_3",
+    "w": 80,
+    "h": 111,
+    "piso": false
+   },
+   {
+    "img": "n3_descanso_4",
+    "w": 52,
+    "h": 58,
+    "piso": false
+   },
+   {
+    "img": "n3_descanso_5",
+    "w": 49,
+    "h": 51,
+    "piso": false
+   },
+   {
+    "img": "n3_descanso_6",
+    "w": 135,
+    "h": 121,
+    "piso": false
+   }
+  ],
+  "inicio": [
+   {
+    "img": "n3_inicio_0",
+    "w": 127,
+    "h": 118,
+    "piso": false
+   },
+   {
+    "img": "n3_inicio_1",
+    "w": 109,
+    "h": 94,
+    "piso": false
+   },
+   {
+    "img": "n3_inicio_2",
+    "w": 74,
+    "h": 110,
+    "piso": false
+   },
+   {
+    "img": "n3_inicio_3",
+    "w": 106,
+    "h": 115,
+    "piso": false
+   },
+   {
+    "img": "n3_inicio_4",
+    "w": 109,
+    "h": 117,
+    "piso": false
+   },
+   {
+    "img": "n3_inicio_5",
+    "w": 145,
+    "h": 92,
+    "piso": false
+   },
+   {
+    "img": "n3_inicio_6",
+    "w": 168,
+    "h": 120,
+    "piso": false
+   }
+  ],
+  "jefe": [
+   {
+    "img": "n3_jefe_0",
+    "w": 68,
+    "h": 161,
+    "piso": false
+   },
+   {
+    "img": "n3_jefe_1",
+    "w": 66,
+    "h": 151,
+    "piso": false
+   },
+   {
+    "img": "n3_jefe_2",
+    "w": 111,
+    "h": 113,
+    "piso": false
+   },
+   {
+    "img": "n3_jefe_3",
+    "w": 123,
+    "h": 155,
+    "piso": false
+   },
+   {
+    "img": "n3_jefe_4",
+    "w": 78,
+    "h": 182,
+    "piso": false
+   },
+   {
+    "img": "n3_jefe_5",
+    "w": 125,
+    "h": 86,
+    "piso": false
+   },
+   {
+    "img": "n3_jefe_6",
+    "w": 135,
+    "h": 102,
+    "piso": false
+   },
+   {
+    "img": "n3_jefe_7",
+    "w": 153,
+    "h": 86,
+    "piso": false
+   }
+  ],
+  "pelea1": [
+   {
+    "img": "n3_pelea1_0",
+    "w": 232,
+    "h": 142,
+    "piso": false
+   },
+   {
+    "img": "n3_pelea1_1",
+    "w": 104,
+    "h": 81,
+    "piso": false
+   },
+   {
+    "img": "n3_pelea1_2",
+    "w": 142,
+    "h": 156,
+    "piso": false
+   },
+   {
+    "img": "n3_pelea1_3",
+    "w": 205,
+    "h": 132,
+    "piso": false
+   },
+   {
+    "img": "n3_pelea1_4",
+    "w": 129,
+    "h": 111,
+    "piso": false
+   },
+   {
+    "img": "n3_pelea1_5",
+    "w": 78,
+    "h": 92,
+    "piso": false
+   }
+  ],
+  "pelea2": [
+   {
+    "img": "n3_pelea2_0",
+    "w": 160,
+    "h": 197,
+    "piso": false
+   },
+   {
+    "img": "n3_pelea2_1",
+    "w": 130,
+    "h": 111,
+    "piso": false
+   },
+   {
+    "img": "n3_pelea2_2",
+    "w": 166,
+    "h": 130,
+    "piso": false
+   },
+   {
+    "img": "n3_pelea2_3",
+    "w": 125,
+    "h": 89,
+    "piso": false
+   },
+   {
+    "img": "n3_pelea2_4",
+    "w": 105,
+    "h": 129,
+    "piso": false
+   },
+   {
+    "img": "n3_pelea2_5",
+    "w": 72,
+    "h": 87,
+    "piso": false
+   }
+  ],
+  "pelea3": [
+   {
+    "img": "n3_pelea3_0",
+    "w": 74,
+    "h": 125,
+    "piso": false
+   },
+   {
+    "img": "n3_pelea3_1",
+    "w": 74,
+    "h": 124,
+    "piso": false
+   },
+   {
+    "img": "n3_pelea3_2",
+    "w": 175,
+    "h": 248,
+    "piso": false
+   },
+   {
+    "img": "n3_pelea3_3",
+    "w": 166,
+    "h": 132,
+    "piso": false
+   },
+   {
+    "img": "n3_pelea3_4",
+    "w": 113,
+    "h": 114,
+    "piso": false
+   },
+   {
+    "img": "n3_pelea3_5",
+    "w": 91,
+    "h": 85,
+    "piso": false
+   }
+  ],
+  "pelea4": [
+   {
+    "img": "n3_pelea4_0",
+    "w": 156,
+    "h": 191,
+    "piso": false
+   },
+   {
+    "img": "n3_pelea4_1",
+    "w": 137,
+    "h": 121,
+    "piso": false
+   },
+   {
+    "img": "n3_pelea4_2",
+    "w": 109,
+    "h": 176,
+    "piso": false
+   },
+   {
+    "img": "n3_pelea4_3",
+    "w": 144,
+    "h": 104,
+    "piso": false
+   },
+   {
+    "img": "n3_pelea4_4",
+    "w": 84,
+    "h": 126,
+    "piso": false
+   },
+   {
+    "img": "n3_pelea4_5",
+    "w": 115,
+    "h": 72,
+    "piso": false
+   }
+  ]
+ }
+}

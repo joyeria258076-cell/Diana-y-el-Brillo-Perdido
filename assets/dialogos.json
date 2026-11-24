@@ -1,0 +1,176 @@
+{
+ "personajes": {
+  "Diana": "diana_idle",
+  "Quilate": "quilate_fly",
+  "Vendedor de Humo": "ven_idle",
+  "Don Aurelio": "aurelio_idle"
+ },
+ "inicio": [
+  {
+   "quien": "Quilate",
+   "texto": "¡Diana, despierta! Alguien se llevó las joyas del aparador.",
+   "cara": 2
+  },
+  {
+   "quien": "Don Aurelio",
+   "texto": "(por radio) Diana, soy Aurelio. La niebla salió de mi bodega... se llevaron las piezas para la exposición."
+  },
+  {
+   "quien": "Don Aurelio",
+   "texto": "(por radio) Ahí escondí 5 gemas para el aparador. Usa la lupa en los rincones y recupéralas, por favor."
+  },
+  {
+   "quien": "Diana",
+   "texto": "Cuente conmigo, Don Aurelio. Primero el Anillo Alborada.",
+   "cara": 3
+  }
+ ],
+ "jefe_entrada": [
+  {
+   "quien": "Vendedor de Humo",
+   "texto": "¿Este anillito? Se lo cambio por uno igualito, señorita. Nadie nota la diferencia."
+  },
+  {
+   "quien": "Diana",
+   "texto": "Yo sí. Y ese ni siquiera es suyo.",
+   "cara": 3
+  }
+ ],
+ "jefe_vencido": [
+  {
+   "quien": "Vendedor de Humo",
+   "texto": "Ya me iba... yo solo vendo lo que me dan."
+  },
+  {
+   "quien": "Diana",
+   "texto": "Falta el collar y la esclava. Ahora la mina.",
+   "cara": 3
+  }
+ ],
+ "descanso": [
+  {
+   "quien": "Quilate",
+   "texto": "Aquí podemos descansar un momento.",
+   "cara": 0
+  }
+ ],
+ "inicio_2": [
+  {
+   "quien": "Don Aurelio",
+   "texto": "(por radio) Bien hecho con el anillo. Ahora vas a la Mina de Cuarzo, donde nació el Collar Luna de Plata."
+  },
+  {
+   "quien": "Don Aurelio",
+   "texto": "(por radio) Cuidado con las vagonetas y los derrumbes. Y no olvides mis gemas: son 5 aquí también."
+  },
+  {
+   "quien": "Diana",
+   "texto": "Está muy oscuro... la lupa nos va a servir, Quilate.",
+   "cara": 2
+  }
+ ],
+ "descanso_2": [
+  {
+   "quien": "Quilate",
+   "texto": "Un campamento de mineros. Respiremos antes de seguir bajando.",
+   "cara": 0
+  }
+ ],
+ "jefe_entrada_2": [
+  {
+   "quien": "Quilate",
+   "texto": "¡Cuidado, Diana! Ese gólem de roca trae el collar incrustado en el pecho.",
+   "cara": 2
+  },
+  {
+   "quien": "Diana",
+   "texto": "Entonces hay que pulirlo hasta que lo suelte.",
+   "cara": 3
+  }
+ ],
+ "jefe_vencido_2": [
+  {
+   "quien": "Diana",
+   "texto": "¡El Collar Luna de Plata! Ya solo falta la Esclava del Sol.",
+   "cara": 1
+  },
+  {
+   "quien": "Quilate",
+   "texto": "Las huellas de óxido llevan a un taller abandonado.",
+   "cara": 3
+  }
+ ],
+ "inicio_3": [
+  {
+   "quien": "Don Aurelio",
+   "texto": "(por radio) Ese es el Taller de Imitaciones. Ahí pintan latón y lo venden como oro."
+  },
+  {
+   "quien": "Don Aurelio",
+   "texto": "(por radio) La Esclava del Sol es la última pieza. Recupera mis 5 gemas y regresa antes del amanecer."
+  },
+  {
+   "quien": "Diana",
+   "texto": "Con la lupa vamos a separar lo auténtico de lo falso.",
+   "cara": 3
+  }
+ ],
+ "descanso_3": [
+  {
+   "quien": "Quilate",
+   "texto": "El comedor de los obreros. Aquí nadie nos va a molestar.",
+   "cara": 0
+  }
+ ],
+ "jefe_entrada_3": [
+  {
+   "quien": "Quilate",
+   "texto": "¡Un guardia de armadura cuida la forja!",
+   "cara": 2
+  },
+  {
+   "quien": "Diana",
+   "texto": "La Esclava del Sol está detrás de él. No me voy sin ella.",
+   "cara": 3
+  }
+ ],
+ "jefe_vencido_3": [
+  {
+   "quien": "Diana",
+   "texto": "¡La Esclava del Sol! Ya recuperamos las tres joyas.",
+   "cara": 1
+  },
+  {
+   "quien": "Don Aurelio",
+   "texto": "(por radio) ¡Lo lograste, Diana! El aparador abre a tiempo. Gracias por cuidar mis gemas.",
+   "cara": 1
+  }
+ ],
+ "epilogo_3": [
+  {
+   "quien": "Quilate",
+   "texto": "¡Mira, Diana! Ya está amaneciendo sobre Huejutla.",
+   "cara": 1
+  },
+  {
+   "quien": "Diana",
+   "texto": "El Anillo Alborada, el Collar Luna de Plata y la Esclava del Sol... de vuelta en el aparador.",
+   "cara": 1
+  },
+  {
+   "quien": "Don Aurelio",
+   "texto": "Y mis gemas brillando otra vez. Treinta años en esto y nunca vi un aparador tan bonito.",
+   "cara": 3
+  },
+  {
+   "quien": "Don Aurelio",
+   "texto": "Gracias, Diana. La exposición abre a tiempo gracias a ti.",
+   "cara": 3
+  },
+  {
+   "quien": "Diana",
+   "texto": "El brillo nunca se perdió del todo. Solo había que pulirlo.",
+   "cara": 1
+  }
+ ]
+}
