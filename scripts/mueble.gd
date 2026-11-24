@@ -26,7 +26,7 @@ func _rompe() -> Dictionary:
 func _ready() -> void:
 	vida = VIDA.get(tipo, 0)
 	if tipo == "deco" and not _rompe().is_empty():
-		vida = 1 if "inicio_4" in img or "inicio_5" in img else 3   # faroles: un golpe
+		vida = 1 if "inicio_4" in img or "inicio_5" in img else int(_rompe().get("vida", 3))   # faroles: un golpe; rocas y cristales: 5
 	if tipo == "tina":
 		_piscina()
 		return
