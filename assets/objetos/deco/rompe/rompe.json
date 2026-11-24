@@ -796,5 +796,991 @@
   "solo_tira": true,
   "tira": "g_cuerda",
   "vida": 3
+ },
+ "t_estante": {
+  "n": 5,
+  "w": 43,
+  "h": 43,
+  "b0": [
+   6,
+   0,
+   35,
+   42
+  ],
+  "solo_tira": true
+ },
+ "t_fuerte": {
+  "n": 5,
+  "w": 42,
+  "h": 39,
+  "b0": [
+   3,
+   1,
+   35,
+   39
+  ],
+  "solo_tira": true
+ },
+ "t_mesa": {
+  "n": 5,
+  "w": 43,
+  "h": 36,
+  "b0": [
+   0,
+   1,
+   42,
+   29
+  ],
+  "solo_tira": true
+ },
+ "t_escritorio": {
+  "n": 4,
+  "w": 43,
+  "h": 40,
+  "b0": [
+   1,
+   0,
+   42,
+   38
+  ],
+  "solo_tira": true
+ },
+ "t_sillon": {
+  "n": 5,
+  "w": 45,
+  "h": 37,
+  "b0": [
+   1,
+   1,
+   42,
+   37
+  ],
+  "solo_tira": true
+ },
+ "t_carton": {
+  "n": 6,
+  "w": 43,
+  "h": 38,
+  "b0": [
+   2,
+   2,
+   39,
+   36
+  ],
+  "solo_tira": true
+ },
+ "t_carrito": {
+  "n": 6,
+  "w": 41,
+  "h": 37,
+  "b0": [
+   1,
+   4,
+   37,
+   36
+  ],
+  "solo_tira": true
+ },
+ "t_tarima": {
+  "n": 5,
+  "w": 46,
+  "h": 40,
+  "b0": [
+   2,
+   10,
+   43,
+   35
+  ],
+  "solo_tira": true
+ },
+ "t_rejilla": {
+  "n": 6,
+  "w": 44,
+  "h": 36,
+  "b0": [
+   0,
+   5,
+   37,
+   34
+  ],
+  "solo_tira": true
+ },
+ "t_yunque": {
+  "n": 4,
+  "w": 42,
+  "h": 39,
+  "b0": [
+   3,
+   0,
+   40,
+   39
+  ],
+  "solo_tira": true
+ },
+ "t_escudos": {
+  "n": 6,
+  "w": 38,
+  "h": 39,
+  "b0": [
+   1,
+   1,
+   30,
+   38
+  ],
+  "solo_tira": true
+ },
+ "t_estandarte": {
+  "n": 4,
+  "w": 19,
+  "h": 39,
+  "b0": [
+   0,
+   0,
+   19,
+   37
+  ],
+  "solo_tira": true
+ },
+ "t_brasero": {
+  "n": 4,
+  "w": 41,
+  "h": 33,
+  "b0": [
+   3,
+   0,
+   41,
+   27
+  ],
+  "solo_tira": true
+ },
+ "t_banda": {
+  "n": 4,
+  "w": 37,
+  "h": 21,
+  "b0": [
+   0,
+   0,
+   37,
+   21
+  ],
+  "solo_tira": true
+ },
+ "t_horno": {
+  "n": 6,
+  "w": 41,
+  "h": 39,
+  "b0": [
+   4,
+   0,
+   36,
+   38
+  ],
+  "solo_tira": true
+ },
+ "t_tablero": {
+  "n": 4,
+  "w": 40,
+  "h": 41,
+  "b0": [
+   3,
+   0,
+   38,
+   41
+  ],
+  "solo_tira": true
+ },
+ "t_horno2": {
+  "n": 6,
+  "w": 38,
+  "h": 42,
+  "b0": [
+   2,
+   1,
+   35,
+   41
+  ],
+  "solo_tira": true
+ },
+ "t_olla": {
+  "n": 6,
+  "w": 40,
+  "h": 39,
+  "b0": [
+   5,
+   1,
+   36,
+   35
+  ],
+  "solo_tira": true
+ },
+ "t_olla2": {
+  "n": 5,
+  "w": 39,
+  "h": 38,
+  "b0": [
+   5,
+   3,
+   35,
+   33
+  ],
+  "solo_tira": true
+ },
+ "t_lingotes": {
+  "n": 6,
+  "w": 40,
+  "h": 36,
+  "b0": [
+   0,
+   2,
+   39,
+   29
+  ],
+  "solo_tira": true
+ },
+ "t_mesa_joyero": {
+  "n": 6,
+  "w": 42,
+  "h": 35,
+  "b0": [
+   0,
+   0,
+   41,
+   30
+  ],
+  "solo_tira": true
+ },
+ "t_compresor": {
+  "n": 6,
+  "w": 41,
+  "h": 40,
+  "b0": [
+   1,
+   0,
+   41,
+   38
+  ],
+  "solo_tira": true
+ },
+ "t_vidrio": {
+  "n": 5,
+  "w": 40,
+  "h": 35,
+  "b0": [
+   14,
+   0,
+   31,
+   35
+  ],
+  "solo_tira": true
+ },
+ "t_engrane": {
+  "n": 6,
+  "w": 37,
+  "h": 40,
+  "b0": [
+   4,
+   0,
+   35,
+   40
+  ],
+  "solo_tira": true
+ },
+ "t_oro": {
+  "n": 5,
+  "w": 42,
+  "h": 37,
+  "b0": [
+   2,
+   2,
+   42,
+   27
+  ],
+  "solo_tira": true
+ },
+ "n3_cofre_0": {
+  "n": 5,
+  "w": 42,
+  "h": 39,
+  "b0": [
+   3,
+   1,
+   35,
+   39
+  ],
+  "solo_tira": true,
+  "tira": "t_fuerte",
+  "vida": 5
+ },
+ "n3_cofre_1": {
+  "n": 5,
+  "w": 42,
+  "h": 39,
+  "b0": [
+   3,
+   1,
+   35,
+   39
+  ],
+  "solo_tira": true,
+  "tira": "t_fuerte",
+  "vida": 5
+ },
+ "n3_cofre_2": {
+  "n": 5,
+  "w": 42,
+  "h": 39,
+  "b0": [
+   3,
+   1,
+   35,
+   39
+  ],
+  "solo_tira": true,
+  "tira": "t_fuerte",
+  "vida": 5
+ },
+ "n3_cofre_3": {
+  "n": 4,
+  "w": 43,
+  "h": 40,
+  "b0": [
+   1,
+   0,
+   42,
+   38
+  ],
+  "solo_tira": true,
+  "tira": "t_escritorio",
+  "vida": 3
+ },
+ "n3_cofre_4": {
+  "n": 5,
+  "w": 42,
+  "h": 39,
+  "b0": [
+   3,
+   1,
+   35,
+   39
+  ],
+  "solo_tira": true,
+  "tira": "t_fuerte",
+  "vida": 5
+ },
+ "n3_cofre_5": {
+  "n": 5,
+  "w": 45,
+  "h": 37,
+  "b0": [
+   1,
+   1,
+   42,
+   37
+  ],
+  "solo_tira": true,
+  "tira": "t_sillon",
+  "vida": 3
+ },
+ "n3_cofre_6": {
+  "n": 4,
+  "w": 19,
+  "h": 39,
+  "b0": [
+   0,
+   0,
+   19,
+   37
+  ],
+  "solo_tira": true,
+  "tira": "t_estandarte",
+  "vida": 3
+ },
+ "n3_descanso_0": {
+  "n": 5,
+  "w": 43,
+  "h": 36,
+  "b0": [
+   0,
+   1,
+   42,
+   29
+  ],
+  "solo_tira": true,
+  "tira": "t_mesa",
+  "vida": 3
+ },
+ "n3_descanso_1": {
+  "n": 6,
+  "w": 41,
+  "h": 40,
+  "b0": [
+   1,
+   0,
+   41,
+   38
+  ],
+  "solo_tira": true,
+  "tira": "t_compresor",
+  "vida": 5
+ },
+ "n3_descanso_2": {
+  "n": 5,
+  "w": 42,
+  "h": 39,
+  "b0": [
+   3,
+   1,
+   35,
+   39
+  ],
+  "solo_tira": true,
+  "tira": "t_fuerte",
+  "vida": 5
+ },
+ "n3_descanso_3": {
+  "n": 5,
+  "w": 42,
+  "h": 39,
+  "b0": [
+   3,
+   1,
+   35,
+   39
+  ],
+  "solo_tira": true,
+  "tira": "t_fuerte",
+  "vida": 5
+ },
+ "n3_descanso_4": {
+  "n": 5,
+  "w": 42,
+  "h": 39,
+  "b0": [
+   3,
+   1,
+   35,
+   39
+  ],
+  "solo_tira": true,
+  "tira": "t_fuerte",
+  "vida": 5
+ },
+ "n3_descanso_5": {
+  "n": 5,
+  "w": 42,
+  "h": 39,
+  "b0": [
+   3,
+   1,
+   35,
+   39
+  ],
+  "solo_tira": true,
+  "tira": "t_fuerte",
+  "vida": 5
+ },
+ "n3_descanso_6": {
+  "n": 5,
+  "w": 45,
+  "h": 37,
+  "b0": [
+   1,
+   1,
+   42,
+   37
+  ],
+  "solo_tira": true,
+  "tira": "t_sillon",
+  "vida": 3
+ },
+ "n3_inicio_0": {
+  "n": 6,
+  "w": 43,
+  "h": 38,
+  "b0": [
+   2,
+   2,
+   39,
+   36
+  ],
+  "solo_tira": true,
+  "tira": "t_carton",
+  "vida": 3
+ },
+ "n3_inicio_1": {
+  "n": 6,
+  "w": 43,
+  "h": 38,
+  "b0": [
+   2,
+   2,
+   39,
+   36
+  ],
+  "solo_tira": true,
+  "tira": "t_carton",
+  "vida": 3
+ },
+ "n3_inicio_2": {
+  "n": 6,
+  "w": 41,
+  "h": 37,
+  "b0": [
+   1,
+   4,
+   37,
+   36
+  ],
+  "solo_tira": true,
+  "tira": "t_carrito",
+  "vida": 3
+ },
+ "n3_inicio_3": {
+  "n": 6,
+  "w": 41,
+  "h": 37,
+  "b0": [
+   1,
+   4,
+   37,
+   36
+  ],
+  "solo_tira": true,
+  "tira": "t_carrito",
+  "vida": 3
+ },
+ "n3_inicio_4": {
+  "n": 6,
+  "w": 41,
+  "h": 37,
+  "b0": [
+   1,
+   4,
+   37,
+   36
+  ],
+  "solo_tira": true,
+  "tira": "t_carrito",
+  "vida": 3
+ },
+ "n3_inicio_5": {
+  "n": 5,
+  "w": 46,
+  "h": 40,
+  "b0": [
+   2,
+   10,
+   43,
+   35
+  ],
+  "solo_tira": true,
+  "tira": "t_tarima",
+  "vida": 3
+ },
+ "n3_inicio_6": {
+  "n": 6,
+  "w": 44,
+  "h": 36,
+  "b0": [
+   0,
+   5,
+   37,
+   34
+  ],
+  "solo_tira": true,
+  "tira": "t_rejilla",
+  "vida": 5
+ },
+ "n3_jefe_0": {
+  "n": 6,
+  "w": 38,
+  "h": 39,
+  "b0": [
+   1,
+   1,
+   30,
+   38
+  ],
+  "solo_tira": true,
+  "tira": "t_escudos",
+  "vida": 3
+ },
+ "n3_jefe_1": {
+  "n": 6,
+  "w": 38,
+  "h": 39,
+  "b0": [
+   1,
+   1,
+   30,
+   38
+  ],
+  "solo_tira": true,
+  "tira": "t_escudos",
+  "vida": 3
+ },
+ "n3_jefe_2": {
+  "n": 4,
+  "w": 42,
+  "h": 39,
+  "b0": [
+   3,
+   0,
+   40,
+   39
+  ],
+  "solo_tira": true,
+  "tira": "t_yunque",
+  "vida": 5
+ },
+ "n3_jefe_3": {
+  "n": 6,
+  "w": 38,
+  "h": 39,
+  "b0": [
+   1,
+   1,
+   30,
+   38
+  ],
+  "solo_tira": true,
+  "tira": "t_escudos",
+  "vida": 3
+ },
+ "n3_jefe_4": {
+  "n": 4,
+  "w": 19,
+  "h": 39,
+  "b0": [
+   0,
+   0,
+   19,
+   37
+  ],
+  "solo_tira": true,
+  "tira": "t_estandarte",
+  "vida": 3
+ },
+ "n3_jefe_5": {
+  "n": 6,
+  "w": 42,
+  "h": 35,
+  "b0": [
+   0,
+   0,
+   41,
+   30
+  ],
+  "solo_tira": true,
+  "tira": "t_mesa_joyero",
+  "vida": 3
+ },
+ "n3_jefe_6": {
+  "n": 4,
+  "w": 41,
+  "h": 33,
+  "b0": [
+   3,
+   0,
+   41,
+   27
+  ],
+  "solo_tira": true,
+  "tira": "t_brasero",
+  "vida": 3
+ },
+ "n3_pelea1_0": {
+  "n": 4,
+  "w": 37,
+  "h": 21,
+  "b0": [
+   0,
+   0,
+   37,
+   21
+  ],
+  "solo_tira": true,
+  "tira": "t_banda",
+  "vida": 3
+ },
+ "n3_pelea1_1": {
+  "n": 4,
+  "w": 37,
+  "h": 21,
+  "b0": [
+   0,
+   0,
+   37,
+   21
+  ],
+  "solo_tira": true,
+  "tira": "t_banda",
+  "vida": 3
+ },
+ "n3_pelea1_2": {
+  "n": 6,
+  "w": 38,
+  "h": 42,
+  "b0": [
+   2,
+   1,
+   35,
+   41
+  ],
+  "solo_tira": true,
+  "tira": "t_horno2",
+  "vida": 5
+ },
+ "n3_pelea1_3": {
+  "n": 4,
+  "w": 37,
+  "h": 21,
+  "b0": [
+   0,
+   0,
+   37,
+   21
+  ],
+  "solo_tira": true,
+  "tira": "t_banda",
+  "vida": 3
+ },
+ "n3_pelea1_4": {
+  "n": 6,
+  "w": 40,
+  "h": 39,
+  "b0": [
+   5,
+   1,
+   36,
+   35
+  ],
+  "solo_tira": true,
+  "tira": "t_olla",
+  "vida": 5
+ },
+ "n3_pelea1_5": {
+  "n": 4,
+  "w": 40,
+  "h": 41,
+  "b0": [
+   3,
+   0,
+   38,
+   41
+  ],
+  "solo_tira": true,
+  "tira": "t_tablero",
+  "vida": 5
+ },
+ "n3_pelea2_0": {
+  "n": 6,
+  "w": 41,
+  "h": 39,
+  "b0": [
+   4,
+   0,
+   36,
+   38
+  ],
+  "solo_tira": true,
+  "tira": "t_horno",
+  "vida": 5
+ },
+ "n3_pelea2_1": {
+  "n": 6,
+  "w": 40,
+  "h": 39,
+  "b0": [
+   5,
+   1,
+   36,
+   35
+  ],
+  "solo_tira": true,
+  "tira": "t_olla",
+  "vida": 5
+ },
+ "n3_pelea2_2": {
+  "n": 6,
+  "w": 42,
+  "h": 35,
+  "b0": [
+   0,
+   0,
+   41,
+   30
+  ],
+  "solo_tira": true,
+  "tira": "t_mesa_joyero",
+  "vida": 3
+ },
+ "n3_pelea2_3": {
+  "n": 6,
+  "w": 40,
+  "h": 36,
+  "b0": [
+   0,
+   2,
+   39,
+   29
+  ],
+  "solo_tira": true,
+  "tira": "t_lingotes",
+  "vida": 3
+ },
+ "n3_pelea2_5": {
+  "n": 5,
+  "w": 39,
+  "h": 38,
+  "b0": [
+   5,
+   3,
+   35,
+   33
+  ],
+  "solo_tira": true,
+  "tira": "t_olla2",
+  "vida": 3
+ },
+ "n3_pelea3_0": {
+  "n": 5,
+  "w": 39,
+  "h": 38,
+  "b0": [
+   5,
+   3,
+   35,
+   33
+  ],
+  "solo_tira": true,
+  "tira": "t_olla2",
+  "vida": 3
+ },
+ "n3_pelea3_1": {
+  "n": 6,
+  "w": 40,
+  "h": 39,
+  "b0": [
+   5,
+   1,
+   36,
+   35
+  ],
+  "solo_tira": true,
+  "tira": "t_olla",
+  "vida": 5
+ },
+ "n3_pelea3_3": {
+  "n": 6,
+  "w": 42,
+  "h": 35,
+  "b0": [
+   0,
+   0,
+   41,
+   30
+  ],
+  "solo_tira": true,
+  "tira": "t_mesa_joyero",
+  "vida": 3
+ },
+ "n3_pelea3_4": {
+  "n": 6,
+  "w": 41,
+  "h": 40,
+  "b0": [
+   1,
+   0,
+   41,
+   38
+  ],
+  "solo_tira": true,
+  "tira": "t_compresor",
+  "vida": 5
+ },
+ "n3_pelea3_5": {
+  "n": 5,
+  "w": 39,
+  "h": 38,
+  "b0": [
+   5,
+   3,
+   35,
+   33
+  ],
+  "solo_tira": true,
+  "tira": "t_olla2",
+  "vida": 3
+ },
+ "n3_pelea4_0": {
+  "n": 6,
+  "w": 37,
+  "h": 40,
+  "b0": [
+   4,
+   0,
+   35,
+   40
+  ],
+  "solo_tira": true,
+  "tira": "t_engrane",
+  "vida": 5
+ },
+ "n3_pelea4_1": {
+  "n": 6,
+  "w": 37,
+  "h": 40,
+  "b0": [
+   4,
+   0,
+   35,
+   40
+  ],
+  "solo_tira": true,
+  "tira": "t_engrane",
+  "vida": 5
+ },
+ "n3_pelea4_2": {
+  "n": 6,
+  "w": 38,
+  "h": 42,
+  "b0": [
+   2,
+   1,
+   35,
+   41
+  ],
+  "solo_tira": true,
+  "tira": "t_horno2",
+  "vida": 5
+ },
+ "n3_pelea4_3": {
+  "n": 6,
+  "w": 41,
+  "h": 40,
+  "b0": [
+   1,
+   0,
+   41,
+   38
+  ],
+  "solo_tira": true,
+  "tira": "t_compresor",
+  "vida": 5
+ },
+ "n3_pelea4_4": {
+  "n": 6,
+  "w": 41,
+  "h": 40,
+  "b0": [
+   1,
+   0,
+   41,
+   38
+  ],
+  "solo_tira": true,
+  "tira": "t_compresor",
+  "vida": 5
  }
 }

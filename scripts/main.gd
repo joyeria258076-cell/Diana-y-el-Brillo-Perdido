@@ -265,6 +265,13 @@ Gracias por jugar.", Ui.CHAMPAN, [["Menú principal", Juego.ir_al_menu]], [1, 2,
 		if args.has("--tina") and TINAS.has(room_id):   # prueba: junto a la piscina
 			player.position = TINAS[room_id].get_center() + Vector2(0, 70)
 			camara.reset_smoothing()
+		if args.has("--muebles"):   # prueba: lista los objetos del cuarto, les pega 3 veces y dice si se rompieron
+			await get_tree().create_timer(0.5).timeout
+			for m in mundo.get_children():
+				if m.get("img") != null and m.img != "":
+					for i in 3:
+						m.golpear(1)
+					print("MUEBLE ", m.img.get_file(), " vida=", m.vida, " roto=", m.roto, " pisable=", m.pisable)
 		if args.has("--romper"):   # prueba: rompe los muebles y retrata los restos
 			var ms := rompibles().filter(func(r): return r.has_method("toca"))
 			print("muebles ", ms.map(func(r): return r.tipo))
@@ -1948,7 +1955,7 @@ func _configurar_nivel() -> void:
 # el centro libre para pelear y nunca tapando las salidas.
 static var _deco := {}
 # Objetos planos del piso que se pisan sin chocar: las vías del tren y el charco de la caverna.
-const PISABLES := ["n2_pelea1_0", "n2_pelea1_1", "n2_jefe_6"]
+const PISABLES := ["n2_pelea1_0", "n2_pelea1_1", "n2_jefe_6", "n3_pelea3_2", "n3_pelea4_5", "n3_jefe_7"]
 func _poner_objetos_nivel(id: String) -> void:
 	if _deco.is_empty():
 		_deco = JSON.parse_string(FileAccess.get_file_as_string("res://assets/objetos/deco/deco.json"))
