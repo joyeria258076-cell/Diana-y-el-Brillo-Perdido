@@ -159,9 +159,20 @@ func _ready() -> void:
 	flecha.z_index = 50   # encima del piso, los muebles y Diana
 	add_child(flecha)
 	_crear_hud()
-	cargar_cuarto("inicio", "")
-	if not OS.get_cmdline_user_args().has("--captura") and not OS.get_cmdline_user_args().has("--vitrina"):
-		dialogo.call_deferred("inicio")
+	if OS.get_cmdline_user_args().has("--casi_jefe") and not Juego.has_meta("casi_jefe_usado"):
+		# Prueba: todos los cuartos limpios y Diana junto a la puerta del jefe, con lupa y espejo.
+		Juego.set_meta("casi_jefe_usado", true)
+		for id in GRAFO:
+			visitados[id] = true
+			if OLEADAS.has(id) and id != "jefe":
+				limpios[id] = true
+		player.armas = ["lupa", "espejo"]
+		player.actual = 0
+		cargar_cuarto("pelea4", "abajo")
+	else:
+		cargar_cuarto("inicio", "")
+		if not OS.get_cmdline_user_args().has("--captura") and not OS.get_cmdline_user_args().has("--vitrina"):
+			dialogo.call_deferred("inicio")
 	# Solo para pruebas: godot -- --captura <cuarto> guarda una imagen y cierra.
 	var args := OS.get_cmdline_user_args()
 	# Solo para pruebas: empuja a Diana contra cada pared y reporta si se sale del cuarto.
